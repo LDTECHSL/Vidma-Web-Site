@@ -97,6 +97,15 @@
   width: 100%;
   height: 100vh;
   background: url('../assets/hero.png') no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-content{
+  width: 45%;
+  height: 200px;
+  border: 1px solid red;
+  margin-top: 150px;
 }
 
 /* Desktop (min-width: 768px) */
