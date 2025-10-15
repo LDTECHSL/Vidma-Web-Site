@@ -104,8 +104,16 @@
 .hero-content{
   width: 45%;
   height: 200px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin-top: 150px;
+  padding: 0 35px 0 45px;
+}
+
+.hero-title{
+  font-size: var(--font-size-5xl);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--spacing-4);
 }
 
 /* Desktop (min-width: 768px) */

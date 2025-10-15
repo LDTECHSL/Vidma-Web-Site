@@ -7,6 +7,7 @@
 
 :root {
   --color-primary: #0068f0;
+  --color-primary-dark: #043b83;
   --color-primary-hover: #2f86f8;
   --hover: #0d75a5;
   --color-secondary: #e0e9fc;
@@ -34,6 +35,7 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3.3rem;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
