@@ -28,7 +28,7 @@ const Header: React.FC = () => {
     return (
         <header className={`header ${scrolled ? 'scrolled' : ''} ${!isHome ? "scrolled" : ""}`}>
             <div className="container flex items-center justify-between">
-                <img className='logo-img' style={{ width: '60px' }} src={logo} alt="Logo" />
+                <img className='logo-img' src={logo} alt="Logo" />
 
                 <button className="menu-toggle md:hidden" onClick={toggleMenu}>
                     ☰
@@ -38,7 +38,8 @@ const Header: React.FC = () => {
                     <a href='products' className={`nav-link ${isActive('/') ? 'active' : ''}`}>{t("products")}</a>
                     <a href='projects' className={`nav-link ${isActive('/projects') ? 'active' : ''}`}>{t("projects")}</a>
                     <a href='contact' className={`nav-link ${isActive('/contact') ? 'active' : ''}`}>{t("contact")}</a>
-                    <a href='about' className={`nav-link ${isActive('/about') ? 'active' : ''}`}>{t("about")}</a><select
+                    <a href='about' className={`nav-link ${isActive('/about') ? 'active' : ''}`}>{t("about")}</a>
+                    <select
                         onChange={(e) => changeLanguage(e.target.value)}
                         defaultValue="en"
                         className="border rounded px-2 py-1 text-sm bg-white"
@@ -47,6 +48,7 @@ const Header: React.FC = () => {
                         <option value="si">සිංහල</option>
                         <option value="ta">தமிழ்</option>
                     </select>
+                    <button className="primary-button">{t("login")}</button>
                 </nav>
             </div>
         </header>

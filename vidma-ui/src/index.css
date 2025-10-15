@@ -6,9 +6,9 @@
 
 
 :root {
-  --color-primary: #0c6ae5;
+  --color-primary: #0068f0;
   --color-primary-hover: #2f86f8;
-  --hover: #8dbeff;
+  --hover: #00306e;
   --color-secondary: #e0e9fc;
   --color-secondary-hover: #c5d5f5;
   --color-text: #111827;
@@ -52,4 +52,21 @@ body {
   max-width: 1300px;
   margin: 0 auto;
   padding: 0 var(--spacing-4);
+}
+
+/* Buttons */
+
+.primary-button {
+  display: inline-block;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-white);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
