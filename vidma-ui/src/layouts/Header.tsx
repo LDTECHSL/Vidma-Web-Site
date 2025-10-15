@@ -42,13 +42,13 @@ const Header: React.FC = () => {
                     <select
                         onChange={(e) => changeLanguage(e.target.value)}
                         defaultValue="en"
-                        className="border rounded px-2 py-1 text-sm bg-white"
+                        className="translate-select"
                     >
                         <option value="en">English</option>
                         <option value="si">සිංහල</option>
                         <option value="ta">தமிழ்</option>
                     </select>
-                    <button className="primary-button">{t("login")}</button>
+                    <button className="primary-button">{t("order")}</button>
                 </nav>
             </div>
         </header>

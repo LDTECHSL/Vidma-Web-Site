@@ -9,6 +9,7 @@ i18n.use(initReactI18next).init({
         projects: "Projects",
         contact: "Contact Us",
         about: "About Us",
+        order: "Order Now",
       },
     },
     si: {
@@ -17,6 +18,7 @@ i18n.use(initReactI18next).init({
         projects: "ව්‍යාපෘති",
         contact: "අප හා සම්බන්ධ වන්න",
         about: "අප ගැන",
+        order: "ඇණවුම් කරන්න",
       },
     },
     ta: {
@@ -25,10 +27,11 @@ i18n.use(initReactI18next).init({
         projects: "திட்டங்கள்",
         contact: "எங்களை தொடர்பு கொள்ள",
         about: "எங்களை பற்றி",
+        order: "இப்போது ஆர்டர் செய்",
       },
     },
   },
-  lng: "en", // ✅ default language
+  lng: "en",
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,

@@ -34,6 +34,7 @@
 
 .nav-link {
   color: var(--color-text);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -78,6 +79,15 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #000000;
   z-index: 999;
+}
+
+.translate-select{
+  border-radius: var(--border-radius);
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-sm);
+  background-color: #00000000;
+  color: var(--color-text);
+  cursor: pointer;
 }
 
 
