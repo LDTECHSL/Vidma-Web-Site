@@ -119,15 +119,6 @@
   margin-bottom: var(--spacing-4);
 }
 
-.hero-para{
-  font-size: var(--font-size-base);
-  color: var(--color-text);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-6);
-  padding-right: 55px;
-  text-shadow: 0 1px 3px rgb(255, 255, 255);
-}
-
 /* Desktop (min-width: 768px) */
 @media (min-width: 768px) {
   .nav-links {
