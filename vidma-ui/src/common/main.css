@@ -1,7 +1,7 @@
 /* Header and Footer */
 .header {
   width: 100%;
-  background-color: #ffffff00;
+  background-color: #ffffff;
   padding: var(--spacing-4) 0;
   position: fixed;
   top: 0;
@@ -93,30 +93,12 @@
 
 /* Hero Section */
 
-.hero {
+.home-outer{
   width: 100%;
-  height: 100vh;
-  background: url('../assets/hero.png') no-repeat center center/cover;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-content{
-  width: 45%;
-  height: 200px;
-  /* border: 1px solid red; */
-  margin-top: 150px;
-  padding: 0 35px 0 45px;
+  height: 80vh;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.hero-title{
-  font-size: var(--font-size-5xl);
-  font-weight: 600;
-  color: var(--color-primary-dark);
-  margin-bottom: var(--spacing-4);
+  position: relative;
 }
 
 /* Desktop (min-width: 768px) */
