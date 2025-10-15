@@ -2,6 +2,7 @@
 .header {
   width: 100%;
   background-color: #ffffff;
+  /* border-bottom: 3px solid red; */
   padding: var(--spacing-4) 0;
   position: fixed;
   top: 0;
