@@ -90,8 +90,8 @@ export default function AboutUs() {
                 key={index}
                 className={`carousel-card ${positionClass}`}
                 style={{ backgroundImage: `url(${card.image})` }}
-                data-aos="flip-right"
-                data-aos-delay={index * 100}
+                // data-aos="flip-right"
+                // data-aos-delay={index * 100}
               >
                 <div className="overlay">
                   <div className="icon text-4xl mb-2">{card.icon}</div>

@@ -5,6 +5,7 @@ import slide2 from "../assets/slide2.jpg";
 import slide3 from "../assets/slide3.jpg";
 import BrandNamesSlider from "../components/BrandNamesSlider";
 import AboutUs from "../components/AboutUs";
+import Services from "../components/Services";
 
 export default function Home() {
     const slides = [
@@ -119,7 +120,11 @@ export default function Home() {
             <div id="about">
                 <AboutUs />
             </div>
-            
+
+            {/* Services */}
+            <Services />
+
+            <AboutUs />
         </Main>
     );
 }
