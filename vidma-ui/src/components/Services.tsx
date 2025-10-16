@@ -1,6 +1,6 @@
 import "../common/services.css";
 import "../common/main.css";
-import { FaHome, FaSolarPanel, FaCogs, FaHandsHelping, FaComment, FaComments, FaCheckCircle } from "react-icons/fa"; // using react-icons
+import { FaHome, FaSolarPanel, FaCogs, FaHandsHelping, FaComments, FaCheckCircle } from "react-icons/fa"; // using react-icons
 
 export default function Services() {
   const services = [
