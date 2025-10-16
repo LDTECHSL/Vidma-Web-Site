@@ -66,7 +66,8 @@ body {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--color-text-white);
-  background: var(--gradient);
+  /* background: var(--gradient); */
+  background-color: var(--color-primary);
   border: none;
   border-radius: 50px;
   cursor: pointer;
