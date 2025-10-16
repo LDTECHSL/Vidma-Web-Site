@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import Main from "../layouts/Main";
 import { useState, useEffect } from "react";
 import slide1 from "../assets/slide1.png";
@@ -8,8 +7,6 @@ import BrandNamesSlider from "../components/BrandNamesSlider";
 import AboutUs from "../components/AboutUs";
 
 export default function Home() {
-    const { t } = useTranslation();
-
     const slides = [
         {
             image: slide1,
@@ -112,22 +109,6 @@ export default function Home() {
                 >
                     ›
                 </button>
-
-                {/* Dots Navigation */}
-                {/* <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-20">
-                    {slides.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentIndex(index)}
-                            className={`w-3 h-3 rounded-full transition-all ${currentIndex === index
-                                    ? "bg-white scale-110"
-                                    : "bg-gray-400 opacity-70"
-                                }`}
-                        ></button>
-                    ))}
-                </div> */}
-
-
             </div>
 
 

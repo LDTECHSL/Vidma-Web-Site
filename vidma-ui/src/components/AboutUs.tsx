@@ -72,7 +72,7 @@ export default function AboutUs() {
       </div>
 
       {/* Card Carousel */}
-      <div className="about-us-slider-outer" data-aos="zoom-in-up">
+      <div className="about-us-slider-outer" data-aos="fade-up" data-aos-delay="400">
         <div className="carousel-container">
           {cards.map((card, index) => {
             const total = cards.length;
