@@ -44,7 +44,7 @@ export default function Home() {
     return (
         <Main>
             {/* Hero Section */}
-            <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer">
+            <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-20">
                 {slides.map((slide, index) => (
                     <div
                         key={index}
@@ -56,23 +56,65 @@ export default function Home() {
                             alt={slide.title}
                             className="w-full h-full object-cover"
                         />
+
                         {/* Overlay content */}
-                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-4">
-                            <h1 className="text-white text-3xl md:text-5xl font-bold mt-5 mb-5 drop-shadow-lg">
+                        <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-center p-4">
+                            <h1 className="text-white text-2xl md:text-4xl font-bold mt-5 mb-5 drop-shadow-lg">
                                 {slide.title}
                             </h1>
-                            <p className="text-white text-base md:text-lg mt-5 mb-5 max-w-xl drop-shadow-md">
+                            <p className="text-white text-base md:text-md mt-5 mb-5 max-w-xl drop-shadow-md">
                                 {slide.text}
                             </p>
-                            {/* <button className="bg-white text-gray-900 px-5 py-2 rounded-full font-semibold hover:bg-gray-200 transition">
-                                {slide.button}
-                            </button> */}
+                            <div className="wrapper">
+                                <a href="#" className="button">
+                                    <div className="icon">
+                                        <i className="fab fa-facebook-f"></i>
+                                    </div>
+                                    <span>Facebook</span>
+                                </a>
+                                <a href="#" className="button">
+                                    <div className="icon">
+                                        <i className="fab fa-whatsapp"></i>
+                                    </div>
+                                    <span>WhatsApp</span>
+                                </a>
+                                <a href="#" className="button">
+                                    <div className="icon">
+                                        <i className="fab fa-tiktok"></i>
+                                    </div>
+                                    <span>Tiktok</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 ))}
 
+                {/* Left Arrow */}
+                <button
+                    onClick={() =>
+                        setCurrentIndex((prev) =>
+                            prev === 0 ? slides.length - 1 : prev - 1
+                        )
+                    }
+                    className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white text-3xl mt-5 px-4 py-4  hover:bg-white/70 transition z-20"
+                >
+                    ‹
+                </button>
+
+                {/* Right Arrow */}
+                <button
+                    onClick={() =>
+                        setCurrentIndex((prev) =>
+                            prev === slides.length - 1 ? 0 : prev + 1
+                        )
+                    }
+                    className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white text-3xl mt-5 px-4 py-4 hover:bg-white/70 transition z-20"
+                >
+                    ›
+                </button>
+
                 {/* Dots Navigation */}
-                <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-20">
+                {/* <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-20">
                     {slides.map((_, index) => (
                         <button
                             key={index}
@@ -83,8 +125,9 @@ export default function Home() {
                                 }`}
                         ></button>
                     ))}
-                </div>
+                </div> */}
             </div>
+
 
             {/* Brand Names Slider */}
             <BrandNamesSlider />
