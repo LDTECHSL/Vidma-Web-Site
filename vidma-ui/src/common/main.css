@@ -1,7 +1,7 @@
 /* Header and Footer */
 .header {
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fffffff8;
   /* border-bottom: 3px solid red; */
   padding: var(--spacing-4) 0;
   position: fixed;
@@ -100,6 +100,22 @@
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+/* Brand Names Slider */
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 25s linear infinite;
+  display: flex;
 }
 
 /* Desktop (min-width: 768px) */
