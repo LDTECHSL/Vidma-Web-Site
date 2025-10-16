@@ -6,6 +6,7 @@ import slide3 from "../assets/slide3.jpg";
 import BrandNamesSlider from "../components/BrandNamesSlider";
 import AboutUs from "../components/AboutUs";
 import Services from "../components/Services";
+import Products from "../components/Products";
 
 export default function Home() {
     const slides = [
@@ -124,7 +125,8 @@ export default function Home() {
             {/* Services */}
             <Services />
 
-            <AboutUs />
+            {/* Products */}
+            <Products />
         </Main>
     );
 }
