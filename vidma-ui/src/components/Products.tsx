@@ -44,16 +44,6 @@ export default function Products() {
     },
   ];
 
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: false });
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % cards.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [cards.length]);
-
   return (
     <div className="products-outer" data-aos="fade-up">
       <div className="title-outer" data-aos="fade-down">
