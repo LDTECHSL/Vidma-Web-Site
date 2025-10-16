@@ -56,7 +56,7 @@ export default function AboutUs() {
 
   return (
     <div className="aboutus-outer" data-aos="fade-up">
-      <div className="title-outer" data-aos="fade-down">
+      <div className="title-outer" data-aos="fade-up">
         About Us
       </div>
       <div className="title-sub-outer" data-aos="fade-up">

@@ -2,6 +2,7 @@ import "../common/products.css"
 import "aos/dist/aos.css";
 import "../common/about.css";
 import "../common/main.css";
+import ProductSlider from "./ProductSlider";
 
 export default function Products() {
 
@@ -13,7 +14,7 @@ export default function Products() {
       <div className="title-sub-outer" data-aos="fade-up">
         Our Premium Offerings
       </div>
-      
+      <ProductSlider />
     </div>
   );
 }

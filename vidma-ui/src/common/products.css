@@ -7,3 +7,234 @@
     flex-direction: column;
     align-items: center;
 }
+
+.slide-container {
+    width: 100%;
+    height: 85vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.directional {
+    position: absolute;
+    bottom: 1px;
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+}
+
+.directional button {
+    width: 50px;
+    height: 50px;
+    color: #000000;
+    background-color: transparent;
+    border: none;
+    opacity: 0.8;
+}
+
+.directional button:hover {
+    opacity: 1;
+}
+
+#slide {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 100%;
+}
+
+#slide .item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(0) translateX(0);
+    transition: all 1.5s ease-in-out;
+    z-index: 1;
+}
+
+#slide .item.active {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#slide .item .image {
+    width: 600px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+#slide .item .image img {
+    width: 65%;
+    transition: transform 0.5s;
+}
+
+#slide .item.active .image img:hover {
+    transform: scale(1.1);
+}
+
+.content .left,
+.content .right {
+    position: absolute;
+    top: 15%;
+    display: block;
+    color: #000000;
+}
+
+.content .left {
+    left: 40px;
+}
+
+.content .left h1 {
+    font-size: xxx-large;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.content .left .des {
+    font-size: small;
+    font-weight: 100;
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.content .left button {
+    font-size: small;
+    background-color: transparent;
+    border: none;
+    color: #000000;
+}
+
+.content .left button i {
+    margin-left: 10px;
+}
+
+.content .right {
+    right: 40px;
+}
+
+.content .right h2 {
+    font-size: large;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.content .right ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.content .right li {
+    font-size: small;
+    position: relative;
+    margin-top: 20px;
+}
+
+.content .right li::before {
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: #8C0781;
+    content: '';
+    border-radius: 50%;
+    box-shadow: 0 0 10px #8C0781;
+}
+
+.content .right li p:nth-child(1) {
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+}
+
+.content .right li p:nth-child(2) {
+    font-weight: 100;
+    padding: 0;
+    margin: 0;
+    font-size: x-small;
+}
+
+/* ===================== MOBILE RESPONSIVE ===================== */
+@media screen and (max-width: 1024px) {
+    #slide .item .image {
+        width: 70%;
+        top: 18%;
+    }
+    .content .left {
+        max-width: 45%;
+    }
+    .content .right {
+        max-width: 35%;
+    }
+
+    #slide .item.active {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #slide .item .image {
+        position: absolute;
+        width: 90%;
+        top: 20%;
+        left: 20%;
+    }
+    .content .left {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        top: auto;
+        max-width: 80%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .content .right {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: translateX(-50%);
+        margin: 10px auto;
+        max-width: 80%;
+        text-align: center;
+    }
+    .directional button {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #slide .item .image {
+        position: absolute;
+        width: 100%;
+        top: 35%;
+    }
+    .content .left h1 {
+        font-size: 1.5rem;
+    }
+    .content .left .des {
+        font-size: 0.8rem;
+    }
+    .content .right h2 {
+        font-size: 1rem;
+    }
+    .content .right li {
+        font-size: 0.75rem;
+    }
+}
