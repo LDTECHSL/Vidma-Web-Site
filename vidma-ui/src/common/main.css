@@ -2,7 +2,7 @@
 .header {
   width: 100%;
   background-color: #ffffff;
-  border-bottom: 2px solid red;
+  /* border-bottom: 2px solid red; */
   padding: var(--spacing-4) 0;
   position: fixed;
   top: 0;
@@ -110,7 +110,7 @@
   text-decoration: none;
   margin: 10px 5px 0 5px;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--gradient);
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
@@ -124,7 +124,7 @@
   display: inline-block;
   height: 50px;
   width: 50px;
-  color: #000;
+  color: #ffffff;
   text-align: center;
   border-radius: 50px;
   box-sizing: border-box;
@@ -139,7 +139,7 @@
   background: #12900b;
 }
 .wrapper .button:nth-child(3):hover .icon {
-  background: #E1306C;
+  background: #140208;
 }
 .wrapper .button .icon i {
   font-size: 25px;
@@ -157,13 +157,13 @@
   transition: all 0.3s ease-out;
 }
 .wrapper .button:nth-child(1) span {
-  color: #4267B2;
+  color: #ffffff;
 }
 .wrapper .button:nth-child(2) span {
-  color: #12900b;
+  color: #ffffff;
 }
 .wrapper .button:nth-child(3) span {
-  color: #E1306C;
+  color: #ffffff;
 }
 
 /* Brand Names Slider */
