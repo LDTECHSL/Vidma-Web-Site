@@ -5,6 +5,7 @@ import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.jpg";
 import slide3 from "../assets/slide3.jpg";
 import BrandNamesSlider from "../components/BrandNamesSlider";
+import AboutUs from "../components/AboutUs";
 
 export default function Home() {
     const { t } = useTranslation();
@@ -14,19 +15,16 @@ export default function Home() {
             image: slide1,
             title: "Strength That Lasts, Style That Protects",
             text: "Discover premium-quality roofing sheets designed to withstand every season. Durable, elegant, and built to protect your home or business — our roofs combine lasting performance with modern design",
-            button: "Learn More",
         },
         {
             image: slide2,
             title: "Your Trusted Partner in Roofing Excellence",
             text: "We provide top-grade roofing sheets that guarantee strength, weather resistance, and long-term value. From industrial to residential projects, trust us to cover you with quality that endures.",
-            button: "Our Services",
         },
         {
             image: slide3,
             title: "Covering Dreams, One Roof at a Time",
             text: "Our roofing sheets aren’t just strong — they’re crafted to elevate your property’s look and lifespan. Get the perfect balance of durability, beauty, and affordability for any project.",
-            button: "Contact Us",
         },
     ];
 
@@ -44,7 +42,7 @@ export default function Home() {
     return (
         <Main>
             {/* Hero Section */}
-            <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-20">
+            <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
                 {slides.map((slide, index) => (
                     <div
                         key={index}
@@ -86,6 +84,8 @@ export default function Home() {
                                 </a>
                             </div>
                         </div>
+                        <div className="white-mist">
+                        </div>
                     </div>
                 ))}
 
@@ -126,11 +126,16 @@ export default function Home() {
                         ></button>
                     ))}
                 </div> */}
+
+
             </div>
 
 
             {/* Brand Names Slider */}
             <BrandNamesSlider />
+
+            {/* About us */}
+            <AboutUs />
         </Main>
     );
 }
