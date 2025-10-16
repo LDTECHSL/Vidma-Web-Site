@@ -7,7 +7,6 @@ import BrandNamesSlider from "../components/BrandNamesSlider";
 import AboutUs from "../components/AboutUs";
 import Services from "../components/Services";
 import Products from "../components/Products";
-import ProductSlider from "../components/ProductSlider";
 
 export default function Home() {
     const slides = [

@@ -3,7 +3,7 @@ import "../common/products.css";
 import img1 from "../assets/brand1.png";
 import img2 from "../assets/brand2.png";
 import img3 from "../assets/brand3.png";
-import { FaLeftLong, FaRightLeft, FaRightLong } from "react-icons/fa6";
+import { FaLeftLong, FaRightLong } from "react-icons/fa6";
 
 const products = [
   {
