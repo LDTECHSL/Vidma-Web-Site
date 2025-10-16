@@ -116,7 +116,10 @@ export default function Home() {
             <BrandNamesSlider />
 
             {/* About us */}
-            <AboutUs />
+            <div id="about">
+                <AboutUs />
+            </div>
+            
         </Main>
     );
 }

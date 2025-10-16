@@ -20,6 +20,9 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  console.log(location.pathname);
+  
+
   const isActive = (path: string): boolean => location.pathname === path;
   const isHome = location.pathname === "/";
 
@@ -58,13 +61,13 @@ const Header: React.FC = () => {
             {t("projects")}
           </a>
           <a
-            href="/contact"
+            href="contact"
             className={`nav-link ${isActive("/contact") ? "active" : ""}`}
           >
             {t("contact")}
           </a>
           <a
-            href="/about"
+            href="#about"
             className={`nav-link ${isActive("/about") ? "active" : ""}`}
           >
             {t("about")}
