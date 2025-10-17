@@ -86,16 +86,34 @@
     align-items: end;
 }
 
+/* Make the active image fully on top */
+#slide .item.active {
+    position: relative; /* ensure children z-index works */
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Image container */
+#slide .item.active .image {
+    position: relative; /* needed for z-index */
+    z-index: 10; /* bring image above content */
+}
+
+/* Active main image */
 #slide .item.active .image img {
     width: 65%;
     transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+    cursor: pointer;
+    display: block;
 }
 
+/* Hover effect */
 #slide .item.active .image img:hover {
     transform: scale(1.1) translateY(-5px);
-    /* box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25); */
     filter: brightness(1.05) contrast(1.05);
 }
+
 
 /* Thumbnail Row */
 .thumbnail-row {
