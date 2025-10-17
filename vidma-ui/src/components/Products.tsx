@@ -8,7 +8,7 @@ export default function Products() {
 
   return (
     <div className="products-outer" data-aos="fade-up">
-      <div className="title-outer" data-aos="fade-down">
+      <div className="title-outer" data-aos="fade-up">
         Our Products
       </div>
       <div className="title-sub-outer" data-aos="fade-up">

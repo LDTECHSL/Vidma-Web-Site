@@ -3,7 +3,7 @@
   width: 100%;
   background-color: #ffffff;
   /* border-bottom: 2px solid red; */
-  padding: var(--spacing-1) 0;
+  padding: var(--spacing-2) 0;
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@
 }
 
 .header.scrolled {
-  background-color: #ffffff;
+  background-color: #ebf3fb;
   /* example darker background */
   transition: background-color 0.3s ease;
   /* box-shadow: var(--shadow-md); */
