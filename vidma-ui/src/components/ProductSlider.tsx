@@ -1,89 +1,83 @@
-import { useRef, useEffect } from "react";
+import { useState } from "react";
 import "../common/products.css";
-import img1 from "../assets/brand1.png";
-import img2 from "../assets/brand2.png";
-import img3 from "../assets/brand3.png";
 import { FaLeftLong, FaRightLong } from "react-icons/fa6";
 
 const products = [
   {
-    img: img1,
-    title: "LUNDEV",
-    description: "Tinh ru anh choi da <br/> Chua kip choi da ma em da da anh",
-    config: ["2022", "2022", "2022"],
+    img: "https://www.metecnolanka.com/wp-content/uploads/2022/08/Untitled-design-1-e1664354816102.png",
+    title: "Roofing Gutters",
+    description:
+      "Durable and efficient drainage systems that channel rainwater safely away from roofs, protecting walls and foundations.",
+    material: ["Galvanized Steel", "Aluminum", "PVC (Polyvinyl Chloride)"],
+    colors: ["#C0C0C0", "#FFFFFF", "#654321", "#4B4B4B"],
   },
   {
-    img: img2,
-    title: "LUNDEV",
-    description: "Tinh ru anh choi da <br/> Chua kip choi da ma em da da anh",
-    config: ["2022", "2022", "2022"],
+    img: "https://www.metecnolanka.com/wp-content/uploads/2022/08/Untitled-design-3-copy-e1664354901180.png",
+    title: "Mineral Wool Sandwich Panels",
+    description:
+      "Insulated wall and roof panels designed for superior thermal, acoustic, and fire resistance in industrial and commercial buildings.",
+    material: [
+      "Outer & Inner Layers: Pre-painted Galvanized Steel (PPGI) or Aluminum",
+      "Core: Mineral Wool Insulation",
+    ],
+    colors: ["#F8F8F0", "#DDDCD6", "#87CEEB", "#B22222"],
   },
   {
-    img: img3,
-    title: "LUNDEV",
-    description: "Tinh ru anh choi da <br/> Chua kip choi da ma em da da anh",
-    config: ["2022", "2022", "2022"],
+    img: "https://www.metecnolanka.com/wp-content/uploads/2022/08/Untitled-design-5-copy-e1664354975582.png",
+    title: "Trimcurve",
+    description:
+      "Stylish curved roof edging that delivers a seamless finish while improving water flow and adding architectural elegance.",
+    material: ["Pre-painted Galvanized Steel (PPGI)", "Aluminum"],
+    colors: ["#0077BE", "#4B4B4B", "#B22222", "#FFFFFF"],
   },
 ];
 
 export default function ProductSlider() {
-  const slideRef = useRef<HTMLDivElement | null>(null);
-
-  // Set the first slide active on mount
-  useEffect(() => {
-    updateActive();
-  }, []);
-
-  const updateActive = () => {
-    if (!slideRef.current) return;
-    const items = Array.from(slideRef.current.children);
-    items.forEach((item) => (item as HTMLElement).classList.remove("active"));
-    if (items[0]) (items[0] as HTMLElement).classList.add("active");
-  };
+  const [current, setCurrent] = useState(0);
 
   const nextSlide = () => {
-    if (!slideRef.current) return;
-    const items = Array.from(slideRef.current.children);
-    slideRef.current.appendChild(items[0]);
-    updateActive();
+    setCurrent((prev) => (prev + 1) % products.length);
   };
 
   const prevSlide = () => {
-    if (!slideRef.current) return;
-    const items = Array.from(slideRef.current.children);
-    slideRef.current.prepend(items[items.length - 1]);
-    updateActive();
+    setCurrent((prev) => (prev - 1 + products.length) % products.length);
   };
 
   return (
     <div className="slide-container">
-      <div id="slide" ref={slideRef}>
+      <div id="slide">
         {products.map((p, idx) => (
-          <div className="item" key={idx}>
-            <div className="image">
+          <div
+            className={`item ${idx === current ? "active" : ""}`}
+            key={idx}
+          >
+            <div className="image" data-aos="fade-up" data-aos-delay="200">
               <img src={p.img} alt={p.title} />
             </div>
             <div className="content">
-              <div className="left">
-                <h1>{p.title}</h1>
-                <div
-                  className="des"
-                  dangerouslySetInnerHTML={{ __html: p.description }}
-                />
-                <button>
-                  See more
-                  <i className="fa-solid fa-angle-right"></i>
-                  <i className="fa-solid fa-angle-right"></i>
-                  <i className="fa-solid fa-angle-right"></i>
-                </button>
+              <div className="left" data-aos="fade-up" data-aos-delay="400">
+                <h2>{p.title}</h2>
+                <div className="des">{p.description}</div>
+
+                {/* Color boxes */}
+                <div className="color-list">
+                  {p.colors.map((color, i) => (
+                    <span
+                      key={i}
+                      className="color-dot"
+                      style={{ backgroundColor: color }}
+                      title={color}
+                    ></span>
+                  ))}
+                </div>
               </div>
-              <div className="right">
-                <h2>CẤU HÌNH</h2>
+
+              <div className="right" data-aos="fade-up" data-aos-delay="400">
+                <h2>Materials</h2>
                 <ul>
-                  {p.config.map((year, i) => (
+                  {p.material.map((m, i) => (
                     <li key={i}>
-                      <p>Năm sản xuất</p>
-                      <p>{year}</p>
+                      <p>{m}</p>
                     </li>
                   ))}
                 </ul>
