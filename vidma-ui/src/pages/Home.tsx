@@ -1,32 +1,30 @@
-import { useTranslation } from "react-i18next";
 import Main from "../layouts/Main";
 import { useState, useEffect } from "react";
 import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.jpg";
 import slide3 from "../assets/slide3.jpg";
 import BrandNamesSlider from "../components/BrandNamesSlider";
+import AboutUs from "../components/AboutUs";
+import Services from "../components/Services";
+import Products from "../components/Products";
+import VideoSlider from "../components/VideoSlider";
 
 export default function Home() {
-    const { t } = useTranslation();
-
     const slides = [
         {
             image: slide1,
             title: "Strength That Lasts, Style That Protects",
             text: "Discover premium-quality roofing sheets designed to withstand every season. Durable, elegant, and built to protect your home or business — our roofs combine lasting performance with modern design",
-            button: "Learn More",
         },
         {
             image: slide2,
             title: "Your Trusted Partner in Roofing Excellence",
             text: "We provide top-grade roofing sheets that guarantee strength, weather resistance, and long-term value. From industrial to residential projects, trust us to cover you with quality that endures.",
-            button: "Our Services",
         },
         {
             image: slide3,
             title: "Covering Dreams, One Roof at a Time",
             text: "Our roofing sheets aren’t just strong — they’re crafted to elevate your property’s look and lifespan. Get the perfect balance of durability, beauty, and affordability for any project.",
-            button: "Contact Us",
         },
     ];
 
@@ -44,7 +42,7 @@ export default function Home() {
     return (
         <Main>
             {/* Hero Section */}
-            <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-20">
+            <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
                 {slides.map((slide, index) => (
                     <div
                         key={index}
@@ -86,6 +84,8 @@ export default function Home() {
                                 </a>
                             </div>
                         </div>
+                        <div className="white-mist">
+                        </div>
                     </div>
                 ))}
 
@@ -112,25 +112,25 @@ export default function Home() {
                 >
                     ›
                 </button>
-
-                {/* Dots Navigation */}
-                {/* <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-20">
-                    {slides.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentIndex(index)}
-                            className={`w-3 h-3 rounded-full transition-all ${currentIndex === index
-                                    ? "bg-white scale-110"
-                                    : "bg-gray-400 opacity-70"
-                                }`}
-                        ></button>
-                    ))}
-                </div> */}
             </div>
 
 
             {/* Brand Names Slider */}
             <BrandNamesSlider />
+
+            {/* About us */}
+            <div id="about">
+                <AboutUs />
+            </div>
+
+            {/* Services */}
+            <Services />
+
+            {/* Products */}
+            <Products />
+
+            {/* Video Slider */}
+            <VideoSlider />
         </Main>
     );
 }

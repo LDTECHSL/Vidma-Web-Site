@@ -1,0 +1,225 @@
+.aboutus-outer {
+    width: 100%;
+    height: 100vh;
+    padding-top: 25px;
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-us-content-outer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-us-content {
+    width: 70%;
+    margin-top: 25px;
+    text-align: justify;
+    font-style: italic;
+    color: gray;
+}
+
+.about-us-slider-outer {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    position: relative;
+    overflow: hidden;
+    perspective: 1200px;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Base card */
+.carousel-card {
+    position: absolute;
+    width: 260px;
+    height: 360px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.8s ease;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.carousel-card .overlay {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    border-radius: 0 0 16px 16px;
+}
+
+/* Center card */
+.center-card {
+    z-index: 5;
+    transform: scale(1) translateX(0) translateZ(0);
+    filter: none;
+    opacity: 1;
+}
+
+/* Side cards */
+.left-card {
+    transform: translateX(-280px) scale(0.85) rotateY(15deg);
+    z-index: 4;
+    filter: blur(2px) brightness(0.9);
+    opacity: 0.9;
+}
+
+.right-card {
+    transform: translateX(280px) scale(0.85) rotateY(-15deg);
+    z-index: 4;
+    filter: blur(2px) brightness(0.9);
+    opacity: 0.9;
+}
+
+/* Far side cards */
+.far-left-card {
+    transform: translateX(-500px) scale(0.7) rotateY(25deg);
+    z-index: 3;
+    filter: blur(4px) brightness(0.7);
+    opacity: 0.6;
+}
+
+.far-right-card {
+    transform: translateX(500px) scale(0.7) rotateY(-25deg);
+    z-index: 3;
+    filter: blur(4px) brightness(0.7);
+    opacity: 0.6;
+}
+
+/* Hidden cards (back of carousel) */
+.hidden-card {
+    opacity: 0;
+    transform: scale(0.6) translateZ(-300px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .carousel-card {
+        width: 200px;
+        height: 280px;
+    }
+
+    .left-card {
+        transform: translateX(-200px) scale(0.8) rotateY(15deg);
+    }
+
+    .right-card {
+        transform: translateX(200px) scale(0.8) rotateY(-15deg);
+    }
+
+    .far-left-card {
+        transform: translateX(-340px) scale(0.65) rotateY(25deg);
+    }
+
+    .far-right-card {
+        transform: translateX(340px) scale(0.65) rotateY(-25deg);
+    }
+
+    .about-us-slider-outer {
+        height: 60vh;
+    }
+}
+
+/* ---------- Mobile Responsive (≤600px) ---------- */
+@media (max-width: 600px) {
+    .aboutus-outer {
+        height: auto;
+        padding-bottom: 40px;
+    }
+
+    .about-us-content {
+        width: 90%;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .about-us-slider-outer {
+        width: 100%;
+        height: 50vh;
+        perspective: 800px;
+    }
+
+    .carousel-card {
+        width: 160px;
+        height: 220px;
+        border-radius: 12px;
+        font-size: 13px;
+    }
+
+    /* Adjust card positions for smaller screens */
+    .center-card {
+        transform: scale(1) translateX(0);
+        z-index: 5;
+    }
+
+    .left-card {
+        transform: translateX(-160px) scale(0.8) rotateY(10deg);
+        z-index: 4;
+    }
+
+    .right-card {
+        transform: translateX(160px) scale(0.8) rotateY(-10deg);
+        z-index: 4;
+    }
+
+    .far-left-card {
+        transform: translateX(-260px) scale(0.6) rotateY(20deg);
+        z-index: 3;
+        filter: blur(3px) brightness(0.6);
+        opacity: 0.5;
+    }
+
+    .far-right-card {
+        transform: translateX(260px) scale(0.6) rotateY(-20deg);
+        z-index: 3;
+        filter: blur(3px) brightness(0.6);
+        opacity: 0.5;
+    }
+
+    .carousel-card .overlay {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .carousel-card .title {
+        font-size: 14px;
+    }
+
+    .carousel-card .desc {
+        font-size: 12px;
+    }
+
+    .title-outer {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .title-sub-outer {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}

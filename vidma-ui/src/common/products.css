@@ -1,0 +1,379 @@
+.actual-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.products-outer {
+    width: 100%;
+    height: 100vh;
+    padding-top: 25px;
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slide-container {
+    width: 100%;
+    height: 45vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    /* border: 1px solid red; */
+}
+
+.directional {
+    position: absolute;
+    bottom: 1px;
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+}
+
+.directional button {
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    margin: 0 10px 25px 10px;
+}
+
+.directional button:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#slide {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 90%;
+}
+
+#slide .item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(0) translateX(0);
+    transition: all 1.5s ease-in-out;
+    z-index: 1;
+}
+
+#slide .item.active {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#slide .item .image {
+    width: 400px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+/* Make the active image fully on top */
+#slide .item.active {
+    position: relative; /* ensure children z-index works */
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Image container */
+#slide .item.active .image {
+    position: relative; /* needed for z-index */
+    z-index: 10; /* bring image above content */
+}
+
+/* Active main image */
+#slide .item.active .image img {
+    width: 65%;
+    transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+    cursor: pointer;
+    display: block;
+}
+
+/* Hover effect */
+#slide .item.active .image img:hover {
+    transform: scale(1.1) translateY(-5px);
+    filter: brightness(1.05) contrast(1.05);
+}
+
+
+/* Thumbnail Row */
+.thumbnail-row {
+    height: 120px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+
+}
+
+.thumb {
+    width: 100px;
+    height: 80px;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+    border: 2px solid transparent;
+}
+
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumb.active {
+    opacity: 1;
+    border: 3px solid #0077be;
+    transform: scale(1.05);
+    box-shadow: 0 10px 10px rgba(3, 64, 100, 0.3);
+}
+
+.thumb:hover {
+    opacity: 0.9;
+    transform: scale(1.08);
+}
+
+.content .left,
+.content .right {
+    position: absolute;
+    top: 15%;
+    display: block;
+    color: #000000;
+}
+
+.content .left {
+    left: 40px;
+}
+
+.content .left h2 {
+    font-size: x-large;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-right: 30px;
+}
+
+.content .left .des {
+    font-size: small;
+    font-weight: 100;
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.des {
+    width: 50%;
+}
+
+.content .left button {
+    font-size: small;
+    background-color: transparent;
+    border: none;
+    color: #000000;
+}
+
+.content .left button i {
+    margin-left: 10px;
+}
+
+.content .right {
+    right: 40px;
+    width: 20%;
+}
+
+.content .right h2 {
+    font-size: large;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.content .right ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.content .right li {
+    font-size: small;
+    position: relative;
+    margin-top: 20px;
+}
+
+.content .right li::before {
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-primary-hover);
+    content: '';
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color-primary-hover);
+}
+
+.content .right li p:nth-child(1) {
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+}
+
+.content .right li p:nth-child(2) {
+    font-weight: 100;
+    padding: 0;
+    margin: 0;
+    font-size: x-small;
+}
+
+.color-list {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.color-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 10%;
+    border: 1px solid #ccc;
+    transition: transform 0.2s ease;
+}
+
+.color-dot:hover {
+    transform: scale(1.15);
+}
+
+/* ======== Fade & Slide Animations ======== */
+.item.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.item.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+}
+
+
+/* ===================== MOBILE RESPONSIVE ===================== */
+@media screen and (max-width: 1024px) {
+    #slide .item .image {
+        width: 70%;
+        top: 18%;
+    }
+
+    .content .left {
+        max-width: 45%;
+    }
+
+    .content .right {
+        max-width: 35%;
+    }
+
+    #slide .item.active {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #slide .item .image {
+        position: absolute;
+        width: 90%;
+        top: 20%;
+        left: 20%;
+    }
+
+    .content .left {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        top: auto;
+        max-width: 80%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .content .right {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: translateX(-50%);
+        margin: 10px auto;
+        max-width: 80%;
+        text-align: center;
+    }
+
+    .directional button {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #slide .item .image {
+        position: absolute;
+        width: 100%;
+        top: 35%;
+    }
+
+    .content .left h1 {
+        font-size: 1.5rem;
+    }
+
+    .content .left .des {
+        font-size: 0.8rem;
+    }
+
+    .content .right h2 {
+        font-size: 1rem;
+    }
+
+    .content .right li {
+        font-size: 0.75rem;
+    }
+}
