@@ -8,6 +8,7 @@ import AboutUs from "../components/AboutUs";
 import Services from "../components/Services";
 import Products from "../components/Products";
 import VideoSlider from "../components/VideoSlider";
+import ContactUs from "../components/ContactUs";
 
 export default function Home() {
     const slides = [
@@ -128,6 +129,9 @@ export default function Home() {
 
             {/* Products */}
             <Products />
+
+            {/* Contact Us */}
+            <ContactUs />
 
             {/* Video Slider */}
             <VideoSlider />

@@ -10,6 +10,10 @@
   z-index: 1100;
 }
 
+*{
+  /* border: 1px solid red; */
+}
+
 .logo-img {
   width: 80px;
 }
