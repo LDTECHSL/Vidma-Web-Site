@@ -15,10 +15,10 @@
 }
 
 .header.scrolled {
-  background-color: #ebf3fb;
+  background-color: #ffffff;
   /* example darker background */
   transition: background-color 0.3s ease;
-  /* box-shadow: var(--shadow-md); */
+  box-shadow: var(--shadow-md);
 }
 
 .nav-link.scrolled {
