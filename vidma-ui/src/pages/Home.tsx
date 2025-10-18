@@ -10,6 +10,7 @@ import Products from "../components/Products";
 import VideoSlider from "../components/VideoSlider";
 import ContactUs from "../components/ContactUs";
 import ProjectsGallery from "../components/ProjectsGallery";
+import Awards from "../components/Awards";
 
 export default function Home() {
     const slides = [
@@ -140,6 +141,8 @@ export default function Home() {
             {/* Projects Gallery */}
             <ProjectsGallery />
 
+            {/* Awards */}
+            <Awards />
         </Main>
     );
 }

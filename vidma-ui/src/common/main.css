@@ -263,14 +263,9 @@
 }
 
 .title-outer {
-  width: 100%;
-  height: auto;
-  padding: 5px 0;
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  margin-top: 40px;
-  font-size: var(--font-size-2xl);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 35px 0 15px 0;
   color: var(--color-primary);
 }
 
@@ -279,11 +274,7 @@
 }
 
 .title-sub-outer {
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  font-size: var(--font-size-lg);
+  font-size: 1rem;
+  margin-bottom: 40px;
   color: var(--color-primary-hover);
 }
