@@ -60,7 +60,7 @@ export default function ContactUsMap() {
           <div className="contact-card" data-aos="fade-right" data-aos-delay="100">
             <LocalPhone style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Phone</div>
-            <div className="cc-desc">+94 77 123 4567</div>
+            <div className="cc-desc">+94 77 123 4567 <br /> +94 77 586 3458</div>
           </div>
           <div className="contact-card" data-aos="fade-right" data-aos-delay="200">
             <AlternateEmail style={{ fontSize: 40, color: "#1976d2" }} />

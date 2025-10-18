@@ -74,10 +74,10 @@ export default function ProjectsGallery() {
 
     return (
         <div className="gallery-outer">
-            <div className="title-outer" data-aos="fade-down">
+            <div className="title-outer white" data-aos="fade-down">
                 Projects Gallery
             </div>
-            <div className="title-sub-outer" data-aos="fade-up">
+            <div className="title-sub-outer white" data-aos="fade-up">
                 From Concept to Creation
             </div>
             <div className="gallery-sub-outer">
