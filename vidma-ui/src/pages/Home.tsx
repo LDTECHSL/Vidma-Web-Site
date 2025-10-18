@@ -9,6 +9,7 @@ import Services from "../components/Services";
 import Products from "../components/Products";
 import VideoSlider from "../components/VideoSlider";
 import ContactUs from "../components/ContactUs";
+import ProjectsGallery from "../components/ProjectsGallery";
 
 export default function Home() {
     const slides = [
@@ -135,6 +136,10 @@ export default function Home() {
 
             {/* Video Slider */}
             <VideoSlider />
+
+            {/* Projects Gallery */}
+            <ProjectsGallery />
+
         </Main>
     );
 }
