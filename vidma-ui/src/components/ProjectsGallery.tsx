@@ -14,6 +14,12 @@ export default function ProjectsGallery() {
                 "https://picsum.photos/id/1012/800/600",
                 "https://picsum.photos/id/1013/800/600",
                 "https://picsum.photos/id/1014/800/600",
+                "https://picsum.photos/id/1012/800/600",
+                "https://picsum.photos/id/1013/800/600",
+                "https://picsum.photos/id/1014/800/600",
+                "https://picsum.photos/id/1012/800/600",
+                "https://picsum.photos/id/1013/800/600",
+                "https://picsum.photos/id/1014/800/600",
             ],
         },
         {
