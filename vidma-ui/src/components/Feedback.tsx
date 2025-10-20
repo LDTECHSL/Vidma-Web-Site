@@ -38,6 +38,9 @@ export default function Feedback() {
     return (
         <div className="feedback-outer">
             {/* <div className="feedback-inner1"></div> */}
+            <div className="wave-layer wave1"></div>
+    <div className="wave-layer wave2"></div>
+    <div className="wave-layer wave3"></div>
             <div className="feedback-inner">
                 <div className="feedback-form-card">
                     <h2 className="feedback-title">How are you feeling?</h2>

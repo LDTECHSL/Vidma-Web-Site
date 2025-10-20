@@ -7,6 +7,7 @@
     position: relative;
     background: url("../assets/feedback-bg.jpeg") center/cover no-repeat fixed;
     padding: 40px 0;
+    overflow-x: hidden;
 }
 
 .feedback-outer::before {
@@ -16,13 +17,75 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.538); /* overlay darkness */
+    background-color: rgba(0, 0, 0, 0.562); /* overlay darkness */
     z-index: 1;
 }
 
 .feedback-outer > * {
     position: relative;
     z-index: 2;
+}
+
+/* Middle wave layer at bottom */
+/* Container adjustments */
+.feedback-outer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    position: relative;
+    background: url("../assets/feedback-bg.jpeg") center/cover no-repeat fixed;
+    padding: 40px 0;
+    overflow-x: hidden; /* hide horizontal scroll */
+}
+
+/* Common wave styles */
+.wave-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%; 
+    height: 250px;
+    background-repeat: repeat-x;
+    animation: wave 10s linear infinite;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.a{
+    color: rgba(255, 255, 255, 0.801);
+}
+
+/* Wave 1 */
+/* Wave 1 - front layer */
+.wave1 {
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='250' viewBox='0 0 1440 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z'/%3E%3C/svg%3E");
+    height: 200px; /* increased height */
+    animation: wave 10s linear infinite;
+}
+
+/* Wave 2 - middle layer */
+.wave2 {
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='180' viewBox='0 0 1440 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(255,255,255,0.15)' d='M0,90 C360,180 1080,0 1440,90 L1440,180 L0,180 Z'/%3E%3C/svg%3E");
+    height: 180px;
+    animation: wave 15s linear infinite;
+    bottom: 10px;
+}
+
+/* Wave 3 - back layer */
+.wave3 {
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='150' viewBox='0 0 1440 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(255,255,255,0.1)' d='M0,75 C360,150 1080,0 1440,75 L1440,150 L0,150 Z'/%3E%3C/svg%3E");
+    height: 150px;
+    animation: wave 20s linear infinite;
+    bottom: 20px;
+}
+
+
+/* Wave animation */
+@keyframes wave {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 
@@ -33,9 +96,9 @@
 
 .feedback-inner {
     width: 35%;
-    background: #fff;
+    background: #ffffffc2;
     border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); */
     padding: 40px 30px;
     display: flex;
     flex-direction: column;
