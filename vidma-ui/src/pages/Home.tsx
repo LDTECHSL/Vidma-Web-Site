@@ -11,6 +11,7 @@ import VideoSlider from "../components/VideoSlider";
 import ContactUs from "../components/ContactUs";
 import ProjectsGallery from "../components/ProjectsGallery";
 import Awards from "../components/Awards";
+import Feedback from "../components/Feedback";
 
 export default function Home() {
     const slides = [
@@ -143,6 +144,9 @@ export default function Home() {
 
             {/* Awards */}
             <Awards />
+
+            {/* Feedback */}
+            <Feedback />
         </Main>
     );
 }
