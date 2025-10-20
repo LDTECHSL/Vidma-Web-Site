@@ -54,31 +54,29 @@
 }
 
 .a{
-    color: rgba(255, 255, 255, 0.801);
+    color: rgba(255, 255, 255, 0.897);
 }
 
 /* Wave 1 */
 /* Wave 1 - front layer */
 .wave1 {
-    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='250' viewBox='0 0 1440 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='250' viewBox='0 0 1440 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(138, 212, 255, 0.692)' d='M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z'/%3E%3C/svg%3E");
     height: 200px; /* increased height */
     animation: wave 10s linear infinite;
 }
 
 /* Wave 2 - middle layer */
 .wave2 {
-    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='180' viewBox='0 0 1440 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(255,255,255,0.15)' d='M0,90 C360,180 1080,0 1440,90 L1440,180 L0,180 Z'/%3E%3C/svg%3E");
-    height: 180px;
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='250' viewBox='0 0 1440 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(2, 71, 110, 0.507)' d='M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z'/%3E%3C/svg%3E");
+    height: 200px; /* increased height */
     animation: wave 15s linear infinite;
-    bottom: 10px;
 }
 
 /* Wave 3 - back layer */
 .wave3 {
-    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='150' viewBox='0 0 1440 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(255,255,255,0.1)' d='M0,75 C360,150 1080,0 1440,75 L1440,150 L0,150 Z'/%3E%3C/svg%3E");
-    height: 150px;
+    background-image: url("data:image/svg+xml,%3Csvg width='1440' height='250' viewBox='0 0 1440 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(255, 255, 255, 0.897)' d='M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z'/%3E%3C/svg%3E");
+    height: 200px; /* increased height */
     animation: wave 20s linear infinite;
-    bottom: 20px;
 }
 
 
