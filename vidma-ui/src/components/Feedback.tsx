@@ -40,12 +40,12 @@ export default function Feedback() {
             {/* <div className="feedback-inner1"></div> */}
             {/* <div className="wave-layer wave1"></div>
             <div className="wave-layer wave2"></div> */}
-            <div className="wave-layer wave3"></div>
+            {/* <div className="wave-layer wave3"></div> */}
             {/* <div className="feedback-inner"></div> */}
             <div className="feedback-inner">
                 <div className="feedback-form-card">
-                    <h2 className="feedback-title">How are you feeling?</h2>
-                    <p className="feedback-subtitle">
+                    <h2 className="feedback-title" data-aos="fade-up">How are you feeling?</h2>
+                    <p className="feedback-subtitle" data-aos="fade-up" data-aos-delay="100">
                         Your input is valuable in helping us better understand your needs
                         and tailor our service accordingly.
                     </p>
@@ -59,6 +59,7 @@ export default function Feedback() {
                             value={formData.name}
                             onChange={handleChange}
                             required
+                            data-aos="fade-up" data-aos-delay="200"
                         />
 
                         <input
@@ -69,9 +70,10 @@ export default function Feedback() {
                             value={formData.email}
                             onChange={handleChange}
                             required
+                            data-aos="fade-up" data-aos-delay="300"
                         />
 
-                        <div className="mood-container">
+                        <div className="mood-container" data-aos="zoom-in" data-aos-delay="400">
                             {moods.map((mood) => (
                                 <div
                                     key={mood.id}
@@ -91,9 +93,10 @@ export default function Feedback() {
                             className="feedback-comment"
                             value={formData.comment}
                             onChange={handleChange}
+                            data-aos="zoom-in" data-aos-delay="500"
                         />
 
-                        <button type="submit" className="feedback-submit">
+                        <button type="submit" className="feedback-submit" data-aos="zoom-in" data-aos-delay="500">
                             Submit Now
                         </button>
                     </form>
