@@ -14,6 +14,7 @@ import Awards from "../components/Awards";
 import Feedback from "../components/Feedback";
 import Team from "../components/Team";
 import Reviews from "../components/Reviews";
+import Stats from "../components/Stats";
 
 export default function Home() {
     const slides = [
@@ -155,6 +156,9 @@ export default function Home() {
 
             {/* Reviews */}
             <Reviews />
+
+            {/* Stats */}
+            <Stats />
         </Main>
     );
 }
