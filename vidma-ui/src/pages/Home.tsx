@@ -12,6 +12,7 @@ import ContactUs from "../components/ContactUs";
 import ProjectsGallery from "../components/ProjectsGallery";
 import Awards from "../components/Awards";
 import Feedback from "../components/Feedback";
+import Team from "../components/Team";
 
 export default function Home() {
     const slides = [
@@ -147,6 +148,9 @@ export default function Home() {
 
             {/* Feedback */}
             <Feedback />
+
+            {/* Team Section */}
+            <Team />
         </Main>
     );
 }
