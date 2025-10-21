@@ -71,6 +71,7 @@ export default function Stats() {
             <div className="stats-inner">
                 {data.map((item, idx) => (
                     <div
+                        data-aos="fade-up"
                         className="stats"
                         key={idx}
                         ref={(el) => {
