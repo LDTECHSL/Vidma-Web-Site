@@ -96,7 +96,7 @@ export default function Feedback() {
                             data-aos="zoom-in" data-aos-delay="300"
                         />
 
-                        <button type="submit" className="feedback-submit" data-aos="zoom-in" data-aos-delay="300">
+                        <button type="submit" className="feedback-submit">
                             Submit Now
                         </button>
                     </form>
