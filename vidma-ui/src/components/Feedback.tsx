@@ -93,10 +93,10 @@ export default function Feedback() {
                             className="feedback-comment"
                             value={formData.comment}
                             onChange={handleChange}
-                            data-aos="zoom-in" data-aos-delay="500"
+                            data-aos="zoom-in" data-aos-delay="300"
                         />
 
-                        <button type="submit" className="feedback-submit" data-aos="zoom-in" data-aos-delay="500">
+                        <button type="submit" className="feedback-submit" data-aos="zoom-in" data-aos-delay="300">
                             Submit Now
                         </button>
                     </form>
