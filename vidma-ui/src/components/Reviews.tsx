@@ -80,8 +80,8 @@ export default function Reviews() {
 
   return (
     <div className="reviews-outer">
-      <h2 className="title-outer white">What People Say</h2>
-      <p className="title-sub-outer white">
+      <h2 className="title-outer white" data-aos="fade-up">What People Say</h2>
+      <p className="title-sub-outer white" data-aos="fade-up">
         Highly recommended for valuable learning experiences.
       </p>
 
@@ -90,7 +90,7 @@ export default function Reviews() {
           ←
         </button>
 
-        <div className="reviews-track" ref={trackRef}>
+        <div className="reviews-track" ref={trackRef} data-aos="fade-up">
           {reviews.map((r, index) => (
             <div
               key={index}
