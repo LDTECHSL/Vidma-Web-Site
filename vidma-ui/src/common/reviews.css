@@ -76,7 +76,8 @@
 .review-card.active {
   opacity: 1;
   transform: scale(1.1);
-  background: linear-gradient(265deg, #ffffff, #bee0ee);
+  /* background: linear-gradient(265deg, #ffffff, #bee0ee); */
+  background-color: white;
   z-index: 3;
 }
 
