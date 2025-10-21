@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url("../assets/reviews-bg.jpg") center/cover no-repeat;
+  background: url("../assets/reviews-bg.jpg") top/cover no-repeat fixed;
   position: relative;
   overflow: hidden;
   padding: 50px 20px;
@@ -76,7 +76,7 @@
 .review-card.active {
   opacity: 1;
   transform: scale(1.1);
-  background-color: var(--color-text-white);
+  background: linear-gradient(265deg, #ffffff, #bee0ee);
   z-index: 3;
 }
 
@@ -93,10 +93,10 @@
 }
 
 .quote-icon {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   color: #4873ff;
   opacity: 0.5;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
 }
 
 .review-text {
