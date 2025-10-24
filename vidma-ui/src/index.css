@@ -44,11 +44,17 @@
   --gradient: linear-gradient(0deg, var(--color-primary) 0%, var(--color-primary-second) 100%);
 }
 
+*{
+  /* border: 1px solid red; */
+
+}
+
 body {
   font-family: Poppins, sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 .container {

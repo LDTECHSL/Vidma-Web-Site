@@ -62,7 +62,6 @@ export default function Home() {
                             className="w-full h-full object-cover"
                         />
 
-                        {/* Overlay content */}
                         <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-center p-4">
                             <h1 className="text-white text-2xl md:text-4xl font-bold mt-5 mb-5 drop-shadow-lg">
                                 {slide.title}
@@ -96,7 +95,6 @@ export default function Home() {
                     </div>
                 ))}
 
-                {/* Left Arrow */}
                 <button
                     onClick={() =>
                         setCurrentIndex((prev) =>
@@ -108,7 +106,6 @@ export default function Home() {
                     ‹
                 </button>
 
-                {/* Right Arrow */}
                 <button
                     onClick={() =>
                         setCurrentIndex((prev) =>
