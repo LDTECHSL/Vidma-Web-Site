@@ -287,7 +287,7 @@
 
 .footer-outer {
   width: 100%;
-  background-color: var(--color-primary);
+  background-color: #010827;
   padding: 20px 0 0 0;
   text-align: center;
   color: #555555;
@@ -301,7 +301,7 @@
 }
 
 .footer-inner {
-  width: 80%;
+  width: 75%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -309,7 +309,7 @@
 }
 
 .f-title{
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 20px;
   color: var(--color-text-white);
@@ -328,10 +328,32 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: 35px;
+  padding-left: 0px;
 }
 
 .footer-bottom{
-  width: 100%;
+  width: 80%;
   height: 50px;
+}
+
+.footer-awards-outer{
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  padding: 15px 0;
+}
+
+.f{
+  width: 30%;  
+  display: flex;
+  align-items: self-start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-awards-banner{
+  width: 80%;
+  border-radius: 10px;
 }
