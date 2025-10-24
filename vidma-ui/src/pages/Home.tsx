@@ -118,7 +118,6 @@ export default function Home() {
                 </button>
             </div>
 
-
             {/* Brand Names Slider */}
             <BrandNamesSlider />
 
