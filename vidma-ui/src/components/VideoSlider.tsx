@@ -28,10 +28,10 @@ export default function VideoSlider() {
         <div className="video-slider-container">
             {/* Header Section */}
             <div className="video-header">
-                <div className="video-title">
+                <div className="video-title" data-aos="fade-up">
                     <h2>Bringing Innovation, Integrity, and Excellence Together in Every Step</h2>
                 </div>
-                <div className="video-description">
+                <div className="video-description" data-aos="fade-up">
                     <p>
                         “At Vidma Engineering (Pvt) Ltd, we believe true progress begins with integrity and innovation. Every project we undertake reflects our commitment to quality, precision, and long-term reliability — from advanced roofing solutions to sustainable solar systems. Guided by excellence at every step, we continue to build lasting trust and enduring value for our clients.”
                     </p>
@@ -47,7 +47,7 @@ export default function VideoSlider() {
             </div>
 
             {/* Video Row */}
-            <div className="video-slider" ref={sliderRef}>
+            <div className="video-slider" ref={sliderRef} data-aos="fade-up" data-aos-delay="100">
                 {videos.map((url, index) => {
                     const embedUrl =
                         activeIndex === index

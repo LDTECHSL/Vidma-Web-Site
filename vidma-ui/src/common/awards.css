@@ -1,0 +1,94 @@
+.awards-outer {
+  width: 100%;
+  padding: 80px 0;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.awards-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+.awards-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* Slider container */
+.awards-slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Scrolling track */
+.awards-track {
+  display: flex;
+  gap: 25px;
+  animation: scroll 25s linear infinite;
+}
+
+.award-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 300px;
+  height: 400px;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.award-card:hover {
+  transform: scale(1.05);
+}
+
+.award-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.award-info {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.award-info h3 {
+  font-size: 1rem;
+  color: #222;
+  margin: 5px 0;
+}
+
+.award-info p {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* Infinite scroll animation */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 📱 Mobile responsive */
+@media (max-width: 768px) {
+  .award-card {
+    width: 220px;
+  }
+
+  .award-card img {
+    height: 130px;
+  }
+
+  .awards-title {
+    font-size: 1.5rem;
+  }
+}

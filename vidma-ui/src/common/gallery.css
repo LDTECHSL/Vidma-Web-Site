@@ -1,0 +1,218 @@
+.gallery-outer {
+    width: 100%;
+    height: auto;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background: url("../assets/projects-bg.jpg") center/cover no-repeat fixed;
+}
+
+.gallery-modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+.gallery-outer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.538);
+    /* overlay darkness */
+    z-index: 1;
+}
+
+.gallery-outer>* {
+    position: relative;
+    z-index: 2;
+}
+
+.gallery-sub-outer {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.gallery-item {
+    cursor: pointer;
+    background: #ffffff00;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    /* box-shadow: 0 4px 12px rgba(255, 255, 255, 0.56); */
+}
+
+.gallery-item:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+/* --- 3-image thumbnail layout --- */
+.gallery-thumbnail {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: 250px;
+    gap: 2px;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+}
+
+.thumb-left {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+}
+
+.thumb-left img,
+.thumb-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Title + count below images --- */
+.gallery-info {
+    padding: 10px 15px 15px;
+    background: #ffffffa9;
+}
+
+.gallery-info h3 {
+    font-size: 1rem;
+    margin: 5px 0 3px;
+    font-weight: 600;
+    color: #222;
+}
+
+.gallery-info p {
+    font-size: 0.9rem;
+    color: #4b4a4a;
+    margin: 0;
+}
+
+/* --- Modal --- */
+.gallery-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.725);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 40px 20px;
+}
+
+.gallery-modal-content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    width: 95%;
+    max-width: 1200px;
+    max-height: 80vh;
+    color: #000000;
+    position: relative;
+    overflow-y: auto;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+.gallery-modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #000000;
+}
+
+/* Larger, more spaced grid */
+.gallery-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.gallery-modal-grid img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-modal-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Close button */
+.gallery-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    color: #000;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* 📱 Responsive modal */
+@media (max-width: 768px) {
+    .gallery-modal-content {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .gallery-modal-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .gallery-modal-grid img {
+        height: 140px;
+    }
+
+    .gallery-modal-content h2 {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* 📱 Mobile Responsive */
+@media (max-width: 600px) {
+    .gallery-thumbnail {
+        grid-template-columns: 1fr 1fr;
+        height: 140px;
+    }
+
+    .thumb-left {
+        grid-template-rows: 1fr;
+    }
+
+    .thumb-left img {
+        height: 100%;
+    }
+
+    .gallery-info h3 {
+        font-size: 0.9rem;
+    }
+
+    .gallery-modal-grid img {
+        height: 120px;
+    }
+}

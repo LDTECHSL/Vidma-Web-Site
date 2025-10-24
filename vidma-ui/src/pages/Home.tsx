@@ -8,6 +8,13 @@ import AboutUs from "../components/AboutUs";
 import Services from "../components/Services";
 import Products from "../components/Products";
 import VideoSlider from "../components/VideoSlider";
+import ContactUs from "../components/ContactUs";
+import ProjectsGallery from "../components/ProjectsGallery";
+import Awards from "../components/Awards";
+import Feedback from "../components/Feedback";
+import Team from "../components/Team";
+import Reviews from "../components/Reviews";
+import Stats from "../components/Stats";
 
 export default function Home() {
     const slides = [
@@ -129,8 +136,29 @@ export default function Home() {
             {/* Products */}
             <Products />
 
+            {/* Contact Us */}
+            <ContactUs />
+
             {/* Video Slider */}
             <VideoSlider />
+
+            {/* Projects Gallery */}
+            <ProjectsGallery />
+
+            {/* Awards */}
+            <Awards />
+
+            {/* Feedback */}
+            <Feedback />
+
+            {/* Team Section */}
+            <Team />
+
+            {/* Reviews */}
+            <Reviews />
+
+            {/* Stats */}
+            <Stats />
         </Main>
     );
 }
