@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Domain.Entities.Sections;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.UserStories.Hero.Commands;
 
@@ -51,6 +52,15 @@ public class CreateCommandHandler : IRequestHandler<CreateHeroCommand, Result>
     {
         try
         {
+            var existingHero = await _context.Hero.FirstOrDefaultAsync(cancellationToken);
+
+            if (existingHero != null)
+            {
+                _context.Hero.Remove(existingHero);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
+
             var hero = new Domain.Entities.Sections.Hero
             {
                 FirstHero = new FirstHero
