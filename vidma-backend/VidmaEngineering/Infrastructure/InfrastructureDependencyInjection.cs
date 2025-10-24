@@ -19,6 +19,7 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         
          services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IDropBoxService, DropBoxService>();
         // services.AddScoped<ICurrentUserService, CurrentUserService>();
         // services.AddSingleton<IImageUploadService, ImageUploadService>();
         // services.AddSingleton<IChatService, ChatService>();
