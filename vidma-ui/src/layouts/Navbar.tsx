@@ -117,25 +117,7 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Hero Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/hero-section",
-        },
-        {
-            group: "Contents",
-            name: "Orders",
-            icon: <EmojiEventsTwoTone style={{ fontSize: "18px" }} />,
-            path: "/admin/orders",
-        },
-        {
-            group: "User Management",
-            name: "Users",
-            icon: <AccountCircleTwoTone style={{ fontSize: "18px" }} />,
-            path: "/admin/users",
-        },
-        {
-            group: "User Management",
-            name: "Roles",
-            icon: <AccountCircleTwoTone style={{ fontSize: "18px" }} />,
-            path: "/admin/roles",
-        },
+        }
     ];
 
     const groupedItems = drawerItems.reduce((acc, item) => {
