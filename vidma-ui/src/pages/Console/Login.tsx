@@ -24,7 +24,7 @@ export default function Login() {
     try {
         const response = await login(body);
         sessionStorage.setItem("vidmaAuthToken", response.token);
-        navigate("/console/landing");
+        navigate("/vidma/console/landing");
     } catch (error) {
         showError("Invalid username or password");        
     }
