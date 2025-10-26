@@ -18,7 +18,7 @@ import {
     PowerSettingsNewTwoTone,
     RocketLaunchTwoTone,
 } from "@mui/icons-material";
-import {  } from "react";
+import { } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../common/navbar.css";
 import {
@@ -85,6 +85,7 @@ export interface NavChild {
 }
 
 export interface NavItem {
+    group?: string;
     name: string;
     icon: React.ReactElement;
     path?: string;
@@ -94,8 +95,6 @@ export interface NavItem {
 export default function Navbar({ children }: Readonly<Props>) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md")); // mobile detection
-
-    const [logoutOpen, setLogoutOpen] = React.useState(false);
     const [open] = React.useState(true);
     const [mobileOpen, setMobileOpen] = React.useState(false); // mobile drawer state
     const [expanded, setExpanded] = React.useState<number | null>(null);
@@ -108,33 +107,50 @@ export default function Navbar({ children }: Readonly<Props>) {
 
     const handleLogout = () => {
         // Perform logout logic here
-        sessionStorage.removeItem("username");
-        navigate("/admin/login");
+        sessionStorage.removeItem("vidmaAuthToken");
+        navigate("/console/login");
     };
 
-    const drawerItems : NavItem[] = [
+    const drawerItems: NavItem[] = [
         {
-            name: "Dashboard",
+            group: "Contents",
+            name: "Hero Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
-            path: "/admin/dashboard",
+            path: "/vidma/console/hero-section",
         },
         {
-            name: "Menu",
-            icon: <AccountCircleTwoTone style={{ fontSize: "18px" }} />,
-            path: "/admin/menu",
-        },
-        {
+            group: "Contents",
             name: "Orders",
             icon: <EmojiEventsTwoTone style={{ fontSize: "18px" }} />,
             path: "/admin/orders",
         },
+        {
+            group: "User Management",
+            name: "Users",
+            icon: <AccountCircleTwoTone style={{ fontSize: "18px" }} />,
+            path: "/admin/users",
+        },
+        {
+            group: "User Management",
+            name: "Roles",
+            icon: <AccountCircleTwoTone style={{ fontSize: "18px" }} />,
+            path: "/admin/roles",
+        },
     ];
+
+    const groupedItems = drawerItems.reduce((acc, item) => {
+        const group = item.group || "Other";
+        if (!acc[group]) acc[group] = [];
+        acc[group].push(item);
+        return acc;
+    }, {} as Record<string, NavItem[]>);
+
 
     const renderDrawerContent = (
         <div>
             <div className="drawer-header">
                 {/* <img className="drawer-logo" src={logo} alt="" /> */}
-                <Typography style={{ marginLeft: "25px" }} className="drawer-logo-txt">Food Palace</Typography>
+                <Typography style={{ marginLeft: "25px" }} className="drawer-logo-txt">Vidma Super Console</Typography>
 
                 {isMobile && (
                     <IconButton
@@ -147,100 +163,121 @@ export default function Navbar({ children }: Readonly<Props>) {
             </div>
             <Divider sx={{ borderColor: "var(--text-color)" }} />
             <List>
-                {drawerItems.map((item, index) => {
-                    const isParentActive =
-                        item.path === location.pathname ||
-                        item.children?.some((c) => c.path === location.pathname);
+                {Object.entries(groupedItems).map(([groupName, items]) => (
+                    <React.Fragment key={groupName}>
+                        {/* Group Label */}
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                pl: open ? 2.5 : 1,
+                                pr: 2,
+                                pt: 2,
+                                pb: 1,
+                                textTransform: "uppercase",
+                                letterSpacing: "0.05em",
+                                color: "#9e9e9e",
+                                fontSize: "11px",
+                                transition: "opacity 0.3s",
+                                opacity: open ? 1 : 0,
+                            }}
+                        >
+                            {groupName}
+                        </Typography>
 
-                    return (
-                        <React.Fragment key={index}>
-                            <ListItem disablePadding sx={{ display: "block" }}>
-                                <ListItemButton
-                                    onClick={() =>
-                                        item.children
-                                            ? setExpanded(expanded === index ? null : index)
-                                            : item.path && navigate(item.path)
-                                    }
-                                    sx={{
-                                        minHeight: 48,
-                                        px: 2.5,
-                                        backgroundColor: isParentActive
-                                            ? "rgba(110, 109, 109, 0.29)"
-                                            : "transparent",
-                                        borderRight: isParentActive ? "4px solid #7d7d7dff" : "none",
-                                        color: isParentActive ? "#7d7d7dff" : "white",
-                                        "&:hover": {
-                                            backgroundColor: isParentActive
-                                                ? "rgba(110, 109, 109, 0.29)"
-                                                : "rgba(57, 56, 56, 0.08)",
-                                        },
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            justifyContent: "center",
-                                            mr: open ? 2 : "auto",
-                                            color: isParentActive ? "#7d7d7dff" : "white",
-                                        }}
-                                    >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={item.name}
-                                        primaryTypographyProps={{ fontSize: "13px" }}
-                                        sx={{
-                                            opacity: open ? 1 : 0,
-                                            color: isParentActive ? "#7d7d7dff" : "white",
-                                        }}
-                                    />
-                                    {item.children &&
-                                        (expanded === index ? <ExpandLess /> : <ExpandMore />)}
-                                </ListItemButton>
-                            </ListItem>
+                        {items.map((item, index) => {
+                            const isParentActive =
+                                item.path === location.pathname ||
+                                item.children?.some((c) => c.path === location.pathname);
 
-                            {item.children && (
-                                <Collapse in={expanded === index} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        {item.children.map((child, cIdx) => {
-                                            const isChildActive = child.path === location.pathname;
-                                            return (
-                                                <ListItem key={cIdx} disablePadding sx={{ pl: open ? 4 : 2 }}>
-                                                    <ListItemButton
-                                                        onClick={() => child.path && navigate(child.path)}
-                                                        sx={{
-                                                            m: "2px 8px",
-                                                            borderRadius: "6px",
-                                                            color: isChildActive ? "#7d7d7dff" : "white",
-                                                            backgroundColor: isChildActive
-                                                                ? "rgba(110, 109, 109, 0.29)"
-                                                                : "transparent",
-                                                            "&:hover": {
-                                                                backgroundColor: isChildActive
-                                                                    ? "rgba(110, 109, 109, 0.29)"
-                                                                    : "rgba(57, 56, 56, 0.08)",
-                                                            },
-                                                        }}
-                                                    >
-                                                        <ListItemText
-                                                            primary={child.name}
-                                                            primaryTypographyProps={{ fontSize: "12px" }}
-                                                            sx={{
-                                                                opacity: open ? 1 : 0,
-                                                                color: isChildActive ? "#7d7d7dff" : "white",
-                                                            }}
-                                                        />
-                                                    </ListItemButton>
-                                                </ListItem>
-                                            );
-                                        })}
-                                    </List>
-                                </Collapse>
-                            )}
-                        </React.Fragment>
-                    );
-                })}
+                            return (
+                                <React.Fragment key={item.name + index}>
+                                    <ListItem disablePadding sx={{ display: "block" }}>
+                                        <ListItemButton
+                                            onClick={() =>
+                                                item.children
+                                                    ? setExpanded(expanded === index ? null : index)
+                                                    : item.path && navigate(item.path)
+                                            }
+                                            sx={{
+                                                minHeight: 48,
+                                                px: 2.5,
+                                                backgroundColor: isParentActive
+                                                    ? "rgba(110, 109, 109, 0.29)"
+                                                    : "transparent",
+                                                borderRight: isParentActive ? "4px solid #7d7d7dff" : "none",
+                                                color: isParentActive ? "#7d7d7dff" : "white",
+                                                "&:hover": {
+                                                    backgroundColor: "rgba(57, 56, 56, 0.08)",
+                                                },
+                                            }}
+                                        >
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 0,
+                                                    justifyContent: "center",
+                                                    mr: open ? 2 : "auto",
+                                                    color: isParentActive ? "#7d7d7dff" : "white",
+                                                }}
+                                            >
+                                                {item.icon}
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={item.name}
+                                                primaryTypographyProps={{ fontSize: "13px" }}
+                                                sx={{
+                                                    opacity: open ? 1 : 0,
+                                                    color: isParentActive ? "#7d7d7dff" : "white",
+                                                }}
+                                            />
+                                            {item.children &&
+                                                (expanded === index ? <ExpandLess /> : <ExpandMore />)}
+                                        </ListItemButton>
+                                    </ListItem>
+
+                                    {/* Render children if exist */}
+                                    {item.children && (
+                                        <Collapse in={expanded === index} timeout="auto" unmountOnExit>
+                                            <List component="div" disablePadding>
+                                                {item.children.map((child, cIdx) => {
+                                                    const isChildActive = child.path === location.pathname;
+                                                    return (
+                                                        <ListItem key={cIdx} disablePadding sx={{ pl: open ? 4 : 2 }}>
+                                                            <ListItemButton
+                                                                onClick={() => child.path && navigate(child.path)}
+                                                                sx={{
+                                                                    m: "2px 8px",
+                                                                    borderRadius: "6px",
+                                                                    color: isChildActive ? "#7d7d7dff" : "white",
+                                                                    backgroundColor: isChildActive
+                                                                        ? "rgba(110, 109, 109, 0.29)"
+                                                                        : "transparent",
+                                                                    "&:hover": {
+                                                                        backgroundColor: "rgba(57, 56, 56, 0.08)",
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <ListItemText
+                                                                    primary={child.name}
+                                                                    primaryTypographyProps={{ fontSize: "12px" }}
+                                                                    sx={{
+                                                                        opacity: open ? 1 : 0,
+                                                                        color: isChildActive ? "#7d7d7dff" : "white",
+                                                                    }}
+                                                                />
+                                                            </ListItemButton>
+                                                        </ListItem>
+                                                    );
+                                                })}
+                                            </List>
+                                        </Collapse>
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
+                    </React.Fragment>
+                ))}
             </List>
+
 
             <Divider sx={{ borderColor: "var(--text-color)" }} />
             <List>

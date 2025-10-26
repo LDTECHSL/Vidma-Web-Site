@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Console/Login';
-import Landing from './pages/Console/Landing';
+import Landing from './pages/Console/HeroSection';
 import Toast from './components/Toast';
 import Navbar from './layouts/Navbar';
+import HeroSection from './pages/Console/HeroSection';
 
 const App: React.FC = () => {
 
@@ -16,7 +17,7 @@ const App: React.FC = () => {
       {isAdminRoute ? (
         <Navbar>
           <Routes>
-            <Route path="/vidma/console/landing" element={<Landing />} />
+            <Route path="/vidma/console/hero-section" element={<HeroSection />} />
           </Routes>
         </Navbar>
       ) : (

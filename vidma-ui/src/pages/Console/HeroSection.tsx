@@ -1,7 +1,7 @@
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Landing() {
+export default function HeroSection() {
 
     const navigate = useNavigate();
 
