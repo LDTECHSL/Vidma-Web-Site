@@ -1,5 +1,6 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<User> User { get; set; }
     public DbSet<Hero> Hero { get; set; }
+    public DbSet<ContactUs> ContactUs { get; set; }
+   
+    public DbSet<Location> Location { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

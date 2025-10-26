@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -12,6 +13,8 @@ public interface IApplicationDbContext
     DbSet<User> User { get; }
     
     DbSet<Hero> Hero { get; }
+    DbSet<Location> Location { get; }
+    DbSet<ContactUs> ContactUs { get; }
 
 
     
