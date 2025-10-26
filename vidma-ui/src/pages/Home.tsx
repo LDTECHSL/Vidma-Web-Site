@@ -63,10 +63,10 @@ export default function Home() {
             />
 
             <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-center p-4">
-              <h1 className="text-white text-2xl md:text-4xl font-bold mt-5 mb-5 drop-shadow-lg">
+              <h1 className="text-white text-2xl md:text-4xl font-bold mt-5 mb-5 drop-shadow-lg max-w-[800px]">
                 {slide.title}
               </h1>
-              <p className="text-white text-base md:text-md mt-5 mb-5 max-w-xl drop-shadow-md">
+              <p className="text-white text-base md:text-md mt-5 mb-5 max-w-[700px] drop-shadow-md">
                 {slide.text}
               </p>
               <div className="wrapper">
