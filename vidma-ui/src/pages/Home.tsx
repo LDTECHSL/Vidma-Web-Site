@@ -123,10 +123,19 @@ export default function Home() {
         <AboutUs />
       </div>
       <Services />
-      <Products />
-      <ContactUs />
+      <div id="products">
+        <Products />
+      </div>
+
+      <div id="contact">
+        <ContactUs />
+      </div>
+      
       <VideoSlider />
-      <ProjectsGallery />
+      <div id="projects">
+        <ProjectsGallery />
+      </div>
+      
       <Awards />
       <Feedback />
       <Team />

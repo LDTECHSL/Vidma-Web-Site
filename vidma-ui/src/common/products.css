@@ -7,8 +7,8 @@
 
 .products-outer {
     width: 100%;
-    height: 100vh;
-    padding-top: 25px;
+    height: auto;
+    padding: 45px 0;
     /* border: 1px solid red; */
     display: flex;
     flex-direction: column;

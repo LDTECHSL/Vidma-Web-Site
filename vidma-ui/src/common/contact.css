@@ -1,7 +1,7 @@
 .contact-outer{
     width: 100%;
     height: auto;
-    padding-bottom: 40px;
+    padding: 45px 0;
     display: flex;
     flex-direction: column;
     align-items: center;

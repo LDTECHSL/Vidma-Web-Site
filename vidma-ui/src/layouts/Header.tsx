@@ -49,19 +49,19 @@ const Header: React.FC = () => {
 
         <nav className={`nav-links ${isMobileMenuOpen ? "open" : ""} md:flex`}>
           <a
-            href="/products"
+            href="#products"
             className={`nav-link ${isActive("/products") ? "active" : ""}`}
           >
             {t("products")}
           </a>
           <a
-            href="/projects"
+            href="#projects"
             className={`nav-link ${isActive("/projects") ? "active" : ""}`}
           >
             {t("projects")}
           </a>
           <a
-            href="contact"
+            href="#contact"
             className={`nav-link ${isActive("/contact") ? "active" : ""}`}
           >
             {t("contact")}
