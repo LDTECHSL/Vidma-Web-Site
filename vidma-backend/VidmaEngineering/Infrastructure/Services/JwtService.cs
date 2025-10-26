@@ -16,19 +16,18 @@ public class JwtService : IJwtService
     {
         _configuration = configuration;
     }
-    
+
     public string GenerateToken(User user)
     {
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Role, "User"),
-            new Claim(ClaimTypes.Email, user.Email)
         };
 
         return GenerateJwtToken(claims);
     }
-    
+
     private string GenerateJwtToken(IEnumerable<Claim> claims)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-32-characters-long-secret-key-here"));
