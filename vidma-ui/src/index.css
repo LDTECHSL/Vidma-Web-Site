@@ -1,4 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT&display=swap');
+/* English font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Sinhala font */
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;600&display=swap');
+
+/* Tamil font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600&display=swap');
+
+/* Default English */
+html[lang="en"] body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Sinhala */
+html[lang="si"] body {
+  font-family: 'Abhaya Libre';
+}
+
+/* Tamil */
+html[lang="ta"] body {
+  font-family: 'Noto Sans Tamil';
+}
+
 
 @tailwind base;
 @tailwind components;

@@ -14,14 +14,16 @@ const Header: React.FC = () => {
     const lang = e.target.value;
     setLanguage(lang);
     i18n.changeLanguage(lang);
+    document.documentElement.lang = lang;
   };
+
 
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   console.log(location.pathname);
-  
+
 
   const isActive = (path: string): boolean => location.pathname === path;
   const isHome = location.pathname === "/";
@@ -36,9 +38,8 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`header ${scrolled ? "scrolled" : ""} ${
-        !isHome ? "scrolled" : ""
-      }`}
+      className={`header ${scrolled ? "scrolled" : ""} ${!isHome ? "scrolled" : ""
+        }`}
     >
       <div className="container flex items-center justify-between">
         <img className="logo-img" src={logo} alt="Logo" />
