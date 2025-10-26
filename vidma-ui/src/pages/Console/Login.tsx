@@ -1,19 +1,33 @@
 import "../../common/main.css";
 import "../../common/login.css";
 import { useState } from "react";
-import logo from "../../assets/vidma-logo.png"
 import adminLogo from "../../assets/admin.png"
 import Divider from "@mui/material/Divider";
+import { login } from "../../services/auth-api";
+import { useNavigate } from "react-router-dom";
+import { showError } from "../../components/Toast";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Username:", username);
-    console.log("Password:", password);
-    // 🔐 TODO: Call your login API here
+
+    const body = {
+        username,
+        password
+    }
+
+    try {
+        const response = await login(body);
+        sessionStorage.setItem("vidmaAuthToken", response.token);
+        navigate("/console/landing");
+    } catch (error) {
+        showError("Invalid username or password");        
+    }
   };
 
   return (
