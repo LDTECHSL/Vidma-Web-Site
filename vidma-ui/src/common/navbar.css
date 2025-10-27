@@ -276,19 +276,6 @@
     margin-left: 10px;
 }
 
-.primary-button{
-    background-color: var(--primary-color) !important;
-    color: white !important;
-    font-weight: bold !important;
-}
-
-.secondary-button{
-    background-color: white !important;
-    color: var(--primary-color) !important;
-    font-weight: bold !important;
-    border: 2px solid var(--primary-color) !important;
-}
-
 @media (max-width: 426px){
     .username{
         display: none !important;

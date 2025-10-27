@@ -72,6 +72,11 @@
   background-color: #1565c0;
 }
 
+.submit-btn:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
+}
+
 /* Dropzone & preview styles */
 .dropzone {
   border: 2px dashed #cfcfcf;

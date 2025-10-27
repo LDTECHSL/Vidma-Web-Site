@@ -1,7 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Console/Login';
-import Landing from './pages/Console/HeroSection';
 import Toast from './components/Toast';
 import Navbar from './layouts/Navbar';
 import HeroSection from './pages/Console/HeroSection';

@@ -2,6 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import "../../common/admin.css";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { createHeroData, getHeroAllData } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
 
 export default function HeroSection() {
   const navigate = useNavigate();
@@ -13,6 +16,9 @@ export default function HeroSection() {
     }
   }, [navigate, token]);
 
+  const [open, setOpen] = useState(false);
+  const [isExisting, setIsExisting] = useState(false);
+
   // ---------- SLIDE 1 ----------
   const [FirstHeroEnglishTitle, setFirstHeroEnglishTitle] = useState("");
   const [FirstHeroSinhalaTitle, setFirstHeroSinhalaTitle] = useState("");
@@ -22,6 +28,7 @@ export default function HeroSection() {
   const [FirstHeroTamilText, setFirstHeroTamilText] = useState("");
   const [FirstHeroImage, setFirstHeroImage] = useState<File | null>(null);
   const [FirstHeroImageError, setFirstHeroImageError] = useState<string | null>(null);
+  const [FirstImage, setFirstImage] = useState<string>("");
 
   // ---------- SLIDE 2 ----------
   const [SecondHeroEnglishTitle, setSecondHeroEnglishTitle] = useState("");
@@ -32,6 +39,7 @@ export default function HeroSection() {
   const [SecondHeroTamilText, setSecondHeroTamilText] = useState("");
   const [SecondHeroImage, setSecondHeroImage] = useState<File | null>(null);
   const [SecondHeroImageError, setSecondHeroImageError] = useState<string | null>(null);
+  const [SecondImage, setSecondImage] = useState<string>("");
 
   // ---------- SLIDE 3 ----------
   const [ThirdHeroEnglishTitle, setThirdHeroEnglishTitle] = useState("");
@@ -42,6 +50,50 @@ export default function HeroSection() {
   const [ThirdHeroTamilText, setThirdHeroTamilText] = useState("");
   const [ThirdHeroImage, setThirdHeroImage] = useState<File | null>(null);
   const [ThirdHeroImageError, setThirdHeroImageError] = useState<string | null>(null);
+  const [ThirdImage, setThirdImage] = useState<string>("");
+
+  const getHeroDetails = async () => {
+    try {
+      const response = await getHeroAllData(token);
+      console.log(response.data.slides);
+      const slides = response.data.slides;
+      if (slides.length > 0) {
+        setIsExisting(true);
+        const slide1 = slides[0];
+        setFirstHeroEnglishTitle(slide1.english.title || "");
+        setFirstHeroSinhalaTitle(slide1.sinhala.title || "");
+        setFirstHeroTamilTitle(slide1.tamil.title || "");
+        setFirstHeroEnglishText(slide1.english.text || "");
+        setFirstHeroSinhalaText(slide1.sinhala.text || "");
+        setFirstHeroTamilText(slide1.tamil.text || "");
+        setFirstImage(slide1.image.replace("dl=0", "raw=1")|| "");
+        const slide2 = slides[1];
+        setSecondHeroEnglishTitle(slide2.english.title || "");
+        setSecondHeroSinhalaTitle(slide2.sinhala.title || "");
+        setSecondHeroTamilTitle(slide2.tamil.title || "");
+        setSecondHeroEnglishText(slide2.english.text || "");
+        setSecondHeroSinhalaText(slide2.sinhala.text || "");
+        setSecondHeroTamilText(slide2.tamil.text || "");
+        setSecondImage(slide2.image.replace("dl=0", "raw=1")|| "");
+        const slide3 = slides[2];
+        setThirdHeroEnglishTitle(slide3.english.title || "");
+        setThirdHeroSinhalaTitle(slide3.sinhala.title || "");
+        setThirdHeroTamilTitle(slide3.tamil.title || "");
+        setThirdHeroEnglishText(slide3.english.text || "");
+        setThirdHeroSinhalaText(slide3.sinhala.text || "");
+        setThirdHeroTamilText(slide3.tamil.text || "");
+        setThirdImage(slide3.image.replace("dl=0", "raw=1")|| "");
+      } else {
+        setIsExisting(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getHeroDetails();
+  }, []);
 
   // aspect ratio validation: 3:2 => width / height = 1.5
   const validateAspectRatio = (file: File, expectedRatio = 3 / 2, tolerance = 0.075) =>
@@ -122,7 +174,7 @@ export default function HeroSection() {
     setError(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data = new FormData();
 
     // Slide 1
@@ -152,13 +204,28 @@ export default function HeroSection() {
     data.append("ThirdHeroTamilText", ThirdHeroTamilText);
     if (ThirdHeroImage) data.append("ThirdHeroImage", ThirdHeroImage);
 
-    console.log("Submitting Hero Section Data...");
-    // TODO: make API request, e.g. fetch('/api/hero', { method: 'POST', body: data })
+    setOpen(true);
+    try {
+      await createHeroData(data, token);
+      showSuccess("Hero section updated successfully.");
+    } catch (error) {
+      showError("Failed to update hero section.");
+    } finally {
+      getHeroDetails();
+      setOpen(false);
+    }
   };
 
   return (
     <div>
       <BreadCrumb title="Hero Section" />
+
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        open={open}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       <div className="hero-section-container">
         {/* ---------- SLIDE 1 ---------- */}
@@ -216,60 +283,71 @@ export default function HeroSection() {
             ></textarea>
           </div>
 
-          <div
-            className="dropzone"
-            onDragOver={onDragOver}
-            onDrop={(e) => {
-              e.preventDefault();
-              const file = e.dataTransfer.files && e.dataTransfer.files[0] ? e.dataTransfer.files[0] : null;
-              handleFirstDrop(file);
-            }}
-            onClick={() => {
-              // click to open hidden input
-              const el = document.getElementById("first-file-input") as HTMLInputElement | null;
-              el?.click();
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            <input
-              id="first-file-input"
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => handleFileInput(e, handleFirstDrop)}
-            />
-            {!FirstHeroImage ? (
-              <div className="dropzone-content">
-                <div className="dropzone-icon">⤓</div>
-                <div className="dropzone-text">
-                  Drop image here or click to select
-                  <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
-                </div>
-              </div>
-            ) : (
-              <div className="preview-wrap">
-                <img
-                  src={URL.createObjectURL(FirstHeroImage)}
-                  alt="Slide 1 Preview"
-                  className="preview-img"
-                />
-                <div className="preview-actions">
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      removeFile(setFirstHeroImage, setFirstHeroImageError);
-                    }}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          {!isExisting && (
+            <div
+              className="dropzone"
+              onDragOver={onDragOver}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files && e.dataTransfer.files[0] ? e.dataTransfer.files[0] : null;
+                handleFirstDrop(file);
+              }}
+              onClick={() => {
+                // click to open hidden input
+                const el = document.getElementById("first-file-input") as HTMLInputElement | null;
+                el?.click();
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              <input
+                id="first-file-input"
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => handleFileInput(e, handleFirstDrop)}
+              />
 
+
+              <>
+                {!FirstHeroImage ? (
+                  <div className="dropzone-content">
+                    <div className="dropzone-icon">⤓</div>
+                    <div className="dropzone-text">
+                      Drop image here or click to select
+                      <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="preview-wrap">
+                    <img
+                      src={URL.createObjectURL(FirstHeroImage)}
+                      alt="Slide 1 Preview"
+                      className="preview-img"
+                    />
+                    <div className="preview-actions">
+                      <button
+                        type="button"
+                        className="remove-btn"
+                        onClick={(ev) => {
+                          ev.stopPropagation();
+                          removeFile(setFirstHeroImage, setFirstHeroImageError);
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+
+
+            </div>
+          )}
+
+          {isExisting && (
+            <img style={{marginTop: "35px", borderRadius: "10px"}} src={FirstImage} alt="" />
+          )}
           {FirstHeroImageError && <div className="error-text">{FirstHeroImageError}</div>}
         </div>
 
@@ -328,58 +406,64 @@ export default function HeroSection() {
             ></textarea>
           </div>
 
-          <div
-            className="dropzone"
-            onDragOver={onDragOver}
-            onDrop={(e) => {
-              e.preventDefault();
-              const file = e.dataTransfer.files && e.dataTransfer.files[0] ? e.dataTransfer.files[0] : null;
-              handleSecondDrop(file);
-            }}
-            onClick={() => {
-              const el = document.getElementById("second-file-input") as HTMLInputElement | null;
-              el?.click();
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            <input
-              id="second-file-input"
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => handleFileInput(e, handleSecondDrop)}
-            />
-            {!SecondHeroImage ? (
-              <div className="dropzone-content">
-                <div className="dropzone-icon">⤓</div>
-                <div className="dropzone-text">
-                  Drop image here or click to select
-                  <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+          {!isExisting && (
+            <div
+              className="dropzone"
+              onDragOver={onDragOver}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files && e.dataTransfer.files[0] ? e.dataTransfer.files[0] : null;
+                handleSecondDrop(file);
+              }}
+              onClick={() => {
+                const el = document.getElementById("second-file-input") as HTMLInputElement | null;
+                el?.click();
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              <input
+                id="second-file-input"
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => handleFileInput(e, handleSecondDrop)}
+              />
+              {!SecondHeroImage ? (
+                <div className="dropzone-content">
+                  <div className="dropzone-icon">⤓</div>
+                  <div className="dropzone-text">
+                    Drop image here or click to select
+                    <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="preview-wrap">
-                <img
-                  src={URL.createObjectURL(SecondHeroImage)}
-                  alt="Slide 2 Preview"
-                  className="preview-img"
-                />
-                <div className="preview-actions">
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      removeFile(setSecondHeroImage, setSecondHeroImageError);
-                    }}
-                  >
-                    Remove
-                  </button>
+              ) : (
+                <div className="preview-wrap">
+                  <img
+                    src={URL.createObjectURL(SecondHeroImage)}
+                    alt="Slide 2 Preview"
+                    className="preview-img"
+                  />
+                  <div className="preview-actions">
+                    <button
+                      type="button"
+                      className="remove-btn"
+                      onClick={(ev) => {
+                        ev.stopPropagation();
+                        removeFile(setSecondHeroImage, setSecondHeroImageError);
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
+
+          {isExisting && (
+            <img style={{marginTop: "35px", borderRadius: "10px"}} src={SecondImage} alt="" />
+          )}
 
           {SecondHeroImageError && <div className="error-text">{SecondHeroImageError}</div>}
         </div>
@@ -439,58 +523,64 @@ export default function HeroSection() {
             ></textarea>
           </div>
 
-          <div
-            className="dropzone"
-            onDragOver={onDragOver}
-            onDrop={(e) => {
-              e.preventDefault();
-              const file = e.dataTransfer.files && e.dataTransfer.files[0] ? e.dataTransfer.files[0] : null;
-              handleThirdDrop(file);
-            }}
-            onClick={() => {
-              const el = document.getElementById("third-file-input") as HTMLInputElement | null;
-              el?.click();
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            <input
-              id="third-file-input"
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => handleFileInput(e, handleThirdDrop)}
-            />
-            {!ThirdHeroImage ? (
-              <div className="dropzone-content">
-                <div className="dropzone-icon">⤓</div>
-                <div className="dropzone-text">
-                  Drop image here or click to select
-                  <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+          {!isExisting && (
+            <div
+              className="dropzone"
+              onDragOver={onDragOver}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files && e.dataTransfer.files[0] ? e.dataTransfer.files[0] : null;
+                handleThirdDrop(file);
+              }}
+              onClick={() => {
+                const el = document.getElementById("third-file-input") as HTMLInputElement | null;
+                el?.click();
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              <input
+                id="third-file-input"
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => handleFileInput(e, handleThirdDrop)}
+              />
+              {!ThirdHeroImage ? (
+                <div className="dropzone-content">
+                  <div className="dropzone-icon">⤓</div>
+                  <div className="dropzone-text">
+                    Drop image here or click to select
+                    <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="preview-wrap">
-                <img
-                  src={URL.createObjectURL(ThirdHeroImage)}
-                  alt="Slide 3 Preview"
-                  className="preview-img"
-                />
-                <div className="preview-actions">
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      removeFile(setThirdHeroImage, setThirdHeroImageError);
-                    }}
-                  >
-                    Remove
-                  </button>
+              ) : (
+                <div className="preview-wrap">
+                  <img
+                    src={URL.createObjectURL(ThirdHeroImage)}
+                    alt="Slide 3 Preview"
+                    className="preview-img"
+                  />
+                  <div className="preview-actions">
+                    <button
+                      type="button"
+                      className="remove-btn"
+                      onClick={(ev) => {
+                        ev.stopPropagation();
+                        removeFile(setThirdHeroImage, setThirdHeroImageError);
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
+
+          {isExisting && (
+            <img style={{marginTop: "35px", borderRadius: "10px"}} src={ThirdImage} alt="" />
+          )}
 
           {ThirdHeroImageError && <div className="error-text">{ThirdHeroImageError}</div>}
         </div>
@@ -498,8 +588,30 @@ export default function HeroSection() {
 
       </div>{/* ---------- SUBMIT BUTTON ---------- */}
       <div className="submit-container">
-        <button className="submit-btn" onClick={handleSubmit}>
-          Submit All Slides
+        <button className="submit-btn" disabled={
+          FirstHeroEnglishTitle.trim() === "" &&
+          FirstHeroSinhalaTitle.trim() === "" &&
+          FirstHeroTamilTitle.trim() === "" &&
+          FirstHeroEnglishText.trim() === "" &&
+          FirstHeroSinhalaText.trim() === "" &&
+          FirstHeroTamilText.trim() === "" &&
+          !FirstHeroImage &&
+          SecondHeroEnglishTitle.trim() === "" &&
+          SecondHeroSinhalaTitle.trim() === "" &&
+          SecondHeroTamilTitle.trim() === "" &&
+          SecondHeroEnglishText.trim() === "" &&
+          SecondHeroSinhalaText.trim() === "" &&
+          SecondHeroTamilText.trim() === "" &&
+          !SecondHeroImage &&
+          ThirdHeroEnglishTitle.trim() === "" &&
+          ThirdHeroSinhalaTitle.trim() === "" &&
+          ThirdHeroTamilTitle.trim() === "" &&
+          ThirdHeroEnglishText.trim() === "" &&
+          ThirdHeroSinhalaText.trim() === "" &&
+          ThirdHeroTamilText.trim() === "" &&
+          !ThirdHeroImage
+        } onClick={handleSubmit}>
+          Submit
         </button>
       </div>
     </div>
