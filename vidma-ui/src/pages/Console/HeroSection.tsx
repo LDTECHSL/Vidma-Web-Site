@@ -181,11 +181,6 @@ export default function HeroSection() {
       return;
     }
 
-    if( FirstHeroImage === null && SecondHeroImage === null && ThirdHeroImage === null ) {
-      showError("Please upload images.");
-      return;
-    }
-
     const data = new FormData();
 
     // Slide 1
@@ -617,9 +612,11 @@ export default function HeroSection() {
 
       </div>{/* ---------- SUBMIT BUTTON ---------- */}
       <div className="submit-container">
-        <button className="edit-btn" onClick={() => setIsExisting(!isExisting)} style={{marginRight: "15px"}}>
-          {isExisting ? "Edit Slides" : "Cancel Edit"}
+        {isExisting && (
+          <button className="edit-btn" onClick={() => setIsExisting(!isExisting)} style={{marginRight: "15px"}}>
+          Edit
         </button>
+        )}        
         {!isExisting && (
           <button className="submit-btn" disabled={
             FirstHeroEnglishTitle.trim() === "" ||
