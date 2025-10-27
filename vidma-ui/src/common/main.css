@@ -188,14 +188,17 @@
 }
 
 .wrapper .button:nth-child(1):hover .icon {
+  color: #000000 !important;
   background: #ffffff;
 }
 
 .wrapper .button:nth-child(2):hover .icon {
+  color: #000000;
   background: #ffffff;
 }
 
 .wrapper .button:nth-child(3):hover .icon {
+  color: #000000 !important;
   background: #ffffff;
 }
 
