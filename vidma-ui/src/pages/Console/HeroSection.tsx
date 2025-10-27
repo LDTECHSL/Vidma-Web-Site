@@ -175,6 +175,17 @@ export default function HeroSection() {
   };
 
   const handleSubmit = async () => {
+
+    if( FirstHeroImageError || SecondHeroImageError || ThirdHeroImageError ) {
+      showError("Please fix image errors before submitting.");
+      return;
+    }
+
+    if( FirstHeroImage === null && SecondHeroImage === null && ThirdHeroImage === null ) {
+      showError("Please upload images.");
+      return;
+    }
+
     const data = new FormData();
 
     // Slide 1
@@ -236,6 +247,7 @@ export default function HeroSection() {
             <label>English Title</label>
             <input
               type="text"
+              disabled={isExisting}
               value={FirstHeroEnglishTitle}
               onChange={(e) => setFirstHeroEnglishTitle(e.target.value)}
             />
@@ -245,6 +257,7 @@ export default function HeroSection() {
             <label>Sinhala Title</label>
             <input
               type="text"
+              disabled={isExisting}
               value={FirstHeroSinhalaTitle}
               onChange={(e) => setFirstHeroSinhalaTitle(e.target.value)}
             />
@@ -254,6 +267,7 @@ export default function HeroSection() {
             <label>Tamil Title</label>
             <input
               type="text"
+              disabled={isExisting}
               value={FirstHeroTamilTitle}
               onChange={(e) => setFirstHeroTamilTitle(e.target.value)}
             />
@@ -263,6 +277,7 @@ export default function HeroSection() {
             <label>English Text</label>
             <textarea
               value={FirstHeroEnglishText}
+              disabled={isExisting}
               onChange={(e) => setFirstHeroEnglishText(e.target.value)}
             ></textarea>
           </div>
@@ -271,6 +286,7 @@ export default function HeroSection() {
             <label>Sinhala Text</label>
             <textarea
               value={FirstHeroSinhalaText}
+              disabled={isExisting}
               onChange={(e) => setFirstHeroSinhalaText(e.target.value)}
             ></textarea>
           </div>
@@ -279,6 +295,7 @@ export default function HeroSection() {
             <label>Tamil Text</label>
             <textarea
               value={FirstHeroTamilText}
+              disabled={isExisting}
               onChange={(e) => setFirstHeroTamilText(e.target.value)}
             ></textarea>
           </div>
@@ -360,6 +377,7 @@ export default function HeroSection() {
             <input
               type="text"
               value={SecondHeroEnglishTitle}
+              disabled={isExisting}
               onChange={(e) => setSecondHeroEnglishTitle(e.target.value)}
             />
           </div>
@@ -369,6 +387,7 @@ export default function HeroSection() {
             <input
               type="text"
               value={SecondHeroSinhalaTitle}
+              disabled={isExisting}
               onChange={(e) => setSecondHeroSinhalaTitle(e.target.value)}
             />
           </div>
@@ -378,6 +397,7 @@ export default function HeroSection() {
             <input
               type="text"
               value={SecondHeroTamilTitle}
+              disabled={isExisting}
               onChange={(e) => setSecondHeroTamilTitle(e.target.value)}
             />
           </div>
@@ -386,6 +406,7 @@ export default function HeroSection() {
             <label>English Text</label>
             <textarea
               value={SecondHeroEnglishText}
+              disabled={isExisting}
               onChange={(e) => setSecondHeroEnglishText(e.target.value)}
             ></textarea>
           </div>
@@ -394,6 +415,7 @@ export default function HeroSection() {
             <label>Sinhala Text</label>
             <textarea
               value={SecondHeroSinhalaText}
+              disabled={isExisting}
               onChange={(e) => setSecondHeroSinhalaText(e.target.value)}
             ></textarea>
           </div>
@@ -402,6 +424,7 @@ export default function HeroSection() {
             <label>Tamil Text</label>
             <textarea
               value={SecondHeroTamilText}
+              disabled={isExisting}
               onChange={(e) => setSecondHeroTamilText(e.target.value)}
             ></textarea>
           </div>
@@ -477,6 +500,7 @@ export default function HeroSection() {
             <input
               type="text"
               value={ThirdHeroEnglishTitle}
+              disabled={isExisting}
               onChange={(e) => setThirdHeroEnglishTitle(e.target.value)}
             />
           </div>
@@ -486,6 +510,7 @@ export default function HeroSection() {
             <input
               type="text"
               value={ThirdHeroSinhalaTitle}
+              disabled={isExisting}
               onChange={(e) => setThirdHeroSinhalaTitle(e.target.value)}
             />
           </div>
@@ -495,6 +520,7 @@ export default function HeroSection() {
             <input
               type="text"
               value={ThirdHeroTamilTitle}
+              disabled={isExisting}
               onChange={(e) => setThirdHeroTamilTitle(e.target.value)}
             />
           </div>
@@ -503,6 +529,7 @@ export default function HeroSection() {
             <label>English Text</label>
             <textarea
               value={ThirdHeroEnglishText}
+              disabled={isExisting}
               onChange={(e) => setThirdHeroEnglishText(e.target.value)}
             ></textarea>
           </div>
@@ -511,6 +538,7 @@ export default function HeroSection() {
             <label>Sinhala Text</label>
             <textarea
               value={ThirdHeroSinhalaText}
+              disabled={isExisting}
               onChange={(e) => setThirdHeroSinhalaText(e.target.value)}
             ></textarea>
           </div>
@@ -519,6 +547,7 @@ export default function HeroSection() {
             <label>Tamil Text</label>
             <textarea
               value={ThirdHeroTamilText}
+              disabled={isExisting}
               onChange={(e) => setThirdHeroTamilText(e.target.value)}
             ></textarea>
           </div>
@@ -588,31 +617,33 @@ export default function HeroSection() {
 
       </div>{/* ---------- SUBMIT BUTTON ---------- */}
       <div className="submit-container">
-        <button className="submit-btn" disabled={
-          FirstHeroEnglishTitle.trim() === "" &&
-          FirstHeroSinhalaTitle.trim() === "" &&
-          FirstHeroTamilTitle.trim() === "" &&
-          FirstHeroEnglishText.trim() === "" &&
-          FirstHeroSinhalaText.trim() === "" &&
-          FirstHeroTamilText.trim() === "" &&
-          !FirstHeroImage &&
-          SecondHeroEnglishTitle.trim() === "" &&
-          SecondHeroSinhalaTitle.trim() === "" &&
-          SecondHeroTamilTitle.trim() === "" &&
-          SecondHeroEnglishText.trim() === "" &&
-          SecondHeroSinhalaText.trim() === "" &&
-          SecondHeroTamilText.trim() === "" &&
-          !SecondHeroImage &&
-          ThirdHeroEnglishTitle.trim() === "" &&
-          ThirdHeroSinhalaTitle.trim() === "" &&
-          ThirdHeroTamilTitle.trim() === "" &&
-          ThirdHeroEnglishText.trim() === "" &&
-          ThirdHeroSinhalaText.trim() === "" &&
-          ThirdHeroTamilText.trim() === "" &&
-          !ThirdHeroImage
-        } onClick={handleSubmit}>
-          Submit
+        <button className="edit-btn" onClick={() => setIsExisting(!isExisting)} style={{marginRight: "15px"}}>
+          {isExisting ? "Edit Slides" : "Cancel Edit"}
         </button>
+        {!isExisting && (
+          <button className="submit-btn" disabled={
+            FirstHeroEnglishTitle.trim() === "" &&
+            FirstHeroSinhalaTitle.trim() === "" &&
+            FirstHeroTamilTitle.trim() === "" &&
+            FirstHeroEnglishText.trim() === "" &&
+            FirstHeroSinhalaText.trim() === "" &&
+            FirstHeroTamilText.trim() === "" &&
+            SecondHeroEnglishTitle.trim() === "" &&
+            SecondHeroSinhalaTitle.trim() === "" &&
+            SecondHeroTamilTitle.trim() === "" &&
+            SecondHeroEnglishText.trim() === "" &&
+            SecondHeroSinhalaText.trim() === "" &&
+            SecondHeroTamilText.trim() === "" &&
+            ThirdHeroEnglishTitle.trim() === "" &&
+            ThirdHeroSinhalaTitle.trim() === "" &&
+            ThirdHeroTamilTitle.trim() === "" &&
+            ThirdHeroEnglishText.trim() === "" &&
+            ThirdHeroSinhalaText.trim() === "" &&
+            ThirdHeroTamilText.trim() === ""
+          } onClick={handleSubmit}>
+            Submit
+          </button> 
+        )}        
       </div>
     </div>
   );

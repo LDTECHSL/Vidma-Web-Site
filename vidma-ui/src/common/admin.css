@@ -77,6 +77,17 @@
   cursor: not-allowed;
 }
 
+.edit-btn{
+  background-color: #4b4b4b;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 /* Dropzone & preview styles */
 .dropzone {
   border: 2px dashed #cfcfcf;
