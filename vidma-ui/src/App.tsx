@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Console/Login';
-import Landing from './pages/Console/HeroSection';
 import Toast from './components/Toast';
 import Navbar from './layouts/Navbar';
 import HeroSection from './pages/Console/HeroSection';
+import ContactUsSection from './pages/Console/ContactUsSection';
 
 const App: React.FC = () => {
 
@@ -18,6 +18,7 @@ const App: React.FC = () => {
         <Navbar>
           <Routes>
             <Route path="/vidma/console/hero-section" element={<HeroSection />} />
+            <Route path="/vidma/console/contactus-section" element={<ContactUsSection />} />
           </Routes>
         </Navbar>
       ) : (

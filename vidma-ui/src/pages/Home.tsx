@@ -13,11 +13,12 @@ import Feedback from "../components/Feedback";
 import Team from "../components/Team";
 import Reviews from "../components/Reviews";
 import Stats from "../components/Stats";
-import { getHeroData } from "../services/home-api";
+import { getContactUsData, getHeroData } from "../services/home-api";
 
 export default function Home() {
   const [slides, setSlides] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [contactDetails, setContactDetails] = useState<any>({});
   const { language } = useLanguage();
 
   useEffect(() => {
@@ -33,6 +34,19 @@ export default function Home() {
       console.error(error);
     }
   };
+
+  const handleGetContactDetails = async () => {
+    try {
+      const response = await getContactUsData();
+      setContactDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching contact details:", error);
+    }
+  }
+
+  useEffect(() => {
+    handleGetContactDetails();
+  }, []);
 
   useEffect(() => {
     if (slides.length > 0) {
@@ -52,9 +66,8 @@ export default function Home() {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
-              index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-            }`}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
           >
             <img
               src={slide.image.replace("dl=0", "raw=1")}
@@ -70,24 +83,42 @@ export default function Home() {
                 {slide.text}
               </p>
               <div className="wrapper">
-                <a href="#" className="button">
+                <a
+                  href={contactDetails.facebookLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                >
                   <div className="icon">
                     <i className="fab fa-facebook-f"></i>
                   </div>
                   <span>Facebook</span>
                 </a>
-                <a href="#" className="button">
+
+                <a
+                  href="https://wa.me/94775353762?text=Hello"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                >
                   <div className="icon">
                     <i className="fab fa-whatsapp"></i>
                   </div>
                   <span>WhatsApp</span>
                 </a>
-                <a href="#" className="button">
+
+                <a
+                  href={contactDetails.tikTokLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                >
                   <div className="icon">
                     <i className="fab fa-tiktok"></i>
                   </div>
-                  <span>Tiktok</span>
+                  <span>TikTok</span>
                 </a>
+
               </div>
             </div>
             <div className="white-mist"></div>
@@ -130,12 +161,12 @@ export default function Home() {
       <div id="contact">
         <ContactUs />
       </div>
-      
+
       <VideoSlider />
       <div id="projects">
         <ProjectsGallery />
       </div>
-      
+
       <Awards />
       <Feedback />
       <Team />

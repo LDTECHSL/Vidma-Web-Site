@@ -11,8 +11,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import {
-    AccountCircleTwoTone,
-    EmojiEventsTwoTone,
     ExpandLess,
     ExpandMore,
     PowerSettingsNewTwoTone,
@@ -117,6 +115,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Hero Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/hero-section",
+        },
+        {
+            group: "Contents",
+            name: "Contact Us Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/contactus-section",
         }
     ];
 

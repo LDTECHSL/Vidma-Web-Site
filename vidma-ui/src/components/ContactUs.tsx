@@ -7,6 +7,8 @@ import LocationPin from "@mui/icons-material/LocationPin";
 import LocalPhone from "@mui/icons-material/LocalPhone";
 import AlternateEmail from "@mui/icons-material/AlternateEmail";
 import AccessTimeFilled from "@mui/icons-material/AccessTimeFilled";
+import { useEffect, useState } from "react";
+import { getContactUsData } from "../services/home-api";
 
 // Fix default Leaflet marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -30,11 +32,26 @@ export default function ContactUsMap() {
     { name: "Kurunegala Hardware", lat: 7.4863, lng: 80.36, type: "hardware" },
   ];
 
+  const [contactDetails, setContactDetails] = useState<any>({});
+
   // Define Sri Lanka map bounds (southwest, northeast)
   const sriLankaBounds: L.LatLngBoundsExpression = [
     [5.7, 79.5], // southwest corner
     [10.1, 82.0], // northeast corner
   ];
+
+  const handleGetContactDetails = async () => {
+    try {
+      const response = await getContactUsData();
+      setContactDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching contact details:", error);
+    }
+  }
+
+  useEffect(() => {
+    handleGetContactDetails();
+  }, []);
 
   return (
     <div className="contact-outer">
@@ -54,23 +71,29 @@ export default function ContactUsMap() {
               <div className="cc-title">Address</div>
             </div>
             <div className="cc-desc">
-              No. 123, Main Street, Colombo, Sri Lanka
+              {contactDetails.address}
             </div>
           </div>
           <div className="contact-card" data-aos="fade-right" data-aos-delay="100">
             <LocalPhone style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Phone</div>
-            <div className="cc-desc">+94 77 123 4567 <br /> +94 77 586 3458</div>
+            {/* 0718471520,0719765413 Need to br after comma */}
+            <div className="cc-desc">
+              {contactDetails?.phone?.split(',').map((num:any, index:any) => (
+                <div key={index}>{num.trim()}</div>
+              ))}
+            </div>
+
           </div>
           <div className="contact-card" data-aos="fade-right" data-aos-delay="200">
             <AlternateEmail style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Email</div>
-            <div className="cc-desc">info@vidmaengineering.lk</div>
+            <div className="cc-desc">{contactDetails.email}</div>
           </div>
           <div className="contact-card" data-aos="fade-right" data-aos-delay="300">
             <AccessTimeFilled style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Working Hours</div>
-            <div className="cc-desc">Mon - Fri: 8:00 AM - 5:00 PM</div>
+            <div className="cc-desc">{contactDetails.workingHours}</div>
           </div>
         </div>
 
