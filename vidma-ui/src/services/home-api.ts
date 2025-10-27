@@ -38,3 +38,25 @@ export const getHeroAllData = async (token:string) => {
         throw error;
     }
 }
+
+export const getContactUsData = async () => {
+    try {
+        const response = await axios.get(`${api_url}contact-us`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const createContactUsData = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}contact-us`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

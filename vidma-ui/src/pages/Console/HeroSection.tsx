@@ -622,23 +622,23 @@ export default function HeroSection() {
         </button>
         {!isExisting && (
           <button className="submit-btn" disabled={
-            FirstHeroEnglishTitle.trim() === "" &&
-            FirstHeroSinhalaTitle.trim() === "" &&
-            FirstHeroTamilTitle.trim() === "" &&
-            FirstHeroEnglishText.trim() === "" &&
-            FirstHeroSinhalaText.trim() === "" &&
-            FirstHeroTamilText.trim() === "" &&
-            SecondHeroEnglishTitle.trim() === "" &&
-            SecondHeroSinhalaTitle.trim() === "" &&
-            SecondHeroTamilTitle.trim() === "" &&
-            SecondHeroEnglishText.trim() === "" &&
-            SecondHeroSinhalaText.trim() === "" &&
-            SecondHeroTamilText.trim() === "" &&
-            ThirdHeroEnglishTitle.trim() === "" &&
-            ThirdHeroSinhalaTitle.trim() === "" &&
-            ThirdHeroTamilTitle.trim() === "" &&
-            ThirdHeroEnglishText.trim() === "" &&
-            ThirdHeroSinhalaText.trim() === "" &&
+            FirstHeroEnglishTitle.trim() === "" ||
+            FirstHeroSinhalaTitle.trim() === "" ||
+            FirstHeroTamilTitle.trim() === "" ||
+            FirstHeroEnglishText.trim() === "" ||
+            FirstHeroSinhalaText.trim() === "" ||
+            FirstHeroTamilText.trim() === "" ||
+            SecondHeroEnglishTitle.trim() === "" ||
+            SecondHeroSinhalaTitle.trim() === "" ||
+            SecondHeroTamilTitle.trim() === "" ||
+            SecondHeroEnglishText.trim() === "" ||
+            SecondHeroSinhalaText.trim() === "" ||
+            SecondHeroTamilText.trim() === "" ||
+            ThirdHeroEnglishTitle.trim() === "" ||
+            ThirdHeroSinhalaTitle.trim() === "" ||
+            ThirdHeroTamilTitle.trim() === "" ||
+            ThirdHeroEnglishText.trim() === "" ||
+            ThirdHeroSinhalaText.trim() === "" ||
             ThirdHeroTamilText.trim() === ""
           } onClick={handleSubmit}>
             Submit
