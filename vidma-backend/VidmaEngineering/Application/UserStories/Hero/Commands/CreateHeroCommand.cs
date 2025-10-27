@@ -56,8 +56,58 @@ public class CreateCommandHandler : IRequestHandler<CreateHeroCommand, Result>
 
             if (existingHero != null)
             {
-                _context.Hero.Remove(existingHero);
+                //update the existing hero details if each image check it its null or not
+                if (request.FirstHeroImage != null)
+                {
+                    if (existingHero.FirstHero.Image != null)
+                    {
+                        await _dropBoxService.DeleteImageAsync(existingHero.FirstHero.Image);
+                        var url = await _dropBoxService.UploadImageAsync(request.FirstHeroImage, "hero/first");
+                        existingHero.FirstHero.Image = url;
+                    }
+                }
+
+                if (request.SecondHeroImage != null)
+                {
+                    if (existingHero.SecondHero.Image != null)
+                    {
+                        await _dropBoxService.DeleteImageAsync(existingHero.SecondHero.Image);
+                        var url = await _dropBoxService.UploadImageAsync(request.SecondHeroImage, "hero/second");
+                        existingHero.SecondHero.Image = url;
+                    }
+                }
+
+                if (request.ThirdHeroImage != null)
+                {
+                    if (existingHero.ThirdHero.Image != null)
+                    {
+                        await _dropBoxService.DeleteImageAsync(existingHero.ThirdHero.Image);
+                        var url = await _dropBoxService.UploadImageAsync(request.ThirdHeroImage, "hero/third");
+                        existingHero.ThirdHero.Image = url;
+                    }
+                }
+
+                existingHero.FirstHero.English.Title = request.FirstHeroEnglishTitle ?? string.Empty;
+                existingHero.FirstHero.English.Text = request.FirstHeroEnglishText;
+                existingHero.FirstHero.Sinhala.Title = request.FirstHeroSinhalaTitle ?? string.Empty;
+                existingHero.FirstHero.Sinhala.Text = request.FirstHeroSinhalaText;
+                existingHero.FirstHero.Tamil.Title = request.FirstHeroTamilTitle ?? string.Empty;
+                existingHero.FirstHero.Tamil.Text = request.FirstHeroTamilText;
+                existingHero.SecondHero.English.Title = request.SecondHeroEnglishTitle ?? string.Empty;
+                existingHero.SecondHero.English.Text = request.SecondHeroEnglishText;
+                existingHero.SecondHero.Sinhala.Title = request.SecondHeroSinhalaTitle ?? string.Empty;
+                existingHero.SecondHero.Sinhala.Text = request.SecondHeroSinhalaText;
+                existingHero.SecondHero.Tamil.Title = request.SecondHeroTamilTitle ?? string.Empty;
+                existingHero.SecondHero.Tamil.Text = request.SecondHeroTamilText;
+                existingHero.ThirdHero.English.Title = request.ThirdHeroEnglishTitle ?? string.Empty;
+                existingHero.ThirdHero.English.Text = request.ThirdHeroEnglishText;
+                existingHero.ThirdHero.Sinhala.Title = request.ThirdHeroSinhalaTitle ?? string.Empty;
+                existingHero.ThirdHero.Sinhala.Text = request.ThirdHeroSinhalaText;
+                existingHero.ThirdHero.Tamil.Title = request.ThirdHeroTamilTitle ?? string.Empty;
+                existingHero.ThirdHero.Tamil.Text = request.ThirdHeroTamilText;
+                _context.Hero.Update(existingHero);
                 await _context.SaveChangesAsync(cancellationToken);
+                return Result.Success();
             }
 
 
