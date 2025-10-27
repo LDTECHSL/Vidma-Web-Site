@@ -68,7 +68,7 @@
 .drawer-logo-txt{
     font-size: var(--font-large) !important;
     font-weight: bold !important;
-    color: var(--primary-color);
+    color: var(--color-primary-hover);
 }
 
 .drawer-header{
