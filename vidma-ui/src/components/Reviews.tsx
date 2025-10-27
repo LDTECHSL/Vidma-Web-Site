@@ -1,8 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import "../common/main.css";
 import "../common/reviews.css";
+import { useTranslation } from "react-i18next";
 
 export default function Reviews() {
+
+  const {t} = useTranslation();
+
   const reviews = [
     {
       title: "Good",
@@ -80,9 +84,9 @@ export default function Reviews() {
 
   return (
     <div className="reviews-outer">
-      <h2 className="title-outer white" data-aos="fade-up">What People Say</h2>
+      <h2 className="title-outer white" data-aos="fade-up">{t("review")}</h2>
       <p className="title-sub-outer white" data-aos="fade-up">
-        Highly recommended for valuable learning experiences.
+        {t("reviewSub")}
       </p>
 
       <div className="reviews-carousel">

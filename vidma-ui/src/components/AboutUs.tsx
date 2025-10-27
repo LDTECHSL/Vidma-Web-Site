@@ -9,6 +9,7 @@ import slide2 from "../assets/about-slide2.jpg";
 import slide3 from "../assets/about-slide3.jpg";
 import slide4 from "../assets/about-slide4.jpg";
 import slide5 from "../assets/about-slide5.jpg";
+import { useTranslation } from "react-i18next";
 
 export default function AboutUs() {
   const cards = [
@@ -45,6 +46,7 @@ export default function AboutUs() {
   ];
 
   const [current, setCurrent] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: false });
@@ -57,10 +59,10 @@ export default function AboutUs() {
   return (
     <div className="aboutus-outer" data-aos="fade-up">
       <div className="title-outer" data-aos="fade-up">
-        About Us
+        {t("about")}
       </div>
       <div className="title-sub-outer" data-aos="fade-up">
-        Where Vision Meets Perfection
+        {t("aboutSub")}
       </div>
 
       <div className="about-us-content-outer" data-aos="fade-up" data-aos-delay="200">
@@ -94,8 +96,8 @@ export default function AboutUs() {
                 // data-aos-delay={index * 100}
               >
                 <div className="overlay">
-                  <div className="icon text-4xl mb-2">{card.icon}</div>
-                  <div className="title text-xl font-semibold mb-1">{card.title}</div>
+                  {/* <div className="icon text-4xl mb-2">{card.icon}</div>
+                  <div className="title text-xl font-semibold mb-1">{card.title}</div> */}
                   <div className="desc text-sm max-w-xs">{card.desc}</div>
                 </div>
               </div>
