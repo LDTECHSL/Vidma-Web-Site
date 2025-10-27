@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Application.UserStories.Hero.Queries;
 
-public class GetHeroQuery : IRequest<HeroResponse>
+public class GetHeroQueryByLanguage : IRequest<HeroResponse>
 {
     public string LanguageCode { get; set; } = string.Empty;
 }
 
-public class GetHeroQueryHandler : IRequestHandler<GetHeroQuery, HeroResponse>
+public class GetHeroQueryHandler : IRequestHandler<GetHeroQueryByLanguage, HeroResponse>
 {
     private readonly IApplicationDbContext _context;
 
@@ -22,7 +22,7 @@ public class GetHeroQueryHandler : IRequestHandler<GetHeroQuery, HeroResponse>
         _context = context;
     }
 
-    public async Task<HeroResponse> Handle(GetHeroQuery request, CancellationToken cancellationToken)
+    public async Task<HeroResponse> Handle(GetHeroQueryByLanguage request, CancellationToken cancellationToken)
     {
         var hero = await _context.Hero
             .AsNoTracking()
