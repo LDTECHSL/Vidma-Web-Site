@@ -6,6 +6,7 @@ import Navbar from './layouts/Navbar';
 import HeroSection from './pages/Console/HeroSection';
 import ContactUsSection from './pages/Console/ContactUsSection';
 import AboutUsSection from './pages/Console/AboutUsSection';
+import ServicesSection from './pages/Console/ServicesSection';
 
 const App: React.FC = () => {
 
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             <Route path="/vidma/console/hero-section" element={<HeroSection />} />
             <Route path="/vidma/console/contactus-section" element={<ContactUsSection />} />
             <Route path="/vidma/console/aboutus-section" element={<AboutUsSection />} />
+            <Route path="/vidma/console/services-section" element={<ServicesSection />} />
           </Routes>
         </Navbar>
       ) : (
