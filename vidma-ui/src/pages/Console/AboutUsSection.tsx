@@ -38,6 +38,7 @@ export default function AboutUsSection() {
     const [TamilDescriptionS5, setTamilDescriptionS5] = useState("");
     const [imageS5, setImageS5] = useState<File | null>(null);
     const [imageS5Error, setImageS5Error] = useState<string | null>("");
+    const [isExisting, setIsExisting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -244,7 +245,7 @@ export default function AboutUsSection() {
                             </div>
                         )}
                     </div>
-                    
+
                     {/* Slide 2 */}
                     <Divider style={{ margin: "20px 0" }} />
 
@@ -581,6 +582,24 @@ export default function AboutUsSection() {
                                     </button>
                                 </div>
                             </div>
+                        )}
+                    </div>
+                    <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
+                        {isExisting && (
+                            <button
+                                type="button"
+                                className="edit-btn"
+                                style={{ marginRight: "10px" }}
+                                onClick={() => setIsExisting(false)}
+                            >
+                                Edit
+                            </button>
+                        )}
+
+                        {!isExisting && (
+                            <button type="button" className="submit-btn" onClick={handleSubmit}>
+                                Submit
+                            </button>
                         )}
                     </div>
                 </form>
