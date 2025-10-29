@@ -145,6 +145,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Showrooms Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/showrooms-section",
+        },
+        {
+            group: "Contents",
+            name: "Video Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/video-section",
         }
     ];
 
