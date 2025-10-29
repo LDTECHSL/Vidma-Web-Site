@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../common/main.css";
 import "../common/feedback.css";
+import { useTranslation } from "react-i18next";
 
 export default function Feedback() {
     const [selectedMood, setSelectedMood] = useState<number | null>(null);
@@ -10,12 +11,14 @@ export default function Feedback() {
         comment: "",
     });
 
+    const {t} = useTranslation();
+
     const moods = [
-        { id: 1, emoji: "😩", label: "Very Bad" },
-        { id: 2, emoji: "😔", label: "Bad" },
-        { id: 3, emoji: "😐", label: "Medium" },
-        { id: 4, emoji: "🙂", label: "Good" },
-        { id: 5, emoji: "😁", label: "Excellent" },
+        { id: 1, emoji: "😩", label: t("verybad") },
+        { id: 2, emoji: "😔", label: t("bad") },
+        { id: 3, emoji: "😐", label: t("medium") },
+        { id: 4, emoji: "🙂", label: t("good") },
+        { id: 5, emoji: "😁", label: t("excellent") },
     ];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -44,17 +47,16 @@ export default function Feedback() {
             {/* <div className="feedback-inner"></div> */}
             <div className="feedback-inner">
                 <div className="feedback-form-card">
-                    <h2 className="feedback-title" data-aos="fade-up">How are you feeling?</h2>
+                    <h2 className="feedback-title" data-aos="fade-up">{t("feeling")}</h2>
                     <p className="feedback-subtitle" data-aos="fade-up" data-aos-delay="100">
-                        Your input is valuable in helping us better understand your needs
-                        and tailor our service accordingly.
+                        {t("feelingSub")}
                     </p>
 
                     <form className="feedback-form" onSubmit={handleSubmit}>
                         <input
                             type="text"
                             name="name"
-                            placeholder="Your Name"
+                            placeholder={t("name")}
                             className="feedback-input"
                             value={formData.name}
                             onChange={handleChange}
@@ -65,7 +67,7 @@ export default function Feedback() {
                         <input
                             type="email"
                             name="email"
-                            placeholder="Your Email"
+                            placeholder={t("email")}
                             className="feedback-input"
                             value={formData.email}
                             onChange={handleChange}
@@ -89,7 +91,7 @@ export default function Feedback() {
 
                         <textarea
                             name="comment"
-                            placeholder="Add a Comment..."
+                            placeholder={t("comment")}
                             className="feedback-comment"
                             value={formData.comment}
                             onChange={handleChange}
@@ -97,7 +99,7 @@ export default function Feedback() {
                         />
 
                         <button type="submit" className="feedback-submit">
-                            Submit Now
+                            {t("submit")}
                         </button>
                     </form>
                 </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import "../common/awards.css";
 import "../common/main.css";
 
@@ -35,13 +36,15 @@ export default function Awards() {
     },
   ];
 
+  const {t} = useTranslation();
+
   return (
     <div className="awards-outer" data-aos="fade-up">
       <div className="title-outer" data-aos="fade-down">
-        Our Achievements
+        {t("ourAchievements")}
       </div>
       <div className="title-sub-outer" data-aos="fade-up">
-        Celebrating milestones of excellence
+        {t("ourAchievementsSub")}
       </div>
 
       <div className="awards-slider">

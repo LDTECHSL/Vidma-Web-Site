@@ -121,6 +121,18 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Contact Us Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/contactus-section",
+        },
+        {
+            group: "Contents",
+            name: "About Us Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/aboutus-section",
+        },        
+        {
+            group: "Contents",
+            name: "Services Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/services-section",
         }
     ];
 

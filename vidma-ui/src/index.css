@@ -14,14 +14,13 @@ html[lang="en"] body {
 
 /* Sinhala */
 html[lang="si"] body {
-  font-family: 'Abhaya Libre';
+  font-family: 'Abhaya Libre', serif;
 }
 
 /* Tamil */
 html[lang="ta"] body {
   font-family: 'Noto Sans Tamil';
 }
-
 
 @tailwind base;
 @tailwind components;
@@ -73,7 +72,7 @@ html[lang="ta"] body {
 }
 
 body {
-  font-family: Poppins, sans-serif;
+  /* font-family: Poppins, sans-serif; */
   background-color: var(--color-background);
   color: var(--color-text);
   line-height: 1.5;

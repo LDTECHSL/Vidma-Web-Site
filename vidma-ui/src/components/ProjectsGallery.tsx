@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../common/main.css";
 import "../common/gallery.css";
+import { useTranslation } from "react-i18next";
 
 export default function ProjectsGallery() {
     const [selectedProject, setSelectedProject] = useState<any>(null);
@@ -72,13 +73,15 @@ export default function ProjectsGallery() {
         },
     ];
 
+    const {t} = useTranslation();
+
     return (
         <div className="gallery-outer">
             <div className="title-outer white" data-aos="fade-down">
-                Projects Gallery
+                {t("projects1")}
             </div>
             <div className="title-sub-outer white" data-aos="fade-up">
-                From Concept to Creation
+                {t("projects1Sub")}
             </div>
             <div className="gallery-sub-outer">
                 {projects.slice(0, 3).map((project) => (

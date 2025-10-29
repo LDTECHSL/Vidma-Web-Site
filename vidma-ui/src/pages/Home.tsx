@@ -14,6 +14,7 @@ import Team from "../components/Team";
 import Reviews from "../components/Reviews";
 import Stats from "../components/Stats";
 import { getContactUsData, getHeroData } from "../services/home-api";
+import { FacebookFilled, TikTokOutlined, WhatsAppOutlined } from "@ant-design/icons";
 
 export default function Home() {
   const [slides, setSlides] = useState<any[]>([]);
@@ -90,7 +91,7 @@ export default function Home() {
                   className="button"
                 >
                   <div className="icon">
-                    <i className="fab fa-facebook-f"></i>
+                    <FacebookFilled style={{ fontSize: 20, color: "#ffffffff" }} />
                   </div>
                   <span>Facebook</span>
                 </a>
@@ -102,7 +103,7 @@ export default function Home() {
                   className="button"
                 >
                   <div className="icon">
-                    <i className="fab fa-whatsapp"></i>
+                    <WhatsAppOutlined style={{ fontSize: 20, color: "#ffffffff" }} />
                   </div>
                   <span>WhatsApp</span>
                 </a>
@@ -114,7 +115,7 @@ export default function Home() {
                   className="button"
                 >
                   <div className="icon">
-                    <i className="fab fa-tiktok"></i>
+                    <TikTokOutlined style={{ fontSize: 20, color: "#ffffffff" }} />
                   </div>
                   <span>TikTok</span>
                 </a>

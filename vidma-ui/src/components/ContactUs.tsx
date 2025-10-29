@@ -9,6 +9,7 @@ import AlternateEmail from "@mui/icons-material/AlternateEmail";
 import AccessTimeFilled from "@mui/icons-material/AccessTimeFilled";
 import { useEffect, useState } from "react";
 import { getContactUsData } from "../services/home-api";
+import { useTranslation } from "react-i18next";
 
 // Fix default Leaflet marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -34,6 +35,8 @@ export default function ContactUsMap() {
 
   const [contactDetails, setContactDetails] = useState<any>({});
 
+  const {t} = useTranslation();
+
   // Define Sri Lanka map bounds (southwest, northeast)
   const sriLankaBounds: L.LatLngBoundsExpression = [
     [5.7, 79.5], // southwest corner
@@ -56,10 +59,10 @@ export default function ContactUsMap() {
   return (
     <div className="contact-outer">
       <div className="title-outer white" data-aos="fade-down">
-        Contact Us
+        {t("contact")}
       </div>
       <div className="title-sub-outer white" data-aos="fade-up">
-        Built on Trust & Excellence
+        {t("contactSub")}
       </div>
 
       <div className="contact-sub-outer">

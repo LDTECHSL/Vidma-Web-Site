@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import "../common/main.css";
 import "../common/team.css";
+import { useTranslation } from "react-i18next";
 
 export default function Team() {
     const team = [
@@ -21,13 +22,15 @@ export default function Team() {
         }
     };
 
+    const {t} = useTranslation();
+
     return (
         <div className="team-outer">
             <div className="title-outer" data-aos="fade-down">
-                Our Team
+                {t("team")}
             </div>
             <div className="title-sub-outer" data-aos="fade-up">
-                Meet the Minds Behind the Mission
+                {t("teamSub")}
             </div>
 
             <div className="team-container">

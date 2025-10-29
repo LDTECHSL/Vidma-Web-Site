@@ -10,11 +10,12 @@ interface StatItem {
 
 export default function Stats() {
     const data: StatItem[] = [
-        { number: "84%", title: "Partners hire staff", desc: "in the first month." },
-        { number: "78%", title: "Applicants we pass on", desc: "excel in interviews." },
-        { number: "3000+", title: "Applicants we pass on", desc: "excel in interviews." },
-        { number: "04", title: "monthly settings", desc: "for each of our partners" },
+        { number: "18+", title: "Years Experience", desc: "in delivering excellence." },
+        { number: "1000+", title: "Completed Projects", desc: "successfully executed." },
+        { number: "950+", title: "Islandwide Dealer Network", desc: "serving across Sri Lanka." },
+        { number: "100+", title: "Islandwide Distribution Points", desc: "ensuring wide reach." },
     ];
+
 
     const [counts, setCounts] = useState<number[]>(data.map(() => 0));
     const statsRef = useRef<HTMLDivElement[]>([]);

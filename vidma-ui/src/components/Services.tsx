@@ -1,6 +1,7 @@
 import "../common/services.css";
 import "../common/main.css";
 import { FaHome, FaSolarPanel, FaCogs, FaHandsHelping, FaComments, FaCheckCircle } from "react-icons/fa"; // using react-icons
+import { useTranslation } from "react-i18next";
 
 export default function Services() {
   const services = [
@@ -36,13 +37,15 @@ export default function Services() {
     },
   ];
 
+  const { t } = useTranslation();
+
   return (
     <div className="services-outer">
       <div className="title-outer white" data-aos="fade-down">
-        Our Services
+        {t("services")}
       </div>
       <div className="title-sub-outer white" data-aos="fade-up">
-        Built on Trust & Excellence
+        {t("servicesSub")}
       </div>
 
       <div className="service-content-outer">
