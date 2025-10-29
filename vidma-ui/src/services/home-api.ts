@@ -83,6 +83,15 @@ export const getAboutUsMain = async () => {
     }
 }
 
+export const getAboutUsMainLanguage = async (lang:string) => {
+    try {
+        const response = await axios.get(`${api_url}about-us/by-language?languageCode=${lang}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const createAboutUsSub = async (body:any, token:string) => {
     try {
         const response = await axios.post(`${api_url}about-us/image`, body , {
@@ -100,6 +109,15 @@ export const createAboutUsSub = async (body:any, token:string) => {
 export const getAboutUsSub = async () => {
     try {
         const response = await axios.get(`${api_url}about-us/image`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getAboutUsSubLanguage = async (lang:string) => {
+    try {
+        const response = await axios.get(`${api_url}about-us/image-by-language?languageCode=${lang}`);
         return response;
     } catch (error) {
         throw error;
