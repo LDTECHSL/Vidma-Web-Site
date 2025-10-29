@@ -3,12 +3,12 @@ import "../common/contact.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import LocationPin from "@mui/icons-material/LocationPin";
+import LocationPin from "@mui/icons-material/LocationOn";
 import LocalPhone from "@mui/icons-material/LocalPhone";
 import AlternateEmail from "@mui/icons-material/AlternateEmail";
 import AccessTimeFilled from "@mui/icons-material/AccessTimeFilled";
 import { useEffect, useState } from "react";
-import { getContactUsData } from "../services/home-api";
+import { getContactUsData, getLocations } from "../services/home-api";
 import { useTranslation } from "react-i18next";
 
 // Fix default Leaflet marker icon
@@ -23,24 +23,36 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
 });
 
-type Place = { name: string; lat: number; lng: number; type: string };
+// Convert DMS ("6°19'11.2\"N 80°51'53.0\"E") → decimal { lat, lng }
+function parseDMS(dmsString: string) {
+  const regex =
+    /(\d+)[°](\d+)'([\d.]+)"([NSEW])\s+(\d+)[°](\d+)'([\d.]+)"([NSEW])/;
+  const match = dmsString.match(regex);
+  if (!match) return null;
+
+  const lat =
+    parseInt(match[1]) +
+    parseInt(match[2]) / 60 +
+    parseFloat(match[3]) / 3600;
+  const lng =
+    parseInt(match[5]) +
+    parseInt(match[6]) / 60 +
+    parseFloat(match[7]) / 3600;
+
+  const latFinal = match[4] === "S" ? -lat : lat;
+  const lngFinal = match[8] === "W" ? -lng : lng;
+
+  return { lat: latFinal, lng: lngFinal };
+}
 
 export default function ContactUsMap() {
-  const places: Place[] = [
-    { name: "Colombo Showroom", lat: 6.9271, lng: 79.8612, type: "showroom" },
-    { name: "Kandy Showroom", lat: 7.2906, lng: 80.6337, type: "showroom" },
-    { name: "Galle Hardware", lat: 6.0535, lng: 80.221, type: "hardware" },
-    { name: "Kurunegala Hardware", lat: 7.4863, lng: 80.36, type: "hardware" },
-  ];
-
   const [contactDetails, setContactDetails] = useState<any>({});
+  const [locations, setLocations] = useState<any[]>([]);
+  const { t } = useTranslation();
 
-  const {t} = useTranslation();
-
-  // Define Sri Lanka map bounds (southwest, northeast)
   const sriLankaBounds: L.LatLngBoundsExpression = [
-    [5.7, 79.5], // southwest corner
-    [10.1, 82.0], // northeast corner
+    [5.7, 79.5],
+    [10.1, 82.0],
   ];
 
   const handleGetContactDetails = async () => {
@@ -50,10 +62,34 @@ export default function ContactUsMap() {
     } catch (error) {
       console.error("Error fetching contact details:", error);
     }
-  }
+  };
+
+  const handleGetLocations = async () => {
+    try {
+      const response = await getLocations();
+
+      // Convert each googleMapLink (DMS) into lat/lng
+      const mapped = response.data
+        .map((loc: any) => {
+          const coords = parseDMS(loc.googleMapLink);
+          if (!coords) return null;
+          return {
+            id: loc.id,
+            name: loc.locationName,
+            ...coords,
+          };
+        })
+        .filter(Boolean); // remove invalid ones
+
+      setLocations(mapped);
+    } catch (error) {
+      console.error("Error fetching locations:", error);
+    }
+  };
 
   useEffect(() => {
     handleGetContactDetails();
+    handleGetLocations();
   }, []);
 
   return (
@@ -73,26 +109,25 @@ export default function ContactUsMap() {
               <LocationPin style={{ fontSize: 40, color: "#1976d2" }} />
               <div className="cc-title">Address</div>
             </div>
-            <div className="cc-desc">
-              {contactDetails.address}
-            </div>
+            <div className="cc-desc">{contactDetails.address}</div>
           </div>
+
           <div className="contact-card" data-aos="fade-right" data-aos-delay="100">
             <LocalPhone style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Phone</div>
-            {/* 0718471520,0719765413 Need to br after comma */}
             <div className="cc-desc">
-              {contactDetails?.phone?.split(',').map((num:any, index:any) => (
-                <div key={index}>{num.trim()}</div>
+              {contactDetails?.phone?.split(",").map((num: any, i: any) => (
+                <div key={i}>{num.trim()}</div>
               ))}
             </div>
-
           </div>
+
           <div className="contact-card" data-aos="fade-right" data-aos-delay="200">
             <AlternateEmail style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Email</div>
             <div className="cc-desc">{contactDetails.email}</div>
           </div>
+
           <div className="contact-card" data-aos="fade-right" data-aos-delay="300">
             <AccessTimeFilled style={{ fontSize: 40, color: "#1976d2" }} />
             <div className="cc-title">Working Hours</div>
@@ -108,8 +143,8 @@ export default function ContactUsMap() {
             minZoom={6}
             maxZoom={10}
             maxBounds={sriLankaBounds}
-            maxBoundsViscosity={1.0} // Prevent panning outside bounds
-            scrollWheelZoom={false} // Disable excessive zooming
+            maxBoundsViscosity={1.0}
+            scrollWheelZoom={false}
             style={{
               height: "500px",
               width: "100%",
@@ -117,12 +152,10 @@ export default function ContactUsMap() {
             }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {places.map((p, i) => (
-              <Marker key={i} position={[p.lat, p.lng]}>
+            {locations.map((loc, i) => (
+              <Marker key={i} position={[loc.lat, loc.lng]}>
                 <Popup>
-                  <strong>{p.name}</strong>
-                  <br />
-                  {p.type}
+                  <strong>{loc.name}</strong>
                 </Popup>
               </Marker>
             ))}
