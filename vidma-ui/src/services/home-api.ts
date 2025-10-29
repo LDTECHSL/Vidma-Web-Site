@@ -82,3 +82,26 @@ export const getAboutUsMain = async () => {
         throw error;
     }
 }
+
+export const createAboutUsSub = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}about-us/image`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getAboutUsSub = async () => {
+    try {
+        const response = await axios.get(`${api_url}about-us/image`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

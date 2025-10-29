@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress, Divider } from "@mui/material";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { useCallback, useEffect, useState } from "react";
-import { createAboutUsMain, getAboutUsMain } from "../../services/home-api";
+import { createAboutUsMain, createAboutUsSub, getAboutUsMain, getAboutUsSub } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function AboutUsSection() {
@@ -16,7 +16,10 @@ export default function AboutUsSection() {
     const [SinhalaDescriptionS1, setSinhalaDescriptionS1] = useState("");
     const [TamilDescriptionS1, setTamilDescriptionS1] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
+    const [imageNo, setImageNo] = useState<string>("");
+    const [imageLinkS1, setImageLinkS1] = useState<string>("");
     const [imageS1Error, setImageS1Error] = useState<string | null>("");
+    const [sub, setSub] = useState<any[]>([]);
 
     const [isExisting, setIsExisting] = useState(false);
     const [isExisting1, setIsExisting1] = useState(false);
@@ -25,7 +28,7 @@ export default function AboutUsSection() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         const body = {
             englishDesc: EnglishDescription,
             sinhalaDesc: SinhalaDescription,
@@ -52,17 +55,48 @@ export default function AboutUsSection() {
             setTamilDescription(res.data.tamilDesc);
             setIsExisting(true);
         } catch (error) {
-            console.error(error);            
+            console.error(error);
+        }
+    }
+
+    const handleGetAboutUsSub = async () => {
+        try {
+            const res = await getAboutUsSub();
+            setSub(res.data);
+        } catch (error) {
+            console.error(error);
         }
     }
 
     useEffect(() => {
         handleGetAboutUsMain();
+        handleGetAboutUsSub();
     }, []);
 
     const handleSubmit1 = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission logic here
+        
+        const form = new FormData();
+        form.append("EnglishDesc", EnglishDescriptionS1);
+        form.append("SinhalaDesc", SinhalaDescriptionS1);
+        form.append("TamilDesc", TamilDescriptionS1);
+        form.append("ImageNumber", imageNo);
+        if (imageS1) {
+            form.append("Image", imageS1);
+        }
+
+        setOpen(true);
+        try {
+            await createAboutUsSub(form, token);
+            showSuccess("About Us Sub Content section created successfully");
+        } catch (error) {
+            showError("Failed to create About Us Sub Content section");
+        } finally {
+            setOpen(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
     }
 
     const validateAspectRatio = (file: File, expectedRatio = 3 / 2, tolerance = 0.075) =>
@@ -139,6 +173,16 @@ export default function AboutUsSection() {
         setFile(null);
         setError(null);
     };
+
+    const rowClick = (item: any) => {
+        console.log(item);
+        setEnglishDescriptionS1(item.englishDesc);
+        setSinhalaDescriptionS1(item.sinhalaDesc);
+        setTamilDescriptionS1(item.tamilDesc);
+        setImageNo(item.imageNumber);
+        setImageLinkS1(item.imageLink);
+        setIsExisting1(true);
+    }
 
     return (
         <div>
@@ -287,23 +331,43 @@ export default function AboutUsSection() {
                             </div>
                         )}
                     </div>
-                    <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
-                        {isExisting1 && (
-                            <button
-                                type="button"
-                                className="edit-btn"
-                                style={{ marginRight: "10px" }}
-                                onClick={() => setIsExisting1(false)}
-                            >
-                                Edit
-                            </button>
-                        )}
 
-                        {!isExisting1 && (
+                    <div style={{ marginTop: "10px", color: "red" }}>
+                        <img style={{width: "200px"}} src={imageLinkS1.replace("dl=0", "raw=1")} alt="" />
+                    </div>
+                    <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
+
+                        {isExisting1 && (
                             <button type="button" className="submit-btn" onClick={handleSubmit1}>
                                 Submit
                             </button>
                         )}
+                    </div>
+
+                    <div>
+                        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                            <thead>
+                                <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>English Description</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Sinhala Description</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Tamil Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sub.map((item, index) => (
+                                    <tr key={index} onClick={() => rowClick(item)}>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>
+                                            {index + 1}
+                                        </td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{item.englishDesc}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{item.sinhalaDesc}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{item.tamilDesc}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
                     </div>
                 </form>
             </div>

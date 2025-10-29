@@ -48,7 +48,7 @@ public class CreateAboutUsImageCommandHandler : IRequestHandler<CreateAboutUsIma
 
         if (request.Image != null)
         {
-            await _dropBoxService.DeleteImageAsync(existingImage.ImageLink);
+            //await _dropBoxService.DeleteImageAsync(existingImage.ImageLink);
             var imageUrl = await _dropBoxService.UploadImageAsync(request.Image, "AboutUsImages");
             existingImage.ImageLink = imageUrl;
         }
