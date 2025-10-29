@@ -6,7 +6,7 @@ i18n.use(initReactI18next).init({
     en: {
       translation: {
         products: "Products",
-        projects: "Projects",
+        gallery: "Gallery",
         contact: "Contact Us",
         about: "About Us",
         order: "Order Now",
@@ -41,7 +41,7 @@ i18n.use(initReactI18next).init({
     si: {
       translation: {
         products: "නිෂ්පාදන",
-        projects: "ව්‍යාපෘති",
+        gallery: "ගැලරිය",
         contact: "අප හා සම්බන්ධ වන්න",
         about: "අප ගැන",
         order: "ඇණවුම් කරන්න",
@@ -76,7 +76,7 @@ i18n.use(initReactI18next).init({
     ta: {
       translation: {
         products: "தயாரிப்புகள்",
-        projects: "திட்டங்கள்",
+        gallery: "கேலரி",
         contact: "எங்களை தொடர்பு கொள்ள",
         about: "எங்களை பற்றி",
         order: "இப்போது ஆர்டர் செய்",
