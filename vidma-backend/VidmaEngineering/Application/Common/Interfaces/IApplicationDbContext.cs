@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ public interface IApplicationDbContext
     DbSet<Hero> Hero { get; }
     DbSet<Location> Location { get; }
     DbSet<ContactUs> ContactUs { get; }
+    DbSet<AboutUsImage> AboutUsImage { get; }
+    DbSet<AboutUs> AboutUs { get; }
 
 
     

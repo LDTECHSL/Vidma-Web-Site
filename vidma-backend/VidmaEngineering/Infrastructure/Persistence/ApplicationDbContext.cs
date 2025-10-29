@@ -1,5 +1,6 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Infrastructure.Configurations;
@@ -20,12 +21,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ContactUs> ContactUs { get; set; }
    
     public DbSet<Location> Location { get; set; }
+    public DbSet<AboutUsImage> AboutUsImage { get; set; }
+
+    public DbSet<AboutUs> AboutUs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new HeroConfiguration());
+        modelBuilder.ApplyConfiguration(new AboutUsImageConfiguration());
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
