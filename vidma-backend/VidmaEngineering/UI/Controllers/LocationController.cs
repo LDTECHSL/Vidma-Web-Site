@@ -16,7 +16,7 @@ public class LocationController(IMediator mediator) : ControllerBase
         => await mediator.Send(request);
 
     [HttpDelete]
-    public async Task<ActionResult<Result>> DeleteLocation([FromBody] DeleteLocationCommand request)
+    public async Task<ActionResult<Result>> DeleteLocation([FromQuery] DeleteLocationCommand request)
         => await mediator.Send(request);
 
     [HttpGet]
