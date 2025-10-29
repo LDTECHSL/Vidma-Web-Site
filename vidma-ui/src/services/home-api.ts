@@ -60,3 +60,25 @@ export const createContactUsData = async (body:any, token:string) => {
         throw error;
     }
 }
+
+export const createAboutUsMain = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}about-us`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getAboutUsMain = async () => {
+    try {
+        const response = await axios.get(`${api_url}about-us`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

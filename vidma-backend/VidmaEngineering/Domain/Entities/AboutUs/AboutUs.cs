@@ -7,12 +7,12 @@ public class AboutUs
     [Key]
     public int Id { get; set; }
 
-    [MaxLength(300)]
+    [MaxLength(1000)]
     public required string EnglishDesc { get; set; }
     
-    [MaxLength(300)]
+    [MaxLength(1000)]
     public required string SinhalaDesc { get; set; }
     
-    [MaxLength(300)]
+    [MaxLength(1000)]
     public required string TamilDesc { get; set; }
 }

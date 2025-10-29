@@ -1,7 +1,9 @@
 import { Backdrop, CircularProgress, Divider } from "@mui/material";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createAboutUsMain, getAboutUsMain } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
 
 export default function AboutUsSection() {
     const [open, setOpen] = useState(false);
@@ -19,10 +21,44 @@ export default function AboutUsSection() {
     const [isExisting, setIsExisting] = useState(false);
     const [isExisting1, setIsExisting1] = useState(false);
 
+    const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission logic here
+        
+        const body = {
+            englishDesc: EnglishDescription,
+            sinhalaDesc: SinhalaDescription,
+            tamilDesc: TamilDescription
+        }
+
+        setOpen(true);
+        try {
+            await createAboutUsMain(body, token);
+            showSuccess("About Us Main Content section created successfully");
+        } catch (error) {
+            showError("Failed to create About Us Main Content section");
+        } finally {
+            setOpen(false);
+            handleGetAboutUsMain();
+        }
     }
+
+    const handleGetAboutUsMain = async () => {
+        try {
+            const res = await getAboutUsMain();
+            setEnglishDescription(res.data.englishDesc);
+            setSinhalaDescription(res.data.sinhalaDesc);
+            setTamilDescription(res.data.tamilDesc);
+            setIsExisting(true);
+        } catch (error) {
+            console.error(error);            
+        }
+    }
+
+    useEffect(() => {
+        handleGetAboutUsMain();
+    }, []);
 
     const handleSubmit1 = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -121,6 +157,7 @@ export default function AboutUsSection() {
                             <label>English Description</label>
                             <textarea
                                 placeholder="Enter English description"
+                                disabled={isExisting}
                                 value={EnglishDescription}
                                 onChange={(e) => setEnglishDescription(e.target.value)}
                             />
@@ -129,6 +166,7 @@ export default function AboutUsSection() {
                             <label>Sinhala Description</label>
                             <textarea
                                 placeholder="Enter Sinhala description"
+                                disabled={isExisting}
                                 value={SinhalaDescription}
                                 onChange={(e) => setSinhalaDescription(e.target.value)}
                             />
@@ -137,6 +175,7 @@ export default function AboutUsSection() {
                             <label>Tamil Description</label>
                             <textarea
                                 placeholder="Enter Tamil description"
+                                disabled={isExisting}
                                 value={TamilDescription}
                                 onChange={(e) => setTamilDescription(e.target.value)}
                             />
@@ -156,7 +195,7 @@ export default function AboutUsSection() {
                         )}
 
                         {!isExisting && (
-                            <button type="button" className="submit-btn" onClick={handleSubmit}>
+                            <button type="button" disabled={!EnglishDescription || !SinhalaDescription || !TamilDescription} className="submit-btn" onClick={handleSubmit}>
                                 Submit
                             </button>
                         )}
