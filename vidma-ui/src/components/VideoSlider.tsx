@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
 import "../common/videos.css";
+import { useTranslation } from "react-i18next";
 
 export default function VideoSlider() {
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+    const {t} = useTranslation();
 
     const videos = [
         "https://www.youtube.com/embed/Q2CcW6vPeDA",
@@ -29,7 +32,7 @@ export default function VideoSlider() {
             {/* Header Section */}
             <div className="video-header">
                 <div className="video-title" data-aos="fade-up">
-                    <h2>Bringing Innovation, Integrity, and Excellence Together in Every Step</h2>
+                    <h2>{t("videoTitle")}</h2>
                 </div>
                 <div className="video-description" data-aos="fade-up">
                     <p>

@@ -34,7 +34,8 @@ i18n.use(initReactI18next).init({
         team: "Our Team",
         teamSub: "Meet the Minds Behind Vidma",
         review: "What People Say",
-        reviewSub: "Highly recommended for valuable learning experiences."
+        reviewSub: "Highly recommended for valuable learning experiences.",
+        videoTitle: "Bringing Innovation, Integrity, and Excellence Together in Every Step"
       },
     },
     si: {
@@ -68,7 +69,8 @@ i18n.use(initReactI18next).init({
         team: "අපගේ කණ්ඩායම",
         teamSub: "විද්මා පිටුපස මොළයන් හමුවෙන්න",
         review: "මිනිසුන් කියන්නේ මොකද්ද",
-        reviewSub: "වටිනා ඉගෙනුම් අත්දැකීම් සඳහා ඉතාමත් නිර්දේශ කර ඇත."
+        reviewSub: "වටිනා ඉගෙනුම් අත්දැකීම් සඳහා ඉතාමත් නිර්දේශ කර ඇත.",
+        videoTitle: "නවෝත්පාදනය, සත්‍යතාව සහ විශිෂ්ටත්වය එක් එක් පියවරකින් එකට ගෙන එයි"
       },
     },
     ta: {
@@ -102,7 +104,8 @@ i18n.use(initReactI18next).init({
         team: "எங்கள் குழு",
         teamSub: "விட்மாவின் பின்னணி மனங்களை சந்திக்கவும்",
         review: "மக்கள் என்ன சொல்கிறார்கள்",
-        reviewSub: "மதிப்புமிக்க கற்றல் அனுபவங்களுக்கு மிகவும் பரிந்துரைக்கப்படுகிறது."
+        reviewSub: "மதிப்புமிக்க கற்றல் அனுபவங்களுக்கு மிகவும் பரிந்துரைக்கப்படுகிறது.",
+        videoTitle: "ஒவ்வொரு படியிலும் புதுமை, நேர்மை மற்றும் சிறப்பினை ஒன்றிணைத்தல்"
       },
     },
   },
