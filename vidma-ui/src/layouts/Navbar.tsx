@@ -133,6 +133,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Services Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/services-section",
+        },        
+        {
+            group: "Contents",
+            name: "Top Products Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/top-products-section",
         }
     ];
 
