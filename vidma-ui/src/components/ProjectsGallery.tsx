@@ -78,7 +78,7 @@ export default function ProjectsGallery() {
     return (
         <div className="gallery-outer">
             <div className="title-outer white" data-aos="fade-down">
-                {t("projects1")}
+                {t("gallery")}
             </div>
             <div className="title-sub-outer white" data-aos="fade-up">
                 {t("projects1Sub")}

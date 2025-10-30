@@ -164,7 +164,7 @@ export default function Home() {
       </div>
 
       <VideoSlider />
-      <div id="projects">
+      <div id="gallery">
         <ProjectsGallery />
       </div>
 

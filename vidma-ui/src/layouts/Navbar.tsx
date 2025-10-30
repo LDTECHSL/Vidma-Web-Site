@@ -118,12 +118,6 @@ export default function Navbar({ children }: Readonly<Props>) {
         },
         {
             group: "Contents",
-            name: "Contact Us Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
-            path: "/vidma/console/contactus-section",
-        },
-        {
-            group: "Contents",
             name: "About Us Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/aboutus-section",
@@ -139,6 +133,24 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Top Products Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/top-products-section",
+        },
+        {
+            group: "Contents",
+            name: "Contact Us Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/contactus-section",
+        },
+        {
+            group: "Contents",
+            name: "Showrooms Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/showrooms-section",
+        },
+        {
+            group: "Contents",
+            name: "Video Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/video-section",
         }
     ];
 

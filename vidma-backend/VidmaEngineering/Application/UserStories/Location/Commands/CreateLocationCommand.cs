@@ -36,8 +36,8 @@ public class CreateLocationCommandHandler : IRequestHandler<CreateLocationComman
     {
         if (request.Id.HasValue)
         {
-            var existingLocation =
-                await _context.Location.FirstOrDefaultAsync(cancellationToken);
+            var existingLocation = await _context.Location
+                .FirstOrDefaultAsync(l => l.Id == request.Id.Value, cancellationToken);
 
 
             if (existingLocation == null)

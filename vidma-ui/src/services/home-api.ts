@@ -123,3 +123,38 @@ export const getAboutUsSubLanguage = async (lang:string) => {
         throw error;
     }
 }
+
+export const createLocation = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}location`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getLocations = async () => {
+    try {
+        const response = await axios.get(`${api_url}location`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteLocation = async (id:string, token:string) => {
+    try {
+        const response = await axios.delete(`${api_url}location?Id=${id}` , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

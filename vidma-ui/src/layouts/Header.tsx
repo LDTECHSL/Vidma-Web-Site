@@ -56,10 +56,10 @@ const Header: React.FC = () => {
             {t("products")}
           </a>
           <a
-            href="#projects"
-            className={`nav-link ${isActive("/projects") ? "active" : ""}`}
+            href="#gallery"
+            className={`nav-link ${isActive("/gallery") ? "active" : ""}`}
           >
-            {t("projects")}
+            {t("gallery")}
           </a>
           <a
             href="#contact"
