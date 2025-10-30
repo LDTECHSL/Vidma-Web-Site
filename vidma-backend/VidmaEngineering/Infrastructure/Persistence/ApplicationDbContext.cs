@@ -5,6 +5,8 @@ using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.TopProducts;
+using Domain.Entities.VideoSection.VideoHeading;
+using Domain.Entities.VideoSection.Videos;
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +30,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AboutUs> AboutUs { get; set; }
     public DbSet<Service> Service { get; set; }
     public DbSet<TopProducts> TopProducts { get; set; }
+    
+    public DbSet<VideoHeading> VideoHeading { get; set; }
+    public DbSet<Videos> Videos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

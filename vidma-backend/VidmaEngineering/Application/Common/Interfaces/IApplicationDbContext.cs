@@ -4,6 +4,8 @@ using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.TopProducts;
+using Domain.Entities.VideoSection.VideoHeading;
+using Domain.Entities.VideoSection.Videos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -22,6 +24,8 @@ public interface IApplicationDbContext
     DbSet<AboutUs> AboutUs { get; }
     DbSet<Service> Service { get; }
     DbSet<TopProducts> TopProducts { get; }
+    DbSet<VideoHeading> VideoHeading { get; }
+    DbSet<Videos> Videos { get; }
 
 
     
