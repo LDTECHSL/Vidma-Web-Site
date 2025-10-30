@@ -10,6 +10,8 @@ import ServicesSection from './pages/Console/ServicesSection';
 import TopProductsSection from './pages/Console/TopProductsSection';
 import ShowroomsSection from './pages/Console/ShowroomsSection';
 import VideoSection from './pages/Console/VideoSection';
+import GallerySection from './pages/Console/GallerySection';
+import AwardsSection from './pages/Console/AwardsSection';
 
 const App: React.FC = () => {
 
@@ -29,6 +31,8 @@ const App: React.FC = () => {
             <Route path="/vidma/console/top-products-section" element={<TopProductsSection />} />
             <Route path="/vidma/console/showrooms-section" element={<ShowroomsSection />} />
             <Route path="/vidma/console/video-section" element={<VideoSection />} />
+            <Route path="/vidma/console/gallery-section" element={<GallerySection />} />
+            <Route path="/vidma/console/awards-section" element={<AwardsSection />} />
           </Routes>
         </Navbar>
       ) : (

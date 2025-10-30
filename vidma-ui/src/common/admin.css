@@ -143,11 +143,26 @@
   position: relative;
 }
 
+.preview-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .preview-wrap1 {
   width: 100%;
   position: relative;
   display: flex;
   justify-content: center;
+}
+
+.preview-wrap2{
+  position: relative;
+  width: 200px;
+  height: 133px; /* 3:2 ratio */
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .preview-img {
