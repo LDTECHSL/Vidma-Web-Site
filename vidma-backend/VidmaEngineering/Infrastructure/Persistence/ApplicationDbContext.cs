@@ -4,6 +4,7 @@ using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
+using Domain.Entities.TopProducts;
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<AboutUs> AboutUs { get; set; }
     public DbSet<Service> Service { get; set; }
+    public DbSet<TopProducts> TopProducts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,6 +35,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         modelBuilder.ApplyConfiguration(new HeroConfiguration());
         modelBuilder.ApplyConfiguration(new AboutUsImageConfiguration());
+        modelBuilder.ApplyConfiguration(new ServiceConfiguration());
+        modelBuilder.ApplyConfiguration(new TopProductsConfiguration());
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

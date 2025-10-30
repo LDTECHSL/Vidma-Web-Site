@@ -29,7 +29,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
         
         builder.HasCheckConstraint(
             "CK_Service_Name_AllowedValues",
-            "ImageNumber IN ('Service1','Service2','Service3','Service4','Service5','Service6')");
+            "ServiceName IN ('Service1','Service2','Service3','Service4','Service5','Service6')");
         
         builder.HasData(
             new Service

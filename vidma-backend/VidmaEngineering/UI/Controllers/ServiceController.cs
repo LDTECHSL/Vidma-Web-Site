@@ -11,6 +11,10 @@ namespace UI.Controllers;
 public class ServiceController(IMediator mediator) : ControllerBase
 {
     
+    [HttpPost]
+    public async Task<ActionResult<Result>> CreateService([FromBody] CreateServicesCommand request)
+        => await mediator.Send(request);
+    
     [HttpGet]
     public async Task<ActionResult<List<ServiceResponse>>> GetServices()
         => await mediator.Send(new GetServicesQuery());
@@ -19,8 +23,6 @@ public class ServiceController(IMediator mediator) : ControllerBase
     public async Task<ActionResult<List<ServiceLanguageResponse>>> GetServicesByLanguage([FromQuery] string languageCode)
         => await mediator.Send(new GetServiceByLanguageQuery { LanguageCode = languageCode });
     
-    [HttpPost]
-    public async Task<ActionResult<Result>> CreateService([FromBody] CreateServicesCommand request)
-        => await mediator.Send(request);
+
     
 }
