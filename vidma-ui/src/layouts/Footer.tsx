@@ -4,44 +4,48 @@ import banner2 from "../assets/brands-banner.png";
 import Divider from "@mui/material/Divider";
 import Lottie from "lottie-react";  // ✅ Import Lottie
 import world from "../assets/world.json"; // ✅ Your animation JSON
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+
+    const { t } = useTranslation();
+
     return (
         <div className="footer-outer">
             <div className="footer-inner">
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Our Services</div>
-                    <div className="f-link">Projects</div>
-                    <div className="f-link">Products</div>
-                    <div className="f-link">About Us</div>
-                    <div className="f-link">Contact Us</div>
+                    <div className="f-title">{t("services")}</div>
+                    <div className="f-link">{t("gallery")}</div>
+                    <div className="f-link">{t("products")}</div>
+                    <div className="f-link">{t("about")}</div>
+                    <div className="f-link">{t("contact")}</div>
                 </div>
 
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Get Help</div>
-                    <div className="f-link">Contact Us</div>
-                    <div className="f-link">WhatsApp</div>
-                    <div className="f-link">info@vidma.com</div>
+                    <div className="f-title">{t("getHelp")}</div>
+                    <div className="f-link">{t("contact")}</div>
+                    <div className="f-link">{t("whatsApp")}</div>
+                    {/* <div className="f-link">info@vidma.com</div> */}
                 </div>
 
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Legal</div>
-                    <div className="f-link">Privacy Policy</div>
-                    <div className="f-link">Terms of Service</div>
+                    <div className="f-title">{t("legal")}</div>
+                    <div className="f-link">{t("privacyPolicy")}</div>
+                    <div className="f-link">{t("termsOfService")}</div>
                 </div>
 
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Follow Us</div>
-                    <div className="f-link">Facebook</div>
-                    <div className="f-link">WhatsApp</div>
-                    <div className="f-link">TikTok</div>
+                    <div className="f-title">{t("followUs")}</div>
+                    <div className="f-link">{t("facebook")}</div>
+                    <div className="f-link">{t("whatsApp")}</div>
+                    <div className="f-link">{t("tiktok")}</div>
                 </div>
             </div>
 
             <div className="footer-awards-outer" data-aos="fade-up">
                 <div className="f">
-                    <div className="f-title">Awards & Recognitions</div>
-                    <img className="footer-awards-banner" src={banner} alt="Awards & Recognitions" />
+                    <div className="f-title">{t("awards")}</div>
+                    <img className="footer-awards-banner" src={banner} alt={t("awards")} />
                 </div>
 
                 {/* ✅ Lottie Animation in center */}
@@ -55,8 +59,8 @@ export default function Footer() {
                 </div>
 
                 <div className="f" data-aos="fade-up">
-                    <div className="f-title">Companies</div>
-                    <img className="footer-awards-banner" src={banner2} alt="Companies" />
+                    <div className="f-title">{t("companies")}</div>
+                    <img className="footer-awards-banner" src={banner2} alt={t("companies")} />
                 </div>
             </div>
 

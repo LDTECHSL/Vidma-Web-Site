@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import Awards from "./components/Awards";
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -44,6 +45,16 @@ i18n.use(initReactI18next).init({
         projectsSub : "successfully executed",
         dealersSub : "serving across Sri Lanka",
         pointsSub : "ensuring wide reach",
+        awards: "Awards & Recognitions",
+        getHelp: "Get Help",
+        whatsApp: "WhatsApp",
+        legal: "Legal",
+        privacyPolicy: "Privacy Policy",
+        termsOfService: "Terms of Service",
+        followUs: "Follow Us",
+        facebook: "Facebook",
+        tiktok: "TikTok",
+        companies: "Companies"
       },
     },
     si: {
@@ -87,6 +98,16 @@ i18n.use(initReactI18next).init({
         projectsSub : "සාර්ථකව ක්‍රියාත්මක",
         dealersSub : "ශ්‍රී ලංකාව පුරා සේවය",
         pointsSub : "විශාල පරාසයක් සහතික කිරීම",
+        awards: "සම්මාන සහ පිළිගැනීම්",
+        getHelp: "උදව් ලබා ගන්න",
+        whatsApp: "වට්සැප්",
+        legal: "නීතිමය",
+        privacyPolicy: "පෞද්ගලිකත්ව ප්‍රතිපත්තිය",
+        termsOfService: "සේවා නියමයන්",
+        followUs: "අප අනුගමනය කරන්න",
+        facebook: "ෆේස්බුක්",
+        tiktok: "ටික්ටොක්",
+        companies: "සමාගම්"
       },
     },
     ta: {
@@ -130,6 +151,16 @@ i18n.use(initReactI18next).init({
         projectsSub : "வெற்றிகரமாக நிறைவேற்றப்பட்டது",
         dealersSub : "இலங்கையெங்கும் சேவை செய்யும்",
         pointsSub : "பெரிய வரம்பை உறுதி செய்தல்",
+        awards: "பரிசுகள் மற்றும் அங்கீகாரங்கள்",
+        getHelp: "உதவி பெறுங்கள்",
+        whatsApp: "வாட்ஸ்அப்",
+        legal: "சட்டபூர்வமானது",
+        privacyPolicy: "தனியுரிமைக் கொள்கை",
+        termsOfService: "சேவை நிபந்தனைகள்",
+        followUs: "எங்களை பின்தொடருங்கள்",
+        facebook: "பேஸ்புக்",
+        tiktok: "டிக்டாக்",
+        companies: "நிறுவனங்கள்"
       },
     },
   },
