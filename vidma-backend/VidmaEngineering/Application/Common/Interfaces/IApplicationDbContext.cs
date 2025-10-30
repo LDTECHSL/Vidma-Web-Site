@@ -2,6 +2,7 @@ using Domain.Entities;
 using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
+using Domain.Entities.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -18,6 +19,7 @@ public interface IApplicationDbContext
     DbSet<ContactUs> ContactUs { get; }
     DbSet<AboutUsImage> AboutUsImage { get; }
     DbSet<AboutUs> AboutUs { get; }
+    DbSet<Service> Service { get; }
 
 
     

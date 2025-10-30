@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Sections;
+using Domain.Entities.Services;
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AboutUsImage> AboutUsImage { get; set; }
 
     public DbSet<AboutUs> AboutUs { get; set; }
+    public DbSet<Service> Service { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
