@@ -12,6 +12,7 @@ import ShowroomsSection from './pages/Console/ShowroomsSection';
 import VideoSection from './pages/Console/VideoSection';
 import GallerySection from './pages/Console/GallerySection';
 import AwardsSection from './pages/Console/AwardsSection';
+import TeamsSection from './pages/Console/TeamsSection';
 
 const App: React.FC = () => {
 
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             <Route path="/vidma/console/video-section" element={<VideoSection />} />
             <Route path="/vidma/console/gallery-section" element={<GallerySection />} />
             <Route path="/vidma/console/awards-section" element={<AwardsSection />} />
+            <Route path="/vidma/console/teams-section" element={<TeamsSection />} />
           </Routes>
         </Navbar>
       ) : (

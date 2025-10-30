@@ -163,6 +163,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Awards Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/awards-section",
+        },
+        {
+            group: "Contents",
+            name: "Teams Section",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/teams-section",
         }
     ];
 

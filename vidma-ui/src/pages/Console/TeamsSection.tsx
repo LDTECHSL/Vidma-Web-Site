@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
+import { Backdrop, CircularProgress } from "@mui/material";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { useCallback, useState } from "react";
 
-export default function AwardsSection() {
+export default function TeamsSection() {
     const [open, setOpen] = useState(false);
-    const [title, setTitle] = useState("");
-    const [year, setYear] = useState("");
+    const [name, setName] = useState("");
+    const [position, setPosition] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>("");
 
@@ -91,7 +91,7 @@ export default function AwardsSection() {
 
     return (
         <div>
-            <BreadCrumb title="Awards Section" />
+            <BreadCrumb title="Teams Section" />
             <Backdrop
                 sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
                 open={open}
@@ -102,21 +102,21 @@ export default function AwardsSection() {
                 <form onSubmit={handleSubmit} className="admin-form">
                     <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
                         <div className="form-group">
-                            <label>Title</label>
+                            <label>Name</label>
                             <input
                                 type="text"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                placeholder="Enter award title"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter name"
                             />
                         </div>
                         <div className="form-group">
-                            <label>Year</label>
+                            <label>Position</label>
                             <input
                                 type="text"
-                                value={year}
-                                onChange={(e) => setYear(e.target.value)}
-                                placeholder="Enter award year"
+                                value={position}
+                                onChange={(e) => setPosition(e.target.value)}
+                                placeholder="Enter position"
                             />
                         </div>
                     </div>
