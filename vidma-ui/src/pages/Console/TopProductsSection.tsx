@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
+import { getTopProducts } from "../../services/home-api";
 
 export default function TopProductsSection() {
 
@@ -12,6 +13,8 @@ export default function TopProductsSection() {
     const [materials, setMaterials] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>("");
+    const [imageLinkS1, setImageLinkS1] = useState<string>("");
+    const [productsList, setProductsList] = useState<any[]>([]);
 
     const validateAspectRatio = (file: File, expectedRatio = 3 / 2, tolerance = 0.075) =>
         new Promise<{ ok: boolean; message?: string }>((resolve) => {
@@ -91,6 +94,28 @@ export default function TopProductsSection() {
     const handleSubmit = async () => {
         // Implement submit logic here
     }
+
+    const handleGetProducts = async () => {
+        try {
+            const response = await getTopProducts();
+            setProductsList(response.data);
+        } catch (error) {
+            console.error(error);            
+        }
+    };
+
+    useEffect(() => {
+        handleGetProducts();
+    }, []);
+
+    const rowClick = (product: any) => {
+        setIsExisting(true);
+        setName(product.name);
+        setDescription(product.description);
+        setColors(product.colors);
+        setMaterials(product.materials);
+        setImageLinkS1(product.imageLink);
+    };
 
     return (
         <div>
@@ -192,7 +217,12 @@ export default function TopProductsSection() {
                     )}
                 </div>
                 <div style={{ marginTop: "10px", color: "red" }}>
-                    {/* <img style={{width: "200px"}} src={imageLinkS1.replace("dl=0", "raw=1")} alt="" /> */}
+                    {
+                        imageLinkS1 !== null && (
+                            <img style={{width: "200px"}} src={imageLinkS1.replace("dl=0", "raw=1")} alt="" />
+                        )
+                    }
+                    
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
 
@@ -201,6 +231,31 @@ export default function TopProductsSection() {
                             Submit
                         </button>
                     )}
+                </div>
+
+                <div>
+                        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                            <thead>
+                                <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Product Name</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Description</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Colors</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Materials</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {productsList.map((product, index) => (
+                                    <tr key={product.id} onClick={() => rowClick(product)} style={{ cursor: "pointer" }}>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{index + 1}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.name}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.description}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.colors}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.materials}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                 </div>
             </form>
         </div>
