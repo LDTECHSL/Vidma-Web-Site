@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import Awards from "./components/Awards";
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -35,7 +36,25 @@ i18n.use(initReactI18next).init({
         teamSub: "Meet the Minds Behind Vidma",
         review: "What People Say",
         reviewSub: "Highly recommended for valuable learning experiences.",
-        videoTitle: "Bringing Innovation, Integrity, and Excellence Together in Every Step"
+        videoTitle: "Bringing Innovation, Integrity, and Excellence Together in Every Step",
+        experience : "Years of Experience",
+        projects : "Projects Completed",
+        dealers : "Dealer Network",
+        points : "Distribution Points",
+        experienceSub : "in delivering excellence",
+        projectsSub : "successfully executed",
+        dealersSub : "serving across Sri Lanka",
+        pointsSub : "ensuring wide reach",
+        awards: "Awards & Recognitions",
+        getHelp: "Get Help",
+        whatsApp: "WhatsApp",
+        legal: "Legal",
+        privacyPolicy: "Privacy Policy",
+        termsOfService: "Terms of Service",
+        followUs: "Follow Us",
+        facebook: "Facebook",
+        tiktok: "TikTok",
+        companies: "Companies"
       },
     },
     si: {
@@ -70,7 +89,25 @@ i18n.use(initReactI18next).init({
         teamSub: "විද්මා පිටුපස මොළයන් හමුවෙන්න",
         review: "මිනිසුන් කියන්නේ මොකද්ද",
         reviewSub: "වටිනා ඉගෙනුම් අත්දැකීම් සඳහා ඉතාමත් නිර්දේශ කර ඇත.",
-        videoTitle: "නවෝත්පාදනය, සත්‍යතාව සහ විශිෂ්ටත්වය එක් එක් පියවරකින් එකට ගෙන එයි"
+        videoTitle: "නවෝත්පාදනය, සත්‍යතාව සහ විශිෂ්ටත්වය එක් එක් පියවරකින් එකට ගෙන එයි",
+        experience : "වසර ගණනාවක පළපුරුද්ද",
+        projects : "සම්පූර්ණ ව්‍යාපෘති",
+        dealers : "විකුණුම් නියෝජිත ජාලය",
+        points : "සැපයුම් ලක්ෂ්‍ය",
+        experienceSub : "සාර්ථකත්වයේ මාර්ගය සැමරීම",
+        projectsSub : "සාර්ථකව ක්‍රියාත්මක",
+        dealersSub : "ශ්‍රී ලංකාව පුරා සේවය",
+        pointsSub : "විශාල පරාසයක් සහතික කිරීම",
+        awards: "සම්මාන සහ පිළිගැනීම්",
+        getHelp: "උදව් ලබා ගන්න",
+        whatsApp: "වට්සැප්",
+        legal: "නීතිමය",
+        privacyPolicy: "පෞද්ගලිකත්ව ප්‍රතිපත්තිය",
+        termsOfService: "සේවා නියමයන්",
+        followUs: "අප අනුගමනය කරන්න",
+        facebook: "ෆේස්බුක්",
+        tiktok: "ටික්ටොක්",
+        companies: "සමාගම්"
       },
     },
     ta: {
@@ -105,7 +142,25 @@ i18n.use(initReactI18next).init({
         teamSub: "விட்மாவின் பின்னணி மனங்களை சந்திக்கவும்",
         review: "மக்கள் என்ன சொல்கிறார்கள்",
         reviewSub: "மதிப்புமிக்க கற்றல் அனுபவங்களுக்கு மிகவும் பரிந்துரைக்கப்படுகிறது.",
-        videoTitle: "ஒவ்வொரு படியிலும் புதுமை, நேர்மை மற்றும் சிறப்பினை ஒன்றிணைத்தல்"
+        videoTitle: "ஒவ்வொரு படியிலும் புதுமை, நேர்மை மற்றும் சிறப்பினை ஒன்றிணைத்தல்",
+        experience : "அனுபவ ஆண்டுகள்",
+        projects : "நிறைவு பெற்ற திட்டங்கள்",
+        dealers : "வணிகர் நெட்வொர்க்",
+        points : "பங்குகள்",
+        experienceSub : "சிறப்பினை வழங்குவதில்",
+        projectsSub : "வெற்றிகரமாக நிறைவேற்றப்பட்டது",
+        dealersSub : "இலங்கையெங்கும் சேவை செய்யும்",
+        pointsSub : "பெரிய வரம்பை உறுதி செய்தல்",
+        awards: "பரிசுகள் மற்றும் அங்கீகாரங்கள்",
+        getHelp: "உதவி பெறுங்கள்",
+        whatsApp: "வாட்ஸ்அப்",
+        legal: "சட்டபூர்வமானது",
+        privacyPolicy: "தனியுரிமைக் கொள்கை",
+        termsOfService: "சேவை நிபந்தனைகள்",
+        followUs: "எங்களை பின்தொடருங்கள்",
+        facebook: "பேஸ்புக்",
+        tiktok: "டிக்டாக்",
+        companies: "நிறுவனங்கள்"
       },
     },
   },

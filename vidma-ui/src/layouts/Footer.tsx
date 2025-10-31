@@ -4,49 +4,68 @@ import banner2 from "../assets/brands-banner.png";
 import Divider from "@mui/material/Divider";
 import Lottie from "lottie-react";  // ✅ Import Lottie
 import world from "../assets/world.json"; // ✅ Your animation JSON
+import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { getContactUsData } from "../services/home-api";
 
 export default function Footer() {
+    const [data, setData] = useState<any>({});
+    const { t } = useTranslation();
+
+    const getSocialMediaLinks = async () => {
+        try { 
+            const res = await getContactUsData();
+            setData(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getSocialMediaLinks();
+    }, []);
+
     return (
         <div className="footer-outer">
             <div className="footer-inner">
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Our Services</div>
-                    <div className="f-link">Projects</div>
-                    <div className="f-link">Products</div>
-                    <div className="f-link">About Us</div>
-                    <div className="f-link">Contact Us</div>
+                    <div className="f-title">{t("services")}</div>
+                    <div className="f-link"><a href="#gallery">{t("gallery")}</a></div>
+                    <div className="f-link"><a href="#products">{t("products")}</a></div>
+                    <div className="f-link"><a href="#about">{t("about")}</a></div>
+                    <div className="f-link"><a href="#contact">{t("contact")}</a></div>
                 </div>
 
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Get Help</div>
-                    <div className="f-link">Contact Us</div>
-                    <div className="f-link">WhatsApp</div>
-                    <div className="f-link">info@vidma.com</div>
+                    <div className="f-title">{t("getHelp")}</div>
+                    <div className="f-link"><a href="#contact">{t("contact")}</a></div>
+                    <div className="f-link" onClick={() => window.open(data.whatsappLink, "_blank")}>{t("whatsApp")}</div>
+                    {/* <div className="f-link">info@vidma.com</div> */}
                 </div>
 
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Legal</div>
-                    <div className="f-link">Privacy Policy</div>
-                    <div className="f-link">Terms of Service</div>
+                    <div className="f-title">{t("legal")}</div>
+                    <div className="f-link">{t("privacyPolicy")}</div>
+                    <div className="f-link">{t("termsOfService")}</div>
                 </div>
 
                 <div className="footer-section" data-aos="fade-up">
-                    <div className="f-title">Follow Us</div>
-                    <div className="f-link">Facebook</div>
-                    <div className="f-link">WhatsApp</div>
-                    <div className="f-link">TikTok</div>
+                    <div className="f-title">{t("followUs")}</div>
+                    <div className="f-link" onClick={() => window.open(data.facebookLink, "_blank")}>{t("facebook")}</div>
+                    <div className="f-link" onClick={() => window.open(data.whatsappLink, "_blank")}>{t("whatsApp")}</div>
+                    <div className="f-link" onClick={() => window.open(data.tikTokLink, "_blank")}>{t("tiktok")}</div>
                 </div>
             </div>
 
             <div className="footer-awards-outer" data-aos="fade-up">
                 <div className="f">
-                    <div className="f-title">Awards & Recognitions</div>
-                    <img className="footer-awards-banner" src={banner} alt="Awards & Recognitions" />
+                    <div className="f-title">{t("awards")}</div>
+                    <img className="footer-awards-banner" src={banner} alt={t("awards")} />
                 </div>
 
                 {/* ✅ Lottie Animation in center */}
                 <div className="footer-lottie" data-aos="fade-up">
-                    <Lottie 
+                    <Lottie
                         animationData={world}
                         loop={true}
                         autoplay={true}
@@ -55,8 +74,8 @@ export default function Footer() {
                 </div>
 
                 <div className="f" data-aos="fade-up">
-                    <div className="f-title">Companies</div>
-                    <img className="footer-awards-banner" src={banner2} alt="Companies" />
+                    <div className="f-title">{t("companies")}</div>
+                    <img className="footer-awards-banner" src={banner2} alt={t("companies")} />
                 </div>
             </div>
 
@@ -64,8 +83,8 @@ export default function Footer() {
 
             <div className="footer-bottom">
                 <div className="fb-text">
-                    © {new Date().getFullYear()} Vidma. All Rights Reserved. | Design and Developed by 
-                    <span style={{ color: "rgba(7, 115, 223, 1)", fontWeight: "bold" }}> 2D-Coders</span>
+                    © {new Date().getFullYear()} Vidma. All Rights Reserved. | Design and Developed by
+                    <span style={{ color: "rgba(7, 115, 223, 1)", fontWeight: "bold", cursor: "pointer" }}> 2D-Coders</span>
                 </div>
             </div>
         </div>
