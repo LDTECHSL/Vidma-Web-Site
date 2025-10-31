@@ -189,3 +189,25 @@ export const getServicesByLanguage = async (lang:string) => {
         throw error;
     }
 }
+
+export const createTopProducts = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}top-products`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+export const getTopProducts = async () => {
+    try {
+        const response = await axios.get(`${api_url}top-products`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
