@@ -3,7 +3,7 @@ import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { showError, showSuccess } from "../../components/Toast";
-import { createVideoSection, getVideoSection } from "../../services/home-api";
+import { createVideoSection, createVideoSectionVideos, deleteVideoSectionVideo, getVideoSection, getVideoSectionVideos } from "../../services/home-api";
 
 export default function VideoSection() {
     const [open, setOpen] = useState(false);
@@ -11,6 +11,8 @@ export default function VideoSection() {
     const [SinhalaDescription, setSinhalaDescription] = useState("");
     const [TamilDescription, setTamilDescription] = useState("");
     const [isExisting, setIsExisting] = useState(false);
+    const [video, setVideo] = useState<string>("");
+    const [videos, setVideos] = useState<any[]>([]);
 
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
@@ -35,6 +37,25 @@ export default function VideoSection() {
         }
     };
 
+    const handleSubmitVideo = async () => {
+        const body = {
+            video: video
+        }
+
+        setOpen(true);
+        try {
+            await createVideoSectionVideos(body, token);
+            showSuccess("Video added successfully");
+        } catch (error) {
+            console.error("Error creating video section:", error);
+        } finally {
+            setOpen(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    };
+
     const handleGetVideoSection = async () => {
         try {
             const response = await getVideoSection();
@@ -42,7 +63,7 @@ export default function VideoSection() {
             setSinhalaDescription(response.data.sinhalaDesc);
             setTamilDescription(response.data.tamilDesc);
 
-            if(response.data.englishDesc === ""){
+            if (response.data.englishDesc === "") {
                 setIsExisting(false);
             } else {
                 setIsExisting(true);
@@ -52,8 +73,31 @@ export default function VideoSection() {
         }
     }
 
+    const handleGetVideos = async () => {
+        try {
+            const response = await getVideoSectionVideos();
+            setVideos(response.data);
+        } catch (error) {
+            console.error("Error fetching videos:", error);
+        }
+    }
+
+    const handleDeleteVideo = async (index: number) => {
+        try {
+            await deleteVideoSectionVideo(index.toString(), token);
+            showSuccess("Video deleted successfully");
+        } catch (error) {
+            showError("Error deleting video");
+        } finally {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    };
+
     useEffect(() => {
         handleGetVideoSection();
+        handleGetVideos();
     }, []);
 
     return (
@@ -127,8 +171,51 @@ export default function VideoSection() {
                         <input
                             type="text"
                             placeholder="Enter Video Link"
+                            value={video}
+                            onChange={(e) => setVideo(e.target.value)}
                         />
                     </div>
+                </div>
+                <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
+                    <button type="button" disabled={!video} className="submit-btn" onClick={handleSubmitVideo}>
+                        Submit
+                    </button>
+                </div>
+
+                <div>
+                    <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                        <thead>
+                            <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>Video Link</th>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {videos.map((vid, index) => (
+                                <tr key={index} style={{ borderBottom: "1px solid #ddd" }}>
+                                    <td style={{ padding: "8px" }}>{index + 1}</td>
+                                    <td style={{ padding: "8px" }}>{vid.videoLink}</td>
+                                    <td style={{ padding: "8px" }}>
+                                        <button type="button" style={{
+                                            backgroundColor: "#f44336",
+                                            color: "white",
+                                            border: "none",
+                                            padding: "8px 12px",
+                                            textAlign: "center",
+                                            textDecoration: "none",
+                                            display: "inline-block",
+                                            margin: "4px 2px",
+                                            cursor: "pointer",
+                                            borderRadius: "4px"
+                                        }} onClick={() => handleDeleteVideo(vid.id)}>
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </form>
         </div>
