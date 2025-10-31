@@ -25,7 +25,9 @@ public class GetTopProductsQueryHandler : IRequestHandler<GetTopProductsQuery, L
                 Description = tp.Description,
                 Colors = tp.Colors,
                 ImageLink = tp.ImageLink,
-                ProductName = tp.ProductName
+                ProductName = tp.ProductName,
+                Materials = tp.Materials
+                
             })
             .ToListAsync(cancellationToken);
 
@@ -40,6 +42,8 @@ public class TopProductResponse
     [MaxLength(1000)] public required string Description { get; set; }
 
     [MaxLength(500)] public required string Colors { get; set; }
+    
+    [MaxLength(500)] public required string Materials { get; set; }
 
     public string? ImageLink { get; set; }
 
