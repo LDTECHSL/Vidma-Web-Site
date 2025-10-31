@@ -15,6 +15,9 @@ public class TopProducts
 
     [MaxLength(500)]
     public required string Colors { get; set; }
+    
+    [MaxLength(500)]
+    public required string Materials { get; set; }
 
     public string? ImageLink { get; set; }
 

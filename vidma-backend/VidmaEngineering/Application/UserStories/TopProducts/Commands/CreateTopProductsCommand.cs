@@ -18,6 +18,8 @@ public class CreateTopProductsCommand : IRequest<Result>
 
     [MaxLength(500)]
     public required string Colors { get; set; }
+    [MaxLength(500)]
+    public required string Materials { get; set; }
 
     public IFormFile? Image { get; set; }
 
@@ -49,6 +51,7 @@ public class CreateTopProductsCommandHandler : IRequestHandler<CreateTopProducts
         existingTopProduct.Name = request.Name;
         existingTopProduct.Description = request.Description;
         existingTopProduct.Colors = request.Colors;
+        existingTopProduct.Materials = request.Materials;
         if (request.Image != null)
         {
             var imageUrl = await _dropBoxService.UploadImageAsync(request.Image, "topproducts");
