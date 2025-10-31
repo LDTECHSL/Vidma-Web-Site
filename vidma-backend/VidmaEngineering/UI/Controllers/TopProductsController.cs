@@ -11,7 +11,7 @@ namespace UI.Controllers;
 public class TopProductsController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<Result>> CreateProduct([FromBody] CreateTopProductsCommand request)
+    public async Task<ActionResult<Result>> CreateProduct([FromForm] CreateTopProductsCommand request)
         => await mediator.Send(request);
     
     [HttpGet]
