@@ -1,7 +1,9 @@
 import { Backdrop, CircularProgress } from "@mui/material"
 import "../../common/admin.css"
 import BreadCrumb from "../../layouts/BreadCrumb"
-import React from "react";
+import React, { use, useEffect } from "react";
+import { createServices, getServices } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
 
 export default function ServicesSection() {
 
@@ -15,8 +17,57 @@ export default function ServicesSection() {
     const [SinhalaDescription, setSinhalaDescription] = React.useState("");
     const [TamilDescription, setTamilDescription] = React.useState("");
 
+    const [servicesData, setServicesData] = React.useState<any[]>([]);
+    const [serviceName, setServiceName] = React.useState("");
+
+    const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
     const handleSubmit = async () => {
 
+        const body = {
+            serviceName: serviceName,
+            englishTitle: EnglishTitle,
+            sinhalaTitle: SinhalaTitle,
+            tamilTitle: TamilTitle,
+            englishDesc: EnglishDescription,
+            sinhalaDesc: SinhalaDescription,
+            tamilDesc: TamilDescription
+        }
+
+        setOpen(true);
+        try {
+            await createServices(body, token);
+            showSuccess("Service updated successfully");
+        } catch (error) {
+            showError("Error updating service");
+        } finally {
+            setOpen(false);
+            window.location.reload();
+        }
+    }
+
+    const handleGetServices = async () => {
+        try {
+            const response = await getServices();
+            setServicesData(response.data);
+        } catch (error) {
+            console.error("Error fetching services:", error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetServices();
+    }, []);
+
+    const rowClick = (service:any) => {
+        setIsExisting(true);
+        setServiceName(service.serviceName);
+        setEnglishTitle(service.englishTitle);
+        setSinhalaTitle(service.sinhalaTitle);
+        setTamilTitle(service.tamilTitle);
+        setEnglishDescription(service.englishDesc);
+        setSinhalaDescription(service.sinhalaDesc);
+        setTamilDescription(service.tamilDesc);
     }
 
     return (
@@ -30,7 +81,7 @@ export default function ServicesSection() {
             </Backdrop>
 
             <div className="admin-form-container">
-                <form onSubmit={handleSubmit} className="admin-form">
+                <form className="admin-form">
                     <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
                         <div className="form-group">
                             <label>English Title</label>
@@ -89,22 +140,35 @@ export default function ServicesSection() {
                     </div>
 
                     <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
-                        {isExisting && (
-                            <button
-                                type="button"
-                                className="edit-btn"
-                                style={{ marginRight: "10px" }}
-                                onClick={() => setIsExisting(false)}
-                            >
-                                Edit
-                            </button>
-                        )}
 
-                        {!isExisting && (
-                            <button type="button" className="submit-btn" onClick={handleSubmit}>
+                        {isExisting && (
+                            <button type="button" disabled={EnglishTitle === "" || SinhalaTitle === "" || TamilTitle === "" || EnglishDescription === "" || SinhalaDescription === "" || TamilDescription === ""} className="submit-btn" onClick={handleSubmit}>
                                 Submit
                             </button>
                         )}
+                    </div>
+
+                    <div>
+                        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                            <thead>
+                                <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Title (EN)</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Title (SI)</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Title (TA)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {servicesData.map((service) => (
+                                    <tr key={service.id} onClick={() => rowClick(service)} style={{ cursor: "pointer" }}>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{service.serviceName.split("Service")[1]}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{service.englishTitle}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{service.sinhalaTitle}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{service.tamilTitle}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </form>
             </div>

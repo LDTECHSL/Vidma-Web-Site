@@ -158,3 +158,34 @@ export const deleteLocation = async (id:string, token:string) => {
         throw error;
     }
 }
+
+export const createServices = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}services`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getServices = async () => {
+    try {
+        const response = await axios.get(`${api_url}services`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getServicesByLanguage = async (lang:string) => {
+    try {
+        const response = await axios.get(`${api_url}services/by-language?languageCode=${lang}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
