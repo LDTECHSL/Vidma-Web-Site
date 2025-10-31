@@ -1,6 +1,6 @@
 .services-outer {
     width: 100%;
-    min-height: auto; /* use min-height instead of fixed height for mobile flexibility */
+    min-height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,7 +16,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.538); /* overlay darkness */
+    background-color: rgba(0, 0, 0, 0.538);
     z-index: 1;
 }
 
@@ -29,10 +29,10 @@
     margin-top: 45px;
     width: 90%;
     display: flex;
-    justify-content: space-between; /* space evenly for desktop */
+    justify-content: space-between;
     align-items: stretch;
     gap: 20px;
-    flex-wrap: wrap; /* allow wrap on smaller screens */
+    flex-wrap: wrap;
 }
 
 .service-card {
@@ -54,7 +54,6 @@
 
 .service-card:hover {
     transform: translateY(-10px);
-    /* background: var(--gradient); */
     background-color: var(--color-primary);
     color: #ffffff;
 }
