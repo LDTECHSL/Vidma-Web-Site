@@ -1,12 +1,16 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../common/videos.css";
 import { useTranslation } from "react-i18next";
+import { useLanguage } from "./LanguageContext";
+import { getVideoSectionByLanguage } from "../services/home-api";
 
 export default function VideoSlider() {
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [videoHeader, setVideoHeader] = useState<any>(null);
 
     const {t} = useTranslation();
+    const {language} = useLanguage();
 
     const videos = [
         "https://www.youtube.com/embed/Q2CcW6vPeDA",
@@ -27,6 +31,19 @@ export default function VideoSlider() {
         }
     };
 
+    const handleGetVideoSection = async () => {
+        try {
+            const response = await getVideoSectionByLanguage(language);
+            setVideoHeader(response.data);
+        } catch (error) {
+            console.error("Error fetching video section:", error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetVideoSection();
+    }, [language]);
+
     return (
         <div className="video-slider-container">
             {/* Header Section */}
@@ -36,7 +53,7 @@ export default function VideoSlider() {
                 </div>
                 <div className="video-description" data-aos="fade-up">
                     <p>
-                        “At Vidma Engineering (Pvt) Ltd, we believe true progress begins with integrity and innovation. Every project we undertake reflects our commitment to quality, precision, and long-term reliability — from advanced roofing solutions to sustainable solar systems. Guided by excellence at every step, we continue to build lasting trust and enduring value for our clients.”
+                        “{videoHeader?.description}”
                     </p>
                     <div className="nav-buttons">
                         <button onClick={() => scroll("left")} className="nav-btn">
