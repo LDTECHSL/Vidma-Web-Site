@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { showError, showSuccess } from "../../components/Toast";
+import { createVideoSection, getVideoSection } from "../../services/home-api";
 
 export default function VideoSection() {
     const [open, setOpen] = useState(false);
@@ -10,9 +12,49 @@ export default function VideoSection() {
     const [TamilDescription, setTamilDescription] = useState("");
     const [isExisting, setIsExisting] = useState(false);
 
+    const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
     const handleSubmit = async () => {
-        // Handle form submission logic here
+        const body = {
+            englishDesc: EnglishDescription,
+            sinhalaDesc: SinhalaDescription,
+            tamilDesc: TamilDescription
+        }
+
+        setOpen(true);
+        try {
+            await createVideoSection(body, token);
+            showSuccess("Video section updated successfully");
+        } catch (error) {
+            showError("Error updating video section");
+        } finally {
+            setOpen(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
     };
+
+    const handleGetVideoSection = async () => {
+        try {
+            const response = await getVideoSection();
+            setEnglishDescription(response.data.englishDesc);
+            setSinhalaDescription(response.data.sinhalaDesc);
+            setTamilDescription(response.data.tamilDesc);
+
+            if(response.data.englishDesc === ""){
+                setIsExisting(false);
+            } else {
+                setIsExisting(true);
+            }
+        } catch (error) {
+            console.error("Error fetching video section:", error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetVideoSection();
+    }, []);
 
     return (
         <div>
