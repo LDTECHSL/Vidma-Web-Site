@@ -47,6 +47,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.ApplyConfiguration(new AboutUsImageConfiguration());
         modelBuilder.ApplyConfiguration(new ServiceConfiguration());
         modelBuilder.ApplyConfiguration(new TopProductsConfiguration());
+        
+        //Gallery Configuration have one to many relationship with Gallery and GalleryImages
+        // Configure one-to-many relationship with cascade delete: when a Gallery is deleted its GalleryImages are deleted as well
+        modelBuilder.Entity<Gallery>()
+            .HasMany(g => g.Images)
+            .WithOne(i => i.Gallery)
+            .HasForeignKey(i => i.GalleryId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
