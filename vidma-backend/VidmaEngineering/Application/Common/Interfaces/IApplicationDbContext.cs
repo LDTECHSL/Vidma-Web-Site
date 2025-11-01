@@ -1,6 +1,7 @@
 using Domain.Entities;
 using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
+using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
@@ -28,6 +29,8 @@ public interface IApplicationDbContext
     DbSet<VideoHeading> VideoHeading { get; }
     DbSet<Videos> Videos { get; }
     DbSet<Stats> Stats { get; }
+    DbSet<Gallery> Gallery { get; }
+    DbSet<GalleryImages> GalleryImages { get; }
 
 
     

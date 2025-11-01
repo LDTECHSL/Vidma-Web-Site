@@ -2,6 +2,7 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.AboutUs;
 using Domain.Entities.ContactUs;
+using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
@@ -35,6 +36,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<VideoHeading> VideoHeading { get; set; }
     public DbSet<Videos> Videos { get; set; }
     public DbSet<Stats> Stats { get; set; }
+    public DbSet<Gallery> Gallery { get; set; }
+    public DbSet<GalleryImages> GalleryImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
