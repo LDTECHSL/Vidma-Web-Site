@@ -277,3 +277,25 @@ export const deleteVideoSectionVideo = async (id:string, token:string) => {
         throw error;
     }
 }
+
+export const createStats = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}stats`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getStats = async () => {
+    try {
+        const response = await axios.get(`${api_url}stats`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
