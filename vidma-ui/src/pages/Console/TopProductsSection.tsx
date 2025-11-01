@@ -1,6 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
+import { createTopProducts, getTopProducts } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 export default function TopProductsSection() {
 
@@ -12,33 +15,10 @@ export default function TopProductsSection() {
     const [materials, setMaterials] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>("");
+    const [imageLinkS1, setImageLinkS1] = useState<string>("");
+    const [productsList, setProductsList] = useState<any[]>([]);
+    const [ProductName, setProductName] = useState("");
 
-    const validateAspectRatio = (file: File, expectedRatio = 3 / 2, tolerance = 0.075) =>
-        new Promise<{ ok: boolean; message?: string }>((resolve) => {
-            const url = URL.createObjectURL(file);
-            const img = new Image();
-            img.onload = () => {
-                const ratio = img.width / img.height;
-                URL.revokeObjectURL(url);
-                const min = expectedRatio - expectedRatio * tolerance;
-                const max = expectedRatio + expectedRatio * tolerance;
-                if (ratio >= min && ratio <= max) {
-                    resolve({ ok: true });
-                } else {
-                    resolve({
-                        ok: false,
-                        message: `Invalid aspect ratio. Found ${ratio.toFixed(
-                            2
-                        )}:1 — expected ~${expectedRatio.toFixed(2)} (3:2).`,
-                    });
-                }
-            };
-            img.onerror = () => {
-                URL.revokeObjectURL(url);
-                resolve({ ok: false, message: "Unable to read image." });
-            };
-            img.src = url;
-        });
 
     // Generic drop handler factory for re-use
     const makeDropHandler = useCallback(
@@ -52,12 +32,6 @@ export default function TopProductsSection() {
                 // only single file allowed
                 if (!file.type.startsWith("image/")) {
                     setError("Only image files are allowed.");
-                    return;
-                }
-
-                const { ok, message } = await validateAspectRatio(file);
-                if (!ok) {
-                    setError(message || "Invalid image.");
                     return;
                 }
 
@@ -88,20 +62,71 @@ export default function TopProductsSection() {
         setError(null);
     };
 
+    const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
     const handleSubmit = async () => {
-        // Implement submit logic here
+        const formData = new FormData();
+        formData.append("Name", name);
+        formData.append("Description", description);
+        formData.append("Colors", colors);
+        formData.append("Materials", materials);
+        if (imageS1) {
+            formData.append("Image", imageS1);
+        }
+        formData.append("ProductName", ProductName);
+
+        setOpen(true);
+        try {
+            await createTopProducts(formData, token);
+            showSuccess("Top product created successfully");
+        } catch (error) {
+            showError("Error creating top product");
+        } finally {
+            setOpen(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
     }
+
+    const handleGetProducts = async () => {
+        try {
+            const response = await getTopProducts();
+            setProductsList(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        handleGetProducts();
+    }, []);
+
+    const rowClick = (product: any) => {
+        setIsExisting(true);
+        setName(product.name);
+        setDescription(product.description);
+        setColors(product.colors);
+        setMaterials(product.materials);
+        setImageLinkS1(product.imageLink);
+        setProductName(product.productName);
+    };
 
     return (
         <div>
             <BreadCrumb title="Top Products Section" />
+            <Backdrop
+                sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+                open={open}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <form className="admin-form">
                 <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
                     <div className="form-group">
                         <label>Name</label>
                         <input
                             type="text"
-                            disabled={isExisting}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Enter name"
@@ -112,7 +137,6 @@ export default function TopProductsSection() {
                         <label>Colors</label>
                         <input
                             type="text"
-                            disabled={isExisting}
                             value={colors}
                             onChange={(e) => setColors(e.target.value)}
                             placeholder="Enter colors"
@@ -123,7 +147,6 @@ export default function TopProductsSection() {
                         <label>Materials</label>
                         <input
                             type="text"
-                            disabled={isExisting}
                             value={materials}
                             onChange={(e) => setMaterials(e.target.value)}
                             placeholder="Enter materials"
@@ -134,7 +157,6 @@ export default function TopProductsSection() {
                     <label>Description</label>
                     <textarea
                         value={description}
-                        disabled={isExisting}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Enter description"
                     />
@@ -166,7 +188,7 @@ export default function TopProductsSection() {
                             <div className="dropzone-icon">⤓</div>
                             <div className="dropzone-text">
                                 Drop image here or click to select
-                                <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+                                <div className="dropzone-hint">Only one image</div>
                             </div>
                         </div>
                     ) : (
@@ -192,7 +214,12 @@ export default function TopProductsSection() {
                     )}
                 </div>
                 <div style={{ marginTop: "10px", color: "red" }}>
-                    {/* <img style={{width: "200px"}} src={imageLinkS1.replace("dl=0", "raw=1")} alt="" /> */}
+                    {
+                        imageLinkS1 !== null && (
+                            <img style={{ width: "200px" }} src={imageLinkS1.replace("dl=0", "raw=1")} alt="" />
+                        )
+                    }
+
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
 
@@ -201,6 +228,31 @@ export default function TopProductsSection() {
                             Submit
                         </button>
                     )}
+                </div>
+
+                <div>
+                    <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                        <thead>
+                            <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>Product Name</th>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>Description</th>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>Colors</th>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>Materials</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {productsList.map((product, index) => (
+                                <tr key={product.id} onClick={() => rowClick(product)} style={{ cursor: "pointer" }}>
+                                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{index + 1}</td>
+                                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.name}</td>
+                                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.description}</td>
+                                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.colors}</td>
+                                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>{product.materials}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </form>
         </div>

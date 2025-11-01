@@ -42,7 +42,9 @@ export default function ServicesSection() {
             showError("Error updating service");
         } finally {
             setOpen(false);
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         }
     }
 

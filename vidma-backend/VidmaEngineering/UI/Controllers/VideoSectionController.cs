@@ -28,7 +28,7 @@ public class VideoSectionController(IMediator mediator) : ControllerBase
         });
 
     [HttpPost("video")]
-    public async Task<ActionResult<Result>> UploadVideoSection([FromForm] CreateVideoCommand request)
+    public async Task<ActionResult<Result>> UploadVideoSection([FromBody] CreateVideoCommand request)
         => await mediator.Send(request);
 
     [HttpDelete("video")]

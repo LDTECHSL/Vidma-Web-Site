@@ -211,3 +211,69 @@ export const getTopProducts = async () => {
         throw error;
     }
 }
+
+export const createVideoSection = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}video-section`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getVideoSection = async () => {
+    try {
+        const response = await axios.get(`${api_url}video-section`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getVideoSectionByLanguage = async (lang:string) => {
+    try {
+        const response = await axios.get(`${api_url}video-section/by-language?languageCode=${lang}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const createVideoSectionVideos = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}video-section/video`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getVideoSectionVideos = async () => {
+    try {
+        const response = await axios.get(`${api_url}video-section/video`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteVideoSectionVideo = async (id:string, token:string) => {
+    try {
+        const response = await axios.delete(`${api_url}video-section/video?id=${id}` , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
