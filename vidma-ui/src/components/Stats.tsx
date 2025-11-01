@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../common/main.css";
 import "../common/stats.css";
 import { useTranslation } from "react-i18next";
+import { getStats } from "../services/home-api";
 
 interface StatsResponse {
     experience: number;
@@ -19,16 +20,8 @@ export default function Stats() {
         // ✅ Simulate or fetch data from API
         async function fetchStats() {
             try {
-                // Example API call
-                // const res = await fetch("https://your-api.com/stats");
-                // const result = await res.json();
-                const result = {
-                    experience: 18,
-                    projects: 1000,
-                    dealers: 950,
-                    points: 100,
-                };
-                setData(result);
+                const response = await getStats();
+                setData(response.data);
             } catch (error) {
                 console.error("Error fetching stats:", error);
             }
