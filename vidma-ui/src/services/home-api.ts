@@ -299,3 +299,61 @@ export const getStats = async () => {
         throw error;
     }
 }
+
+export const createGallery = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}gallery`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getGallery = async () => {
+    try {
+        const response = await axios.get(`${api_url}gallery/all`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getGalleryById = async (id:string) => {
+    try {
+        const response = await axios.get(`${api_url}gallery/by-id?GalleryId=${id}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteGalleryById = async (id:string, token:string) => {
+    try {
+        const response = await axios.delete(`${api_url}gallery?GalleryId=${id}` , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteGalleryImageById = async (id:string, token:string) => {
+    try {
+        const response = await axios.delete(`${api_url}gallery/image?GalleryImageId=${id}` , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
