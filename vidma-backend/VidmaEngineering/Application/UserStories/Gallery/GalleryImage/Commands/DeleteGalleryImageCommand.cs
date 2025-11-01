@@ -8,7 +8,7 @@ namespace Application.UserStories.Gallery.GalleryImage;
 
 public class DeleteGalleryImageCommand : IRequest<Result>
 {
-    public int GallerImageId { get; set; }
+    public int GalleryImageId { get; set; }
 }
 
 public class DeleteGalleryImageCommandHandler : IRequestHandler<DeleteGalleryImageCommand, Result>
@@ -23,7 +23,7 @@ public class DeleteGalleryImageCommandHandler : IRequestHandler<DeleteGalleryIma
     public async Task<Result> Handle(DeleteGalleryImageCommand request, CancellationToken cancellationToken)
     {
         var image = await _context.GalleryImages
-            .Where(x => x.Id == request.GallerImageId)
+            .Where(x => x.Id == request.GalleryImageId)
             .FirstOrDefaultAsync(cancellationToken);
 
 

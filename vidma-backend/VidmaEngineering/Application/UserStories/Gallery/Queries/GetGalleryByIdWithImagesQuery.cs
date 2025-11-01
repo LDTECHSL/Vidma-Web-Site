@@ -27,9 +27,13 @@ public class GetGalleryByIdWithImagesQueryHandler : IRequestHandler<GetGalleryBy
             {
                 GalleryId = g.Id,
                 Title = g.Title,
-                ImageLinks = g.Images
-                    .OrderBy(i => i.Id) 
-                    .Select(i => i.ImageUrl)
+                Images = g.Images
+                    .OrderBy(i => i.Id)
+                    .Select(i => new ImageResponse
+                    {
+                        ImageId = i.Id,
+                        ImageUrl = i.ImageUrl
+                    })
                     .ToList()
             })
             .FirstOrDefaultAsync(cancellationToken);
