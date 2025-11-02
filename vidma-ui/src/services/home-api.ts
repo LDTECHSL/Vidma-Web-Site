@@ -434,3 +434,53 @@ export const deleteAchievements = async (id:string, token:string) => {
         throw error;
     }
 }
+
+export const createTeams = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}teams`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateTeams = async (body:any, token:string) => {
+    try {
+        const response = await axios.put(`${api_url}teams`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getTeams = async () => {
+    try {
+        const response = await axios.get(`${api_url}teams`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteTeams = async (id:string, token:string) => {
+    try {
+        const response = await axios.delete(`${api_url}teams?MemberId=${id}` , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}   
