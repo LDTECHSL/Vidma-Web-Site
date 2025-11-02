@@ -12,7 +12,7 @@ public class CreateAchievementCommand : IRequest<Result>
 
     public int? Year { get; set; }
 
-    public IFormFile ImageUrl { get; set; }
+    public IFormFile Image { get; set; }
 }
 
 public class CreateAchievementCommandHandler : IRequestHandler<CreateAchievementCommand, Result>
@@ -28,7 +28,7 @@ public class CreateAchievementCommandHandler : IRequestHandler<CreateAchievement
 
     public async Task<Result> Handle(CreateAchievementCommand request, CancellationToken cancellationToken)
     {
-        var imageLink = await _dropBoxService.UploadImageAsync(request.ImageUrl, "achievements");
+        var imageLink = await _dropBoxService.UploadImageAsync(request.Image, "achievements");
 
 
         var achievement = new Domain.Entities.Achievemnets.Achievements

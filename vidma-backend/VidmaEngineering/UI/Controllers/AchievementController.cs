@@ -11,11 +11,11 @@ namespace UI.Controllers;
 public class AchievementController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<Result>> CreateAchievement([FromBody] CreateAchievementCommand request)
+    public async Task<ActionResult<Result>> CreateAchievement([FromForm] CreateAchievementCommand request)
         => await mediator.Send(request);
     
     [HttpPut]
-    public async Task<ActionResult<Result>> UpdateAchievement([FromBody] UpdateAchievementCommand request)
+    public async Task<ActionResult<Result>> UpdateAchievement([FromForm] UpdateAchievementCommand request)
         => await mediator.Send(request);
     
     [HttpDelete]

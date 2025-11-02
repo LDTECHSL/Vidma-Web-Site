@@ -17,7 +17,7 @@ public class UpdateAchievementCommand : IRequest<Result>
 
     public int? Year { get; set; }
 
-    public IFormFile? ImageUrl { get; set; }
+    public IFormFile? Image { get; set; }
     
 }
 
@@ -45,9 +45,9 @@ public class UpdateAchievementCommandHandler : IRequestHandler<UpdateAchievement
         achievement.Name = request.Name;
         achievement.Year = request.Year;
 
-        if (request.ImageUrl != null)
+        if (request.Image != null)
         {
-            var imageUrl = await _dropBoxService.UploadImageAsync(request.ImageUrl, "achievements");
+            var imageUrl = await _dropBoxService.UploadImageAsync(request.Image, "achievements");
             achievement.ImageUrl = imageUrl;
         }
 
