@@ -1,11 +1,14 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.AboutUs;
+using Domain.Entities.Achievemnets;
 using Domain.Entities.ContactUs;
+using Domain.Entities.Form;
 using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
+using Domain.Entities.Teams;
 using Domain.Entities.TopProducts;
 using Domain.Entities.VideoSection.VideoHeading;
 using Domain.Entities.VideoSection.Videos;
@@ -38,6 +41,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Stats> Stats { get; set; }
     public DbSet<Gallery> Gallery { get; set; }
     public DbSet<GalleryImages> GalleryImages { get; set; }
+    public DbSet<Team> Team { get; set; }
+    public DbSet<Achievements> Achievements { get; set; }
+    public DbSet<Form> Form { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

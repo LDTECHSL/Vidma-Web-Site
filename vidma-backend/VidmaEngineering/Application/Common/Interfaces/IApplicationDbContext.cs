@@ -1,10 +1,13 @@
 using Domain.Entities;
 using Domain.Entities.AboutUs;
+using Domain.Entities.Achievemnets;
 using Domain.Entities.ContactUs;
+using Domain.Entities.Form;
 using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
+using Domain.Entities.Teams;
 using Domain.Entities.TopProducts;
 using Domain.Entities.VideoSection.VideoHeading;
 using Domain.Entities.VideoSection.Videos;
@@ -31,6 +34,9 @@ public interface IApplicationDbContext
     DbSet<Stats> Stats { get; }
     DbSet<Gallery> Gallery { get; }
     DbSet<GalleryImages> GalleryImages { get; }
+    DbSet<Team> Team { get; }
+    DbSet<Achievements> Achievements { get; }
+    DbSet<Form> Form { get; }
 
 
     
