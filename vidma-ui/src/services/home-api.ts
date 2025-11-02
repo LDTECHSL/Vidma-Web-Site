@@ -484,3 +484,12 @@ export const deleteTeams = async (id:string, token:string) => {
         throw error;
     }
 }   
+
+export const createForm = async (body:any) => {
+    try {
+        const response = await axios.post(`${api_url}form`, body);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
