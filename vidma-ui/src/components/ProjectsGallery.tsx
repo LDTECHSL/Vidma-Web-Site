@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../common/main.css";
 import "../common/gallery.css";
 import { useTranslation } from "react-i18next";
+import { getGallery, getGalleryById } from "../services/home-api";
 
 export default function ProjectsGallery() {
     const [selectedProject, setSelectedProject] = useState<any>(null);
+    const [albums, setAlbums] = useState<any[]>([]);
+    const [selectedAlbum, setSelectedAlbum] = useState<any>(null);
 
     const projects = [
         {
@@ -73,6 +76,33 @@ export default function ProjectsGallery() {
         },
     ];
 
+    const handleGetAlbums = async () => {
+        try {
+            const response = await getGallery();
+            setAlbums(response.data);
+        } catch (error) {
+            console.error("Error fetching gallery albums:", error);            
+        }
+    }
+
+    const handleAlbumClick = async (album: any) => {
+        console.log("Album clicked:", album);
+        
+        setSelectedAlbum(album);
+
+        try {
+            const response = await getGalleryById(album.galleryId);
+            const albumData = response.data;
+            setSelectedProject(albumData);
+        } catch (error) {
+            console.error("Error fetching album data:", error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetAlbums();
+    }, []);
+
     const {t} = useTranslation();
 
     return (
@@ -84,34 +114,32 @@ export default function ProjectsGallery() {
                 {t("projects1Sub")}
             </div>
             <div className="gallery-sub-outer">
-                {projects.slice(0, 3).map((project) => (
+                {albums.map((album) => (
                     <div
                         className="gallery-item"
-                        key={project.id}
-                        onClick={() => setSelectedProject(project)}
+                        key={album.id}
+                        onClick={() => handleAlbumClick(album)}
                         data-aos="fade-up"
                     >
-                        {/* Thumbnail layout */}
                         <div className="gallery-thumbnail">
                             <div className="thumb-left">
-                                {project.images.slice(0, 2).map((img, index) => (
-                                    <img key={index} src={img} alt="" />
+                                {album.images.slice(0, 2).map((img:any, index:any) => (
+                                    <img key={index} src={img.imageUrl.replace("dl=0", "raw=1")} alt="" />
                                 ))}
                             </div>
                             <div className="thumb-right">
-                                <img src={project.images[2]} alt="" />
+                                <img src={album.images[2].imageUrl.replace("dl=0", "raw=1")} alt="" />
                             </div>
                         </div>
 
-                        {/* Title and count below the thumbnail */}
                         <div className="gallery-info">
-                            <h3>{project.title}</h3>
-                            <p>{project.images.length} Photos</p>
+                            <h3>{album.title}</h3>
+                            <p>{album.count} Photos</p>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="gallery-sub-outer">
+            {/* <div className="gallery-sub-outer">
                 {projects.slice(3, 6).map((project) => (
                     <div
                         className="gallery-item"
@@ -119,7 +147,6 @@ export default function ProjectsGallery() {
                         onClick={() => setSelectedProject(project)}
                         data-aos="fade-up"
                     >
-                        {/* Thumbnail layout */}
                         <div className="gallery-thumbnail">
                             <div className="thumb-left">
                                 {project.images.slice(0, 2).map((img, index) => (
@@ -131,14 +158,13 @@ export default function ProjectsGallery() {
                             </div>
                         </div>
 
-                        {/* Title and count below the thumbnail */}
                         <div className="gallery-info">
                             <h3>{project.title}</h3>
                             <p>{project.images.length} Photos</p>
                         </div>
                     </div>
                 ))}
-            </div>
+            </div> */}
 
             {/* Modal */}
             <>
@@ -151,7 +177,7 @@ export default function ProjectsGallery() {
                             <h2>{selectedProject.title}</h2>
                             <div className="gallery-modal-grid">
                                 {selectedProject.images.map((img: any, index: any) => (
-                                    <img key={index} src={img} alt="" />
+                                    <img key={index} src={img.imageUrl.replace("dl=0", "raw=1")} alt="" />
                                 ))}
                             </div>
                             <button

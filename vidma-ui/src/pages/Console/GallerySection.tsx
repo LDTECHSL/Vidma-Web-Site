@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { createGallery, deleteGalleryById, deleteGalleryImageById, getGallery, getGalleryById } from "../../services/home-api";
+import { createGallery, createGalleryImage, deleteGalleryById, deleteGalleryImageById, getGallery, getGalleryById, updateGallery } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function GallerySection() {
@@ -22,23 +22,62 @@ export default function GallerySection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("Title", name);
-    images.forEach((image) => {
-      formData.append("Images", image);
-    });
+    if (albumId === null) {
+      const formData = new FormData();
+      formData.append("Title", name);
+      images.forEach((image) => {
+        formData.append("Images", image);
+      });
+
+      setOpen(true);
+      try {
+        await createGallery(formData, token);
+        showSuccess("Gallery created successfully");
+      } catch (error) {
+        showError("Error creating gallery");
+      } finally {
+        setOpen(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } else {
+      const formData = new FormData();
+      formData.append("GalleryId", albumId);
+      formData.append("Title", name);
+      // formData.append("Image", images[0]);
+      images.forEach((image) => {
+        formData.append("Image", image);
+      });
+
+      setOpen(true);
+      try {
+        await createGalleryImage(formData, token);
+        showSuccess("Gallery updated successfully");
+      } catch (error) {
+        showError("Error updating gallery");
+      } finally {
+        setOpen(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    }
+  };
+
+  const handleUpdateGalleryName = async (name1:any) => {
+    if(albumId === null) return;
 
     setOpen(true);
+
     try {
-      await createGallery(formData, token);
-      showSuccess("Gallery created successfully");
+      await updateGallery({ galleryId: albumId, title: name1 }, token);
+      showSuccess("Saved!");
     } catch (error) {
-      showError("Error creating gallery");
+      showError("Error updating gallery");
     } finally {
       setOpen(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      handleGetAllGalleries();
     }
   };
 
@@ -199,7 +238,10 @@ export default function GallerySection() {
               <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  handleUpdateGalleryName(e.target.value);
+                }}
                 placeholder="Enter title"
               />
             </div>
