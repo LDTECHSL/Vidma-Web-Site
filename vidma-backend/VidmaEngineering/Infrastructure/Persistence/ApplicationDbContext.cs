@@ -1,6 +1,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.AboutUs;
+using Domain.Entities.Achievemnets;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
@@ -40,6 +41,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Gallery> Gallery { get; set; }
     public DbSet<GalleryImages> GalleryImages { get; set; }
     public DbSet<Team> Team { get; set; }
+    public DbSet<Achievements> Achievements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

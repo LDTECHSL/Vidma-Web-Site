@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Domain.Entities.AboutUs;
+using Domain.Entities.Achievemnets;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
@@ -33,6 +34,7 @@ public interface IApplicationDbContext
     DbSet<Gallery> Gallery { get; }
     DbSet<GalleryImages> GalleryImages { get; }
     DbSet<Team> Team { get; }
+    DbSet<Achievements> Achievements { get; }
 
 
     
