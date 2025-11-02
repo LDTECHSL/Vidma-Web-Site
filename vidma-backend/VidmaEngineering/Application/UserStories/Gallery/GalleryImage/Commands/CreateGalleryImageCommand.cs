@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Throw;
 
-namespace Application.UserStories.Gallery.GalleryImage;
+namespace Application.UserStories.Gallery.GalleryImage.Commands;
 
 public class CreateGalleryImageCommand : IRequest<Result>
 {
     public required int GalleryId { get; set; }
 
-    public required IFormFile Image { get; set; }
+    public required List<IFormFile> Image { get; set; }
 }
 
 public class CreateGalleryImageCommandHandler : IRequestHandler<CreateGalleryImageCommand, Result>
@@ -36,18 +36,34 @@ public class CreateGalleryImageCommandHandler : IRequestHandler<CreateGalleryIma
 
         var folderPath = $"gallery/{request.GalleryId}";
 
-
-        var imageUrlConstruct = await _dropBoxService.UploadImageAsync(request.Image, folderPath);
-
-
-        var gallerImage = new GalleryImages
+        if (request.Image == null || request.Image.Count == 0)
         {
-            GalleryId = request.GalleryId,
-            ImageUrl = imageUrlConstruct
-        };
-        _context.GalleryImages.Add(gallerImage);
+            return Result.Failure("No images provided to upload.");
+        }
+
+        var galleryImagesToAdd = new List<GalleryImages>();
+
+        foreach (var file in request.Image)
+        {
+            // upload each file individually
+            var imageUrl = await _dropBoxService.UploadImageAsync(file, folderPath);
+
+            if (string.IsNullOrWhiteSpace(imageUrl))
+                continue; // skip failed uploads
+
+            galleryImagesToAdd.Add(new GalleryImages
+            {
+                GalleryId = request.GalleryId,
+                ImageUrl = imageUrl
+            });
+        }
+
+        if (galleryImagesToAdd.Count == 0)
+            return Result.Failure("Failed to upload any images.");
+
+        _context.GalleryImages.AddRange(galleryImagesToAdd);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Result.Success("Image uploaded successfully");
+        return Result.Success("Images uploaded successfully");
     }
 }
