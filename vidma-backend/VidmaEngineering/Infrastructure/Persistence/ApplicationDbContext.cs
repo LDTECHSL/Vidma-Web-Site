@@ -6,6 +6,7 @@ using Domain.Entities.Gallery;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
+using Domain.Entities.Teams;
 using Domain.Entities.TopProducts;
 using Domain.Entities.VideoSection.VideoHeading;
 using Domain.Entities.VideoSection.Videos;
@@ -38,6 +39,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Stats> Stats { get; set; }
     public DbSet<Gallery> Gallery { get; set; }
     public DbSet<GalleryImages> GalleryImages { get; set; }
+    public DbSet<Team> Team { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
