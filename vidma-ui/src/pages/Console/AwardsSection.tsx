@@ -1,7 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { createAchievements, deleteAchievements, getAchievements, updateAchievements } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
 
 export default function AwardsSection() {
     const [open, setOpen] = useState(false);
@@ -9,37 +11,73 @@ export default function AwardsSection() {
     const [year, setYear] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>("");
+    const [achievements, setAchievements] = useState<any[]>([]);
+    const [isEditing, setIsEditing] = useState(false);
+    const [img, setImg] = useState<string>("");
+    const [id, setId] = useState<number | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (isEditing) {
+            const formData = new FormData();
+            formData.append("AchievementId", id?.toString() || "");
+            formData.append("Name", title);
+            formData.append("Year", year);
+            if (imageS1) {
+                formData.append("Image", imageS1);
+            }
+
+            setOpen(true);
+            try {
+                await updateAchievements(formData, token);
+                showSuccess("Award updated successfully");
+            } catch (error) {
+                showError("Error updating award");
+            } finally {
+                setOpen(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        } else {
+            const formData = new FormData();
+            formData.append("Name", title);
+            formData.append("Year", year);
+            if (imageS1) {
+                formData.append("Image", imageS1);
+            }
+
+            setOpen(true);
+
+            try {
+                await createAchievements(formData, token);
+                showSuccess("Award created successfully");
+            } catch (error) {
+                showError("Error creating award");
+            } finally {
+                setOpen(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        }
     }
 
-    const validateAspectRatio = (file: File, expectedRatio = 3 / 2, tolerance = 0.075) =>
-        new Promise<{ ok: boolean; message?: string }>((resolve) => {
-            const url = URL.createObjectURL(file);
-            const img = new Image();
-            img.onload = () => {
-                const ratio = img.width / img.height;
-                URL.revokeObjectURL(url);
-                const min = expectedRatio - expectedRatio * tolerance;
-                const max = expectedRatio + expectedRatio * tolerance;
-                if (ratio >= min && ratio <= max) {
-                    resolve({ ok: true });
-                } else {
-                    resolve({
-                        ok: false,
-                        message: `Invalid aspect ratio. Found ${ratio.toFixed(
-                            2
-                        )}:1 — expected ~${expectedRatio.toFixed(2)} (3:2).`,
-                    });
-                }
-            };
-            img.onerror = () => {
-                URL.revokeObjectURL(url);
-                resolve({ ok: false, message: "Unable to read image." });
-            };
-            img.src = url;
-        });
+    const handleGetAchievements = async () => {
+        try {
+            const response = await getAchievements();
+            setAchievements(response.data);
+        } catch (error) {
+            console.error("Error fetching achievements:", error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetAchievements();
+    }, []);
 
     // Generic drop handler factory for re-use
     const makeDropHandler = useCallback(
@@ -53,12 +91,6 @@ export default function AwardsSection() {
                 // only single file allowed
                 if (!file.type.startsWith("image/")) {
                     setError("Only image files are allowed.");
-                    return;
-                }
-
-                const { ok, message } = await validateAspectRatio(file);
-                if (!ok) {
-                    setError(message || "Invalid image.");
                     return;
                 }
 
@@ -88,6 +120,30 @@ export default function AwardsSection() {
         setFile(null);
         setError(null);
     };
+
+    const rowClick = async (achievement: any) => {
+        setIsEditing(true);
+        setTitle(achievement.name);
+        setYear(achievement.year);
+        setImg(achievement.imageUrl);
+        setId(achievement.id);
+    }
+
+    const handleDeleteAchievement = async (achievementId: number) => {
+        // confirmation alert
+        const confirmed = window.confirm("Are you sure you want to delete this award?");
+        if (!confirmed) return;
+        try {
+            await deleteAchievements(achievementId.toString(), token);
+            showSuccess("Award deleted successfully");
+        } catch (error) {
+            showError("Error deleting award");
+        } finally {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    }
 
     return (
         <div>
@@ -172,8 +228,68 @@ export default function AwardsSection() {
                             </div>
                         )}
                     </div>
+
+                    <div>
+                        {isEditing && (
+                            <div style={{ marginTop: "10px" }}>
+                                <label>Existing Image:</label>
+                                <div className="preview-wrap1">
+                                    {img && <img src={img.replace("dl=0", "raw=1")} alt="Existing" className="preview-img1" />}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
+                        <button type="button" disabled={!title || !year} className="submit-btn" onClick={handleSubmit}>
+                            Submit
+                        </button>
+                    </div>
+
+                    <div>
+                        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                            <thead>
+                                <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Title</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Year</th>
+                                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {achievements.map((achievement, index) => (
+                                    <tr key={achievement.id} onClick={() => rowClick(achievement)} style={{ cursor: "pointer" }}>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{index + 1}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{achievement.name}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{achievement.year}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                                            <button
+                                                type="button"
+                                                style={{
+                                                    backgroundColor: "#f44336",
+                                                    color: "white",
+                                                    border: "none",
+                                                    padding: "8px 12px",
+                                                    textAlign: "center",
+                                                    textDecoration: "none",
+                                                    display: "inline-block",
+                                                    margin: "4px 2px",
+                                                    cursor: "pointer",
+                                                    borderRadius: "4px"
+                                                }}
+                                                className="remove-btn"
+                                                onClick={() => handleDeleteAchievement(achievement.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
