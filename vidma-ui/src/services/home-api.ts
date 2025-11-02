@@ -493,3 +493,12 @@ export const createForm = async (body:any) => {
         throw error;
     }
 }
+
+export const getForms = async () => {
+    try {
+        const response = await axios.get(`${api_url}form`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

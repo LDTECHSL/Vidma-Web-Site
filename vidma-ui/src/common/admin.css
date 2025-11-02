@@ -258,3 +258,15 @@
 .social-icon.facebook { color: #1877f2; }
 .social-icon.whatsapp { color: #25d366; }
 .social-icon.tiktok { color: #010101; }
+
+.feedbacks-list{
+    margin-top: 20px;
+}
+
+.feedback-item{
+    background: #fafafa;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}

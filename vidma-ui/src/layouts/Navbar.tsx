@@ -175,6 +175,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Stats Section",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/stats-section",
+        },
+        {
+            group: "Reviews",
+            name: "Feedbacks",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/feedbacks-section",
         }
     ];
 
