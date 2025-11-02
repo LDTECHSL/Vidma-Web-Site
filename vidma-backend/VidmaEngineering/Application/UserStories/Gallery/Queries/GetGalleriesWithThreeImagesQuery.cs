@@ -27,6 +27,7 @@ namespace Application.UserStories.Gallery.Queries
                 {
                     GalleryId = g.Id,
                     Title = g.Title,
+                    Count = g.Images.Count,
                     Images = g.Images
                         .OrderBy(i => i.Id)
                         .Take(3)
@@ -47,6 +48,8 @@ namespace Application.UserStories.Gallery.Queries
     {
         public int GalleryId { get; set; }
         public string Title { get; set; } = string.Empty;
+        
+        public int Count { get; set; }
         public List<ImageResponse> Images { get; set; } = new();
     }
 
