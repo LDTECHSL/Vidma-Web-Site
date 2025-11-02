@@ -15,6 +15,7 @@ import Reviews from "../components/Reviews";
 import Stats from "../components/Stats";
 import { getContactUsData, getHeroData } from "../services/home-api";
 import { FacebookFilled, TikTokOutlined, WhatsAppOutlined } from "@ant-design/icons";
+import Splash from "../components/Splash";
 
 export default function Home() {
   const [slides, setSlides] = useState<any[]>([]);
@@ -62,6 +63,7 @@ export default function Home() {
 
   return (
     <Main>
+      <Splash />
       {/* Hero Section */}
       <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
         {slides.map((slide, index) => (
