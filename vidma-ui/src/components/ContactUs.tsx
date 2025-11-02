@@ -139,14 +139,14 @@ export default function ContactUsMap() {
         <div className="contact-inner" data-aos="fade-left">
           <MapContainer
             center={[7.8731, 80.7718]}
-            zoom={7}
+            zoom={8}
             minZoom={6}
             maxZoom={10}
             maxBounds={sriLankaBounds}
             maxBoundsViscosity={1.0}
             scrollWheelZoom={false}
             style={{
-              height: "500px",
+              height: "800px",
               width: "100%",
               borderRadius: "12px",
             }}
