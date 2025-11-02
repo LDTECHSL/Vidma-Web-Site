@@ -17,7 +17,7 @@ public class TeamController(IMediator mediator) : ControllerBase
         => await mediator.Send(request);
     
     [HttpPut]
-    public async Task<ActionResult<Result>> UpdateTeamMember([FromForm] CreateTeamMemberCommand request)
+    public async Task<ActionResult<Result>> UpdateTeamMember([FromForm] UpdateTeamMemberCommand request)
         => await mediator.Send(request);
 
     [HttpDelete]
