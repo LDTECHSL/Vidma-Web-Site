@@ -357,3 +357,17 @@ export const deleteGalleryImageById = async (id:string, token:string) => {
         throw error;
     }
 }
+
+export const createGalleryImage = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}gallery/image`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
