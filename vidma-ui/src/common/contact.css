@@ -1,218 +1,191 @@
-.contact-outer{
-    width: 100%;
-    height: auto;
-    padding: 45px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    background: url("../assets/contact-bg.jpg") center/cover no-repeat fixed;
+.contact-outer {
+  width: 100%;
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: url("../assets/contact-bg.jpg") center/cover no-repeat fixed;
+  overflow: hidden;
 }
 
+/* Dark overlay */
 .contact-outer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.538); /* overlay darkness */
-    z-index: 1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
 }
 
 .contact-outer > * {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
+/* Section titles */
+.title-outer.white {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
 
-.contact-container {
+.title-sub-outer.white {
+  color: #e8e8e8;
+  font-size: 1.1rem;
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* Main layout wrapper */
+.contact-sub-outer {
+  width: 90%;
   display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2%;
+  margin-top: 50px;
   flex-wrap: wrap;
-  width: 100%;
-  min-height: 72vh;
-  padding: 40px 5%;
-  background: #f9f9f9;
-  gap: 30px;
   box-sizing: border-box;
 }
 
-/* LEFT */
-.contact-left {
-  flex: 1 1 360px;
-  padding: 8px 20px;
+/* LEFT (details) */
+.contact-inner {
+  width: 48%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
-.contact-left h2 {
-  font-size: 1.9rem;
-  margin: 0;
-  color: #111;
-}
-
-.contact-left p {
-  margin: 0;
-  color: #444;
-  line-height: 1.5;
-}
-
-/* legend */
-.map-legend-inline {
-  margin-top: 12px;
+.ci {
   display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.legend-item {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 0.95rem;
-  color: #333;
-}
-.pin {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.pin.showroom {
-  background: #e74c3c; /* red */
-}
-.pin.hardware {
-  background: #2980b9; /* blue */
-}
-
-/* RIGHT / MAP */
-.contact-right {
-  flex: 2 1 600px;
-  min-width: 280px;
-  padding: 8px 20px;
-}
-
-.map-wrapper {
-  position: relative;
-  width: 100%;
-  height: 420px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(12, 15, 20, 0.08);
-  background: #eee;
-}
-
-.map-container {
-  width: 100%;
-  height: 100%;
-}
-
-/* overlays */
-.map-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.8);
-  font-weight: 600;
-  color: #333;
-}
-
-.map-error {
-  position: absolute;
-  z-index: 4;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  background: #fff7f7;
-  border: 1px solid #ffd6d6;
-  color: #811717;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-}
-
-.contact-sub-outer{
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 55px;
-}
-
-.contact-inner{
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.ci{
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
+  gap: 20px;
   justify-content: space-between;
 }
 
-.contact-card{
-  width: 45%;
+/* Contact cards */
+.contact-card {
+  flex: 1 1 calc(50% - 20px);
+  min-width: 220px;
   height: 240px;
-  background-color: #ffffffb2;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  justify-content: space-evenly;
-  cursor: pointer;
-}
-
-.contact-card:hover {
-  transform: translateY(-8px) scale(1.03) !important;
-  background: linear-gradient(0deg, #c2eaf7, #ffffff);
-  box-shadow: 0 8px 32px rgba(10, 33, 42, 0.3); /* bluish glow */
-  border-color: rgba(0, 183, 255, 0.4);
-}
-
-
-.cc-sub{
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-}
-
-.cc-title{
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--color-primary);
-}
-
-.cc-desc{
-  font-size: 1rem;
-  color: #555555;
+  padding: 24px 16px;
   text-align: center;
-  padding: 0 15px;
+  transition: all 0.3s ease;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .contact-container {
-    padding: 24px;
-  }
-  .map-wrapper {
-    height: 360px;
-  }
+.contact-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  background: linear-gradient(0deg, #d7f3ff, #fff);
+  box-shadow: 0 10px 28px rgba(0, 136, 204, 0.25);
 }
 
-@media (max-width: 640px) {
-  .contact-container {
+/* Card text */
+.cc-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cc-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-primary, #1976d2);
+}
+
+.cc-desc {
+  font-size: 0.95rem;
+  color: #444;
+  margin-top: 8px;
+  word-break: break-word;
+}
+
+/* RIGHT (map) */
+.contact-inner:last-child {
+  width: 48%;
+}
+
+.leaflet-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  background: #eee;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .contact-sub-outer {
     flex-direction: column;
+    align-items: center;
+    gap: 40px;
   }
-  .map-wrapper {
+
+  .contact-inner,
+  .contact-inner:last-child {
+    width: 100%;
+  }
+
+  .ci {
+    justify-content: center;
+  }
+
+  .contact-card {
+    width: 45%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .leaflet-container {
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-card {
+    width: 100%;
+  }
+
+  .leaflet-container {
+    height: 350px;
+  }
+
+  .contact-outer {
+    padding: 40px 0;
+  }
+
+  .title-outer.white {
+    font-size: 1.7rem;
+  }
+
+  .title-sub-outer.white {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaflet-container {
     height: 300px;
+  }
+
+  .contact-card {
+    padding: 16px;
+  }
+
+  .cc-title {
+    font-size: 1rem;
+  }
+
+  .cc-desc {
+    font-size: 0.9rem;
   }
 }

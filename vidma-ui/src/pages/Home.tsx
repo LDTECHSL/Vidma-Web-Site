@@ -18,7 +18,7 @@ import { FacebookFilled, TikTokOutlined, WhatsAppOutlined } from "@ant-design/ic
 import Splash from "../components/Splash";
 
 export default function Home() {
-  const [slides, setSlides] = useState<any[]>([]);
+   const [slides, setSlides] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [contactDetails, setContactDetails] = useState<any>({});
   const { language } = useLanguage();
@@ -50,6 +50,24 @@ export default function Home() {
     handleGetContactDetails();
   }, []);
 
+  // Image preloading effect
+  useEffect(() => {
+    if (slides.length > 0) {
+      const preloadImage = (index: number) => {
+        const img = new Image();
+        img.src = slides[index].image.replace("dl=0", "raw=1");
+      };
+      
+      // Preload next image
+      const nextIndex = (currentIndex + 1) % slides.length;
+      preloadImage(nextIndex);
+      
+      // Preload previous image
+      const prevIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+      preloadImage(prevIndex);
+    }
+  }, [currentIndex, slides]);
+
   useEffect(() => {
     if (slides.length > 0) {
       const interval = setInterval(() => {
@@ -75,6 +93,7 @@ export default function Home() {
             <img
               src={slide.image.replace("dl=0", "raw=1")}
               alt={slide.title}
+              loading={index === 0 ? "eager" : "lazy"}
               className="w-full h-full object-cover"
             />
 
@@ -99,7 +118,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href="https://wa.me/94775353762?text=Hello"
+                  href={contactDetails.whatsAppLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="button"
@@ -161,9 +180,7 @@ export default function Home() {
         <Products />
       </div>
 
-      <div id="contact">
-        <ContactUs />
-      </div>
+      <div id="contact"><ContactUs /> </div>
 
       <VideoSlider />
       <div id="gallery">
