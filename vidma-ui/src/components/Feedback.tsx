@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../common/main.css";
 import "../common/feedback.css";
 import { useTranslation } from "react-i18next";
+import { createForm } from "../services/home-api";
 
 export default function Feedback() {
     const [selectedMood, setSelectedMood] = useState<number | null>(null);
@@ -11,7 +12,7 @@ export default function Feedback() {
         comment: "",
     });
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const moods = [
         { id: 1, emoji: "😩", label: t("verybad") },
@@ -21,21 +22,38 @@ export default function Feedback() {
         { id: 5, emoji: "😁", label: t("excellent") },
     ];
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.name || !formData.email || !selectedMood) {
             alert("Please fill in all required fields.");
             return;
         }
-        alert(
-            `Name: ${formData.name}\nEmail: ${formData.email}\nMood: ${moods.find((m) => m.id === selectedMood)?.label
-            }\nComment: ${formData.comment}`
-        );
+
+        const body = {
+            name: formData.name,
+            email: formData.email,
+            reaction: moods.find(mood => mood.id === selectedMood)?.label || "",
+            comment: formData.comment,
+        }
+
+        try {
+            await createForm(body)
+            alert("Feedback sent!")
+        } catch (error) {
+            alert("Server Error! Please try again later.")
+        } finally {
+            setFormData({
+                name: "",
+                email: "",
+                comment: "",
+            });
+            setSelectedMood(null);
+        }
     };
 
     return (

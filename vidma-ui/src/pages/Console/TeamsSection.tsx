@@ -23,7 +23,7 @@ export default function TeamsSection() {
 
         if (isEditing) {
             const formData = new FormData();
-            formData.append("Id", id ? id.toString() : "");
+            formData.append("MemberId", id ? id.toString() : "");
             formData.append("Name", name);
             formData.append("Position", position);
             if (imageS1) {
