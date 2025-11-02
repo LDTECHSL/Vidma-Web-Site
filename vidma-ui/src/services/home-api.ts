@@ -314,6 +314,19 @@ export const createGallery = async (body:any, token:string) => {
     }
 }
 
+export const updateGallery = async (body:any, token:string) => {
+    try {
+        const response = await axios.put(`${api_url}gallery`, body , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getGallery = async () => {
     try {
         const response = await axios.get(`${api_url}gallery/all`);
