@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { createAchievements, getAchievements, updateAchievements } from "../../services/home-api";
+import { createAchievements, deleteAchievements, getAchievements, updateAchievements } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function AwardsSection() {
@@ -127,6 +127,22 @@ export default function AwardsSection() {
         setYear(achievement.year);
         setImg(achievement.imageUrl);
         setId(achievement.id);
+    }
+
+    const handleDeleteAchievement = async (achievementId: number) => {
+        // confirmation alert
+        const confirmed = window.confirm("Are you sure you want to delete this award?");
+        if (!confirmed) return;
+        try {
+            await deleteAchievements(achievementId.toString(), token);
+            showSuccess("Award deleted successfully");
+        } catch (error) {
+            showError("Error deleting award");
+        } finally {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
     }
 
     return (
@@ -262,7 +278,7 @@ export default function AwardsSection() {
                                                     borderRadius: "4px"
                                                 }}
                                                 className="remove-btn"
-                                            // onClick={() => handleRemoveAchievement(achievement.id)}
+                                                onClick={() => handleDeleteAchievement(achievement.id)}
                                             >
                                                 Delete
                                             </button>
