@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { useCallback, useEffect, useState } from "react";
-import { createTeams, getTeams, updateTeams } from "../../services/home-api";
+import { createTeams, deleteTeams, getTeams, updateTeams } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function TeamsSection() {
@@ -64,6 +64,23 @@ export default function TeamsSection() {
         }
     }
 
+    const handleDeleteTeam = async (id: number) => {
+
+        const confirmed = window.confirm("Are you sure you want to delete this team member?");
+        if (!confirmed) return;
+
+        try {
+            await deleteTeams(id.toString(), token);
+            showSuccess("Team member deleted successfully");
+        } catch (error) {
+            showError("Error deleting team member");
+        } finally {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    }
+
     const handleGetTeams = async () => {
         try {
             const response = await getTeams();
@@ -119,7 +136,7 @@ export default function TeamsSection() {
         setError(null);
     };
 
-    const rowClick = (team:any) => {
+    const rowClick = (team: any) => {
         setIsEditing(true);
         setName(team.name);
         setPosition(team.position);
@@ -256,7 +273,7 @@ export default function TeamsSection() {
                                                     cursor: "pointer",
                                                     borderRadius: "4px"
                                                 }}
-                                            // onClick={() => handleRemoveTeam(team.id)}
+                                                onClick={() => handleDeleteTeam(team.id)}
                                             >
                                                 Delete
                                             </button>
