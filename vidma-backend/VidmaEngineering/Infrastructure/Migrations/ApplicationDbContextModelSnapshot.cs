@@ -439,6 +439,32 @@ namespace Infrastructure.Migrations
                     b.ToTable("Stats");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Teams.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<string>("Position")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Team");
+                });
+
             modelBuilder.Entity("Domain.Entities.TopProducts.TopProducts", b =>
                 {
                     b.Property<int>("Id")
