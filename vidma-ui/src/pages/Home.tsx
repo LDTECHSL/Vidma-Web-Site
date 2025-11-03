@@ -179,10 +179,10 @@ export default function Home() {
       <div id="products">
         <Products />
       </div>
-{/* 
+
       <div id="contact"><ContactUs /> </div>
 
-      <VideoSlider />
+      {/* <VideoSlider />
       <div id="gallery">
         <ProjectsGallery />
       </div>
