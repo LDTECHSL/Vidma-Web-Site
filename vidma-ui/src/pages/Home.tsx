@@ -189,8 +189,8 @@ export default function Home() {
 
       <Awards />
       <Feedback />
-      {/* <Team />
-      <Reviews />*/}
+      <Team />
+      <Reviews />
       <Stats /> 
     </Main>
   );
