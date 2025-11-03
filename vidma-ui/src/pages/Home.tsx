@@ -182,16 +182,16 @@ export default function Home() {
 
       <div id="contact"><ContactUs /> </div>
 
-      {/* <VideoSlider />
+      <VideoSlider />
       <div id="gallery">
         <ProjectsGallery />
       </div>
 
-      <Awards />
+      {/* <Awards />
       <Feedback />
       <Team />
-      <Reviews />
-      <Stats /> */}
+      <Reviews />*/}
+      <Stats /> 
     </Main>
   );
 }
