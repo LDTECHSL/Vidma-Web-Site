@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Main: React.FC<LayoutProps> = ({ children }) => {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div style={{overflowX: "hidden"}} className="min-h-screen flex flex-col">
             <Header />
             <main style={{ width: '100%', flexGrow: 1 }}>
                 {children}
