@@ -55,20 +55,23 @@ const Header: React.FC = () => {
         {/* Navigation */}
         {(isMobile && isMobileMenuOpen) || !isMobile ? (
           <nav className={`nav-links ${isMobile ? "mobile" : "desktop"} ${isMobileMenuOpen ? "open" : ""}`}>
-            <a href="#products" className={`nav-link ${isActive("/products") ? "active" : ""}`}>
+            <a href="#products" className={`nav-link ${isActive("/products") ? "active" : ""}`} onClick={() => setIsMobileMenuOpen(false)}>
               {t("products")}
             </a>
-            <a href="#gallery" className={`nav-link ${isActive("/gallery") ? "active" : ""}`}>
+            <a href="#gallery" className={`nav-link ${isActive("/gallery") ? "active" : ""}`} onClick={() => setIsMobileMenuOpen(false)}>
               {t("gallery")}
             </a>
-            <a href="#contact" className={`nav-link ${isActive("/contact") ? "active" : ""}`}>
+            <a href="#contact" className={`nav-link ${isActive("/contact") ? "active" : ""}`} onClick={() => setIsMobileMenuOpen(false)}>
               {t("contact")}
             </a>
-            <a href="#about" className={`nav-link ${isActive("/about") ? "active" : ""}`}>
+            <a href="#about" className={`nav-link ${isActive("/about") ? "active" : ""}`} onClick={() => setIsMobileMenuOpen(false)}>
               {t("about")}
             </a>
             <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-              <select value={language} onChange={handleChange} className="translate-select">
+              <select value={language} onChange={(e) => {
+                setIsMobileMenuOpen(false);
+                handleChange(e);
+              }} className="translate-select">
               <option value="en">English</option>
               <option value="si">සිංහල</option>
               <option value="ta">தமிழ்</option>
