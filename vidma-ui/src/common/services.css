@@ -35,15 +35,19 @@
     flex-wrap: wrap;
 }
 
+*{
+    /* border: 1px solid red; */
+}
+
 .service-card {
     flex: 1 1 45%;
     min-width: 350px;
     height: auto;
     background-color: rgba(255, 255, 255, 0.75);
+    border: 1px solid #ffffff;
     border-radius: 16px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     padding: 20px;
     gap: 10px;
@@ -53,7 +57,7 @@
 
 .service-card:hover {
     transform: translateY(-10px);
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a1a1a 100%);
     color: #ffffff;
 }
 
@@ -75,13 +79,15 @@
     font-size: 18px;
     font-weight: 600;
     color: #111;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
 }
 
 .service-desc {
     font-size: 14px;
     color: #333;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
 }
 
 /* ---------- Responsive ---------- */

@@ -1,23 +1,24 @@
 import "../common/services.css";
 import "../common/main.css";
-import { FaChess } from "react-icons/fa"; // using react-icons
+import { FaAlgolia, FaChess } from "react-icons/fa"; // using react-icons
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "./LanguageContext";
 import { getServicesByLanguage } from "../services/home-api";
 import { useEffect, useState } from "react";
+import { Divider } from "@mui/material";
 
 export default function Services() {
   const [services, setServices] = useState<any[]>([])
 
   const { t } = useTranslation();
-  const {language} = useLanguage();
+  const { language } = useLanguage();
 
   const handleGetServices = async () => {
     try {
       const response = await getServicesByLanguage(language);
       setServices(response.data);
     } catch (error) {
-      console.error(error);      
+      console.error(error);
     }
   }
 
@@ -43,10 +44,15 @@ export default function Services() {
             data-aos-delay={200 + index * 100}
           >
             <div className="service-icon">
-              <FaChess />
+              <FaAlgolia />
             </div>
-            <div className="service-title">{service.title}</div>
-            <div className="service-desc">{service.description}</div>
+
+            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid rgba(255, 255, 255, 0.89)' }} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: "center", gap: '10px' }}>
+              <div className="service-title">{service.title}</div>
+              <div className="service-desc">{service.description}</div>
+            </div>
           </div>
         ))}
       </div>
@@ -60,14 +66,18 @@ export default function Services() {
             data-aos-delay={300 + index * 100}
           >
             <div className="service-icon">
-              <FaChess />
+              <FaAlgolia />
             </div>
-            <div className="service-title">{service.title}</div>
-            <div className="service-desc">{service.description}</div>
+            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid rgba(255, 255, 255, 0.89)' }} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: "center", gap: '10px' }}>
+              <div className="service-title">{service.title}</div>
+              <div className="service-desc">{service.description}</div>
+            </div>
           </div>
         ))}
       </div>
-      
+
       <div className="service-content-outer">
         {services.slice(4, 6).map((service, index) => (
           <div
@@ -77,10 +87,14 @@ export default function Services() {
             data-aos-delay={300 + index * 100}
           >
             <div className="service-icon">
-              <FaChess />
+              <FaAlgolia />
             </div>
-            <div className="service-title">{service.title}</div>
-            <div className="service-desc">{service.description}</div>
+            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid rgba(255, 255, 255, 0.89)' }} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: "center", gap: '10px' }}>
+              <div className="service-title">{service.title}</div>
+              <div className="service-desc">{service.description}</div>
+            </div>
           </div>
         ))}
       </div>
