@@ -171,11 +171,11 @@ export default function Home() {
       </div>
 
       {/* Other sections */}
-      {/* <BrandNamesSlider />
+      <BrandNamesSlider />
       <div id="about">
         <AboutUs />
       </div>
-      <Services />
+      {/* <Services />
       <div id="products">
         <Products />
       </div>

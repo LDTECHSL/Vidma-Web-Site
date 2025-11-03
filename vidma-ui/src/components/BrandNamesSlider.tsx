@@ -14,10 +14,11 @@ export default function BrandNamesSlider() {
             key={index}
             src={brand}
             alt={`brand-${index}`}
-            className="h-20 w-auto mx-16 object-contain"
+            className="h-12 sm:h-16 md:h-20 w-auto mx-8 sm:mx-12 md:mx-16 object-contain"
           />
         ))}
       </div>
     </div>
   );
 }
+
