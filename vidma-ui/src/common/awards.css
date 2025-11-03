@@ -92,3 +92,13 @@
     font-size: 1.5rem;
   }
 }
+
+@media (max-width: 480px) {
+  .award-card {
+    width: 250px;
+  }
+
+  .award-card img {
+    height: 80%;
+  }
+}

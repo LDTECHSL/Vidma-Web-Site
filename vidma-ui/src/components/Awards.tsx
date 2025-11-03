@@ -6,38 +6,6 @@ import { useEffect, useState } from "react";
 
 export default function Awards() {
   const [achievements, setAchievements] = useState<any[]>([]);
-  const awards = [
-    {
-      id: 1,
-      title: "Best Innovation Award",
-      year: "2023",
-      image: "https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg",
-    },
-    {
-      id: 2,
-      title: "Excellence in Design",
-      year: "2022",
-      image: "https://img.youtube.com/vi/3fumBcKC6RE/hqdefault.jpg",
-    },
-    {
-      id: 3,
-      title: "Top Performer of the Year",
-      year: "2021",
-      image: "https://img.youtube.com/vi/XC8zLirR6aE/hqdefault.jpg",
-    },
-    {
-      id: 4,
-      title: "Leadership Excellence",
-      year: "2020",
-      image: "https://img.youtube.com/vi/YbJOTdZBX1g/hqdefault.jpg",
-    },
-    {
-      id: 5,
-      title: "Outstanding Service Award",
-      year: "2019",
-      image: "https://img.youtube.com/vi/ysz5S6PUM-U/hqdefault.jpg",
-    },
-  ];
 
   const handleGetAwards = async () => {
     try {
