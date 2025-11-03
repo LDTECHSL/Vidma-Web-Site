@@ -9,6 +9,23 @@ import { useTranslation } from "react-i18next";
 const Header: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation();
+  const location = useLocation();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 900);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 150);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const lang = e.target.value;
@@ -17,76 +34,53 @@ const Header: React.FC = () => {
     document.documentElement.lang = lang;
   };
 
-
-  const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  console.log(location.pathname);
-
-
+  const toggleMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const isActive = (path: string): boolean => location.pathname === path;
   const isHome = location.pathname === "/";
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 150);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMenu = () => setIsMobileMenuOpen((prev) => !prev);
-
   return (
     <header
-      className={`header ${scrolled ? "scrolled" : ""} ${!isHome ? "scrolled" : ""
-        }`}
+      className={`header ${scrolled ? "scrolled" : ""} ${!isHome ? "scrolled" : ""}`}
     >
       <div className="container flex items-center justify-between">
         <img className="logo-img" src={logo} alt="Logo" />
 
-        <button className="menu-toggle md:hidden" onClick={toggleMenu}>
-          ☰
-        </button>
+        {/* Show toggle only on mobile (below 900px) */}
+        {isMobile && (
+          <button className="menu-toggle" onClick={toggleMenu}>
+            {isMobileMenuOpen ? "✕" : "☰"}
+          </button>
+        )}
 
-        <nav className={`nav-links ${isMobileMenuOpen ? "open" : ""} md:flex`}>
-          <a
-            href="#products"
-            className={`nav-link ${isActive("/products") ? "active" : ""}`}
-          >
-            {t("products")}
-          </a>
-          <a
-            href="#gallery"
-            className={`nav-link ${isActive("/gallery") ? "active" : ""}`}
-          >
-            {t("gallery")}
-          </a>
-          <a
-            href="#contact"
-            className={`nav-link ${isActive("/contact") ? "active" : ""}`}
-          >
-            {t("contact")}
-          </a>
-          <a
-            href="#about"
-            className={`nav-link ${isActive("/about") ? "active" : ""}`}
-          >
-            {t("about")}
-          </a>
-
-          {/* 🌐 Language Selector */}
-          <select
-            value={language}
-            onChange={handleChange}
-            className="translate-select"
-          >
-            <option value="en">English</option>
-            <option value="si">සිංහල</option>
-            <option value="ta">தமிழ்</option>
-          </select>
-
-          <button className="primary-button">{t("order")}</button>
-        </nav>
+        {/* Navigation */}
+        {(isMobile && isMobileMenuOpen) || !isMobile ? (
+          <nav className={`nav-links ${isMobile ? "mobile" : "desktop"} ${isMobileMenuOpen ? "open" : ""}`}>
+            <a href="#products" className={`nav-link ${isActive("/products") ? "active" : ""}`}>
+              {t("products")}
+            </a>
+            <a href="#gallery" className={`nav-link ${isActive("/gallery") ? "active" : ""}`}>
+              {t("gallery")}
+            </a>
+            <a href="#contact" className={`nav-link ${isActive("/contact") ? "active" : ""}`}>
+              {t("contact")}
+            </a>
+            <a href="#about" className={`nav-link ${isActive("/about") ? "active" : ""}`}>
+              {t("about")}
+            </a>
+            <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+              <select value={language} onChange={handleChange} className="translate-select">
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+            </div>
+            
+            <div>
+              <button className="primary-button">{t("order")}</button>
+            </div>
+            
+          </nav>
+        ) : null}
       </div>
     </header>
   );

@@ -171,7 +171,7 @@ export default function Home() {
       </div>
 
       {/* Other sections */}
-      <BrandNamesSlider />
+      {/* <BrandNamesSlider />
       <div id="about">
         <AboutUs />
       </div>
@@ -191,7 +191,7 @@ export default function Home() {
       <Feedback />
       <Team />
       <Reviews />
-      <Stats />
+      <Stats /> */}
     </Main>
   );
 }
