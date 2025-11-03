@@ -119,7 +119,7 @@
 .mood-container {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 80%;
     margin: 25px 0 25px 0;
 }
 
@@ -152,6 +152,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 15px;
 }
 
@@ -199,4 +200,16 @@
 
 .feedback-submit:hover {
     background-color: var(--hover);
+}
+
+@media (max-width: 426px) {
+
+    .feedback-inner1, .feedback-inner {
+        width: 90%;
+        margin-bottom: 30px;
+    }
+
+    .mood-icon span {
+        font-size: 18px;
+    }
 }

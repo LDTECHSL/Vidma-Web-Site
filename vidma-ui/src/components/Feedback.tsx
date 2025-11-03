@@ -102,7 +102,7 @@ export default function Feedback() {
                                     onClick={() => setSelectedMood(mood.id)}
                                 >
                                     <span>{mood.emoji}</span>
-                                    <p>{mood.label}</p>
+                                    {/* <p >{mood.label}</p> */}
                                 </div>
                             ))}
                         </div>

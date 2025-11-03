@@ -187,9 +187,9 @@ export default function Home() {
         <ProjectsGallery />
       </div>
 
-      {/* <Awards />
+      <Awards />
       <Feedback />
-      <Team />
+      {/* <Team />
       <Reviews />*/}
       <Stats /> 
     </Main>
