@@ -311,6 +311,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding-top: 20px;
 }
 
@@ -382,6 +383,38 @@
 .footer-awards-banner{
   width: 100%;
   border-radius: 10px;
+}
+
+@media (max-width: 650px) {
+  .footer-inner {
+    flex-direction: column;
+    gap: 30px;
+    width: 90%;
+  }
+
+  .footer-section {
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    align-items: center;
+    text-align: center;
+  }
+
+  .f {
+    width: 90%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .f1{
+    display: none;
+  }
+
+  .footer-awards-outer {
+    flex-direction: column;
+    gap: 20px;
+    width: 90%;
+  }
 }
 
 .breadcrumb {

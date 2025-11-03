@@ -85,7 +85,7 @@ export default function Footer() {
                     <Lottie animationData={world} loop autoplay style={{ width: 180, height: 180 }} />
                 </div>
 
-                <div className="f" data-aos="fade-up">
+                <div className="f f1" data-aos="fade-up">
                     <div className="f-title">{t("companies")}</div>
                     <img className="footer-awards-banner" src={banner2} alt={t("companies")} />
                 </div>
