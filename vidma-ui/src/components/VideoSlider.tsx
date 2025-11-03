@@ -69,14 +69,14 @@ export default function VideoSlider() {
                     <p>
                         “{videoHeader?.description}”
                     </p>
-                    <div className="nav-buttons">
+                    {/* <div className="nav-buttons">
                         <button onClick={() => scroll("left")} className="nav-btn">
                             ←
                         </button>
                         <button onClick={() => scroll("right")} className="nav-btn active">
                             →
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

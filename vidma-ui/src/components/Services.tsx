@@ -35,7 +35,7 @@ export default function Services() {
       </div>
 
       <div className="service-content-outer">
-        {services.slice(0, 3).map((service, index) => (
+        {services.slice(0, 2).map((service, index) => (
           <div
             key={index}
             className="service-card"
@@ -52,7 +52,24 @@ export default function Services() {
       </div>
 
       <div className="service-content-outer">
-        {services.slice(3, 6).map((service, index) => (
+        {services.slice(2, 4).map((service, index) => (
+          <div
+            key={index}
+            className="service-card"
+            data-aos="fade-up"
+            data-aos-delay={300 + index * 100}
+          >
+            <div className="service-icon">
+              <FaChess />
+            </div>
+            <div className="service-title">{service.title}</div>
+            <div className="service-desc">{service.description}</div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="service-content-outer">
+        {services.slice(4, 6).map((service, index) => (
           <div
             key={index}
             className="service-card"
