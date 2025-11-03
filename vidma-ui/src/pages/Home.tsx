@@ -175,8 +175,8 @@ export default function Home() {
       <div id="about">
         <AboutUs />
       </div>
-      {/* <Services />
-      <div id="products">
+      <Services />
+      {/* <div id="products">
         <Products />
       </div>
 
