@@ -142,7 +142,7 @@
 }
 
 .market-item-card {
-  background: #ffffff0a;
+  background: #ffffff;
   border: 1px solid #2a2a2a;
   border-radius: 12px;
   overflow: hidden;
@@ -322,6 +322,7 @@
   background: #0099ff;
   transform: scale(1.05);
 }
+
 
 @keyframes fadeIn {
   from { opacity: 0; }

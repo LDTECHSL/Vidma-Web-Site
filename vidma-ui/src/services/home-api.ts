@@ -502,3 +502,26 @@ export const getForms = async () => {
         throw error;
     }
 }
+
+export const addProduct = async (body:any, token:string) => {
+    try {
+        const response = await axios.post(`${api_url}products/add`, body , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getProducts = async (page:any) => {
+    try {
+        const response = await axios.get(`${api_url}products/paginated?page=${page}&pageSize=10`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

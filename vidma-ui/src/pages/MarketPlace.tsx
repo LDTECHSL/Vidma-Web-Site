@@ -1,61 +1,67 @@
 import "../common/market.css";
 import { FaSearch, FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { getProducts } from "../services/home-api";
+import { Skeleton } from "@mui/material";
+
 
 export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [quantity, setQuantity] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  const items = [
-    {
-      name: "Roofing Sheet Classic",
-      description:
-        "Durable galvanized roofing sheet suitable for residential and commercial buildings.",
-      colors: "Red, Green, Blue, Silver",
-      imageLink:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmPhvU5BEGLFi93ZusQeh5wmJIZtA3oF9jBA&s",
-    },
-    {
-      name: "Premium Steel Nails",
-      description:
-        "High-quality corrosion-resistant nails for roofing and woodwork.",
-      colors: "Silver, Black",
-      imageLink: "https://tiimg.tistatic.com/fp/1/001/065/nails-825.jpg",
-    },
-    {
-      name: "PVC Water Pipe 1 Inch",
-      description:
-        "Strong and flexible PVC pipe ideal for plumbing and industrial use.",
-      colors: "White, Gray",
-      imageLink:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVuUn_PCSHHt_kAWMk1rFozv1POg1dZMH3Zw&s",
-    },
-    {
-      name: "Aluminium Ladder 10ft",
-      description:
-        "Lightweight yet sturdy ladder for home and construction purposes.",
-      colors: "Silver",
-      imageLink:
-        "https://slon-cdn.zenegal.store/products/4424/800-step-ladders-10ft-16893076828827.png",
-    },
-    {
-      name: "Vidma Coconut Oil 1L",
-      description:
-        "Pure, natural coconut oil perfect for cooking and cosmetic use.",
-      colors: "Transparent, Golden",
-      imageLink:
-        "https://spar2u.lk/cdn/shop/files/3018969.jpg?v=1748383604",
-    },
-    {
-      name: "Ceramic Floor Tile 2x2",
-      description:
-        "Glossy, slip-resistant ceramic tiles ideal for indoor flooring.",
-      colors: "White, Beige, Gray",
-      imageLink:
-        "https://image.made-in-china.com/365f3j00iHRcwyrWHYbf/60X60-Living-Room-Polished-Glazed-Porcelain-Ceramic-Floor-Tiles-Price.webp",
-    },
-  ];
+  const [items, setItems] = useState<any[]>([]);
+
+  // const items = [
+  //   {
+  //     name: "Roofing Sheet Classic",
+  //     description:
+  //       "Durable galvanized roofing sheet suitable for residential and commercial buildings.",
+  //     colors: "Red, Green, Blue, Silver",
+  //     imageLink:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmPhvU5BEGLFi93ZusQeh5wmJIZtA3oF9jBA&s",
+  //   },
+  //   {
+  //     name: "Premium Steel Nails",
+  //     description:
+  //       "High-quality corrosion-resistant nails for roofing and woodwork.",
+  //     colors: "Silver, Black",
+  //     imageLink: "https://tiimg.tistatic.com/fp/1/001/065/nails-825.jpg",
+  //   },
+  //   {
+  //     name: "PVC Water Pipe 1 Inch",
+  //     description:
+  //       "Strong and flexible PVC pipe ideal for plumbing and industrial use.",
+  //     colors: "White, Gray",
+  //     imageLink:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVuUn_PCSHHt_kAWMk1rFozv1POg1dZMH3Zw&s",
+  //   },
+  //   {
+  //     name: "Aluminium Ladder 10ft",
+  //     description:
+  //       "Lightweight yet sturdy ladder for home and construction purposes.",
+  //     colors: "Silver",
+  //     imageLink:
+  //       "https://slon-cdn.zenegal.store/products/4424/800-step-ladders-10ft-16893076828827.png",
+  //   },
+  //   {
+  //     name: "Vidma Coconut Oil 1L",
+  //     description:
+  //       "Pure, natural coconut oil perfect for cooking and cosmetic use.",
+  //     colors: "Transparent, Golden",
+  //     imageLink:
+  //       "https://spar2u.lk/cdn/shop/files/3018969.jpg?v=1748383604",
+  //   },
+  //   {
+  //     name: "Ceramic Floor Tile 2x2",
+  //     description:
+  //       "Glossy, slip-resistant ceramic tiles ideal for indoor flooring.",
+  //     colors: "White, Beige, Gray",
+  //     imageLink:
+  //       "https://image.made-in-china.com/365f3j00iHRcwyrWHYbf/60X60-Living-Room-Polished-Glazed-Porcelain-Ceramic-Floor-Tiles-Price.webp",
+  //   },
+  // ];
 
   // Sticky search bar
   useEffect(() => {
@@ -80,6 +86,22 @@ export default function MarketPlace() {
 
   const increaseQty = () => setQuantity(q => q + 1);
   const decreaseQty = () => setQuantity(q => (q > 0 ? q - 1 : 0));
+
+  const handleGetProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await getProducts(currentPage);
+      setItems(response.data.products);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetProducts();
+  }, [currentPage]);
 
   return (
     <div className="market-page-outer">
@@ -125,24 +147,36 @@ export default function MarketPlace() {
 
       {/* Items */}
       <div className="market-items-container">
-        {currentItems.map((item, idx) => (
-          <div
-            className="market-item-card"
-            key={idx}
-            onClick={() => openModal(item)}
-          >
-            <img
-              src={item.imageLink}
-              alt={item.name}
-              className="market-item-img"
-            />
-            <div className="market-item-info">
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
+        {loading
+          ? Array(5)
+            .fill(0)
+            .map((_, idx) => (
+              <div className="market-item-card" key={idx}>
+                <Skeleton variant="rectangular" width={250} height={180} />
+                <div className="market-item-info">
+                  <h3><Skeleton variant="text" width={150} /></h3>
+                </div>
+              </div>
+            ))
+          : currentItems.map((item, idx) => (
+            <div
+              className="market-item-card"
+              key={idx}
+              onClick={() => openModal(item)}
+            >
+              <img
+                src={item.imageUrl.replace("dl=0", "raw=1")}
+                alt={item.productName}
+                className="market-item-img"
+              />
+              <div className="market-item-info">
+                <h3>{item.productName}</h3>
+                <p>{item.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
+
 
       {/* Pagination */}
       <div className="market-pagination">
@@ -168,13 +202,13 @@ export default function MarketPlace() {
               ✕
             </button>
             <img
-              src={selectedItem.imageLink}
-              alt={selectedItem.name}
+              src={selectedItem.imageUrl.replace("dl=0", "raw=1")}
+              alt={selectedItem.productName}
               className="modal-image"
             />
-            <h2 style={{color: "#15688b"}}>{selectedItem.name}</h2>
-            <div style={{height: "10px"}}></div>
-            <p style={{color: "grey"}}>{selectedItem.description}</p>
+            <h2 style={{ color: "#15688b" }}>{selectedItem.productName}</h2>
+            <div style={{ height: "10px" }}></div>
+            <p style={{ color: "grey" }}>{selectedItem.description}</p>
 
             <div className="quantity-control">
               <button onClick={decreaseQty}>

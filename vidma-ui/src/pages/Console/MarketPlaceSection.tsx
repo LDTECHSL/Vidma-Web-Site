@@ -2,6 +2,8 @@ import { useCallback, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { addProduct, getProducts } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
 
 export default function MarketPlaceSection() {
     const [open, setOpen] = useState(false);
@@ -56,7 +58,34 @@ export default function MarketPlaceSection() {
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
     const handleSubmit = async () => {
-        // Implement submit logic here
+        const formData = new FormData();
+        formData.append("ProductName", name);
+        formData.append("Description", description);
+        formData.append("Color", colors);
+        if (imageS1) {
+            formData.append("Image", imageS1);
+        }
+
+        setOpen(true);
+        try {
+            await addProduct(formData, token);
+            showSuccess("Product added successfully!");
+        } catch (error) {
+            showError("Failed to add product. Please try again.");
+        } finally {
+            setOpen(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    }
+
+    const handleGetProducts = async () => {
+        try {
+            const response = await getProducts(1)
+        } catch (error) {
+            console.error(error);            
+        }
     }
 
     return (
@@ -161,11 +190,9 @@ export default function MarketPlaceSection() {
                 </div> */}
                 <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
 
-                    {isExisting && (
-                        <button type="button" className="submit-btn" onClick={handleSubmit}>
-                            Submit
-                        </button>
-                    )}
+                    <button type="button" className="submit-btn" onClick={handleSubmit}>
+                        Submit
+                    </button>
                 </div>
             </form>
         </div>
