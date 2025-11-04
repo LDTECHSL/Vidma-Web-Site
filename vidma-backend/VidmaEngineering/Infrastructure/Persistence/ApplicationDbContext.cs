@@ -5,6 +5,7 @@ using Domain.Entities.Achievemnets;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Form;
 using Domain.Entities.Gallery;
+using Domain.Entities.ProductOrders;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
@@ -44,6 +45,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Team> Team { get; set; }
     public DbSet<Achievements> Achievements { get; set; }
     public DbSet<Form> Form { get; set; }
+    public DbSet<OrderItem> OrderItem { get; set; }
+    public DbSet<Product> Product { get; set; }
+    public DbSet<Customer> Customer { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,6 +65,58 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .WithOne(i => i.Gallery)
             .HasForeignKey(i => i.GalleryId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        
+        // Product configuration
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.ProductName)
+                .IsRequired()
+                .HasMaxLength(500);
+            entity.Property(p => p.Description)
+                .HasMaxLength(1000);
+
+            entity.HasMany(p => p.OrderItems)
+                .WithOne(oi => oi.Product)
+                .HasForeignKey(oi => oi.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        
+        // Customer configuration
+        modelBuilder.Entity<Customer>(entity =>
+        {
+            entity.HasKey(c => c.Id); // requires adding Id to Customer class
+            entity.Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+            entity.Property(c => c.Email)
+                .HasMaxLength(320);
+            entity.Property(c => c.PhoneNo)
+                .HasMaxLength(50);
+            entity.Property(c => c.Address)
+                .HasMaxLength(1000);
+
+
+            entity.HasMany(c => c.OrderItems)
+                .WithOne(oi => oi.Customer)
+                .HasForeignKey(oi => oi.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+
+        // OrderItem configuration
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.HasKey(oi => oi.Id);
+            entity.Property(oi => oi.Quantity)
+                .IsRequired()
+                .HasDefaultValue(1);
+            entity.HasIndex(oi => new { oi.CustomerId, oi.ProductId })
+                .IsUnique(false);
+        });
+        
+        
         
         
     }

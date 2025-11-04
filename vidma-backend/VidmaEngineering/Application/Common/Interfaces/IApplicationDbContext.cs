@@ -4,6 +4,7 @@ using Domain.Entities.Achievemnets;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Form;
 using Domain.Entities.Gallery;
+using Domain.Entities.ProductOrders;
 using Domain.Entities.Sections;
 using Domain.Entities.Services;
 using Domain.Entities.Stats;
@@ -37,6 +38,9 @@ public interface IApplicationDbContext
     DbSet<Team> Team { get; }
     DbSet<Achievements> Achievements { get; }
     DbSet<Form> Form { get; }
+    DbSet<Product> Product { get; }
+    DbSet<OrderItem> OrderItem { get; }
+    DbSet<Customer> Customer { get; }
 
 
     
