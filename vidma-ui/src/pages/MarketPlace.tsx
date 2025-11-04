@@ -1,7 +1,7 @@
 import "../common/market.css";
 import { FaSearch, FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { getProducts, searchProducts } from "../services/home-api";
+import { deleteProduct, getProducts, searchProducts } from "../services/home-api";
 import { Skeleton } from "@mui/material";
 
 

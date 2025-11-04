@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { addProduct, getProducts } from "../../services/home-api";
+import { addProduct, deleteProduct, getAllProducts, getProducts, updateProduct } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function MarketPlaceSection() {
@@ -13,6 +13,9 @@ export default function MarketPlaceSection() {
     const [colors, setColors] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>(null);
+    const [products, setProducts] = useState<any[]>([]);
+    const [img, setImg] = useState<string>("");
+    const [id, setId] = useState<number>(0);
 
     const makeDropHandler = useCallback(
         (setFile: (f: File | null) => void, setError: (s: string | null) => void) => {
@@ -58,34 +61,91 @@ export default function MarketPlaceSection() {
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
     const handleSubmit = async () => {
-        const formData = new FormData();
-        formData.append("ProductName", name);
-        formData.append("Description", description);
-        formData.append("Color", colors);
-        if (imageS1) {
-            formData.append("Image", imageS1);
-        }
 
+        if (id === 0) {
+            const formData = new FormData();
+            formData.append("ProductName", name);
+            formData.append("Description", description);
+            formData.append("Color", colors);
+            if (imageS1) {
+                formData.append("Image", imageS1);
+            }
+
+            setOpen(true);
+            try {
+                await addProduct(formData, token);
+                showSuccess("Product added successfully!");
+            } catch (error) {
+                showError("Failed to add product. Please try again.");
+            } finally {
+                setOpen(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        } else {
+            const formData = new FormData();
+            formData.append("ProductId", id.toString());
+            formData.append("ProductName", name);
+            formData.append("Description", description);
+            formData.append("Color", colors);
+            if (imageS1) {
+                formData.append("Image", imageS1);
+            }
+
+            setOpen(true);
+            try {
+                await updateProduct(formData, token);
+                showSuccess("Product updated successfully!");
+            } catch (error) {
+                showError("Failed to update product. Please try again.");
+            } finally {
+                setOpen(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        }
+    }
+
+    const handleDelete = async (id: number) => {
+        if (!window.confirm("Are you sure you want to delete this product?")) {
+            return;
+        }
+        
         setOpen(true);
         try {
-            await addProduct(formData, token);
-            showSuccess("Product added successfully!");
+            await deleteProduct(id.toString(), token);
+            showSuccess("Product deleted successfully!");
         } catch (error) {
-            showError("Failed to add product. Please try again.");
+            showError("Failed to delete product. Please try again.");
         } finally {
             setOpen(false);
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
         }
-    }
+    };
 
     const handleGetProducts = async () => {
         try {
-            const response = await getProducts(1)
+            const response = await getAllProducts()
+            setProducts(response.data);
         } catch (error) {
-            console.error(error);            
+            console.error(error);
         }
+    }
+
+    useEffect(() => {
+        handleGetProducts();
+    }, []);
+
+    const rowClick = (product: any) => {
+        setName(product.productName);
+        setDescription(product.description);
+        setColors(product.color);
+        setImg(product.imageUrl);
+        setId(product.id);
     }
 
     return (
@@ -180,19 +240,63 @@ export default function MarketPlaceSection() {
                         </div>
                     )}
                 </div>
-                {/* <div style={{ marginTop: "10px", color: "red" }}>
+
+                <div style={{ marginTop: "10px", color: "red" }}>
                     {
-                        imageLinkS1 !== null && (
-                            <img style={{ width: "200px" }} src={imageLinkS1.replace("dl=0", "raw=1")} alt="" />
+                        img !== null && (
+                            <img style={{ width: "200px" }} src={img.replace("dl=0", "raw=1")} alt="" />
                         )
                     }
 
-                </div> */}
+                </div>
+
                 <div style={{ width: "100%", display: "flex", justifyContent: "right", marginTop: "20px" }}>
 
                     <button type="button" className="submit-btn" onClick={handleSubmit}>
                         Submit
                     </button>
+                </div>
+
+                <div>
+                    <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                        <thead>
+                            <tr style={{ backgroundColor: "#f5f5f5" }}>
+                                <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
+                                <th style={{ padding: "12px", textAlign: "left" }}>Product Name</th>
+                                <th style={{ padding: "12px", textAlign: "left" }}>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                products.map((item, index) => (
+                                    <tr key={item.id} onClick={() => rowClick(item)} style={{ cursor: "pointer" }}>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{index + 1}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>{item.productName}</td>
+                                        <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                                            <button
+                                                style={{
+                                                    backgroundColor: "#f44336",
+                                                    color: "white",
+                                                    border: "none",
+                                                    padding: "8px 12px",
+                                                    textAlign: "center",
+                                                    textDecoration: "none",
+                                                    display: "inline-block",
+                                                    margin: "4px 2px",
+                                                    cursor: "pointer",
+                                                    borderRadius: "4px"
+                                                }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDelete(item.id);
+                                                }}
+                                                type="button" >Delete</button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </form>
         </div>

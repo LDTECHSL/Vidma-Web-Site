@@ -21,6 +21,7 @@ public class GetProductQueryHandler : IRequestHandler<GetProductQuery, List<Prod
         var product = await _context.Product
             .Select(p => new Products
             {
+                Id = p.Id,
                 ProductName = p.ProductName,
                 Description = p.Description,
                 ImageUrl = p.ImageUrl,

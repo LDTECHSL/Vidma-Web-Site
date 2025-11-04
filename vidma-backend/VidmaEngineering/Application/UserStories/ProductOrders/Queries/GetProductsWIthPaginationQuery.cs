@@ -32,6 +32,7 @@ public class GetProductsWIthPaginationQueryHandler : IRequestHandler<GetProducts
             .Take(request.PageSize)
             .Select(p => new Products
             {
+                Id = p.Id,
                 ProductName = p.ProductName,
                 Description = p.Description,
                 ImageUrl = p.ImageUrl,
@@ -52,7 +53,7 @@ public class GetProductsWIthPaginationQueryHandler : IRequestHandler<GetProducts
 
 public class Products
 {
-                 
+    public int Id { get; set; }             
     public required string ProductName { get; set; }
     
     public string? Description { get; set; }
