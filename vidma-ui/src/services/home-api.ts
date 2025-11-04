@@ -591,3 +591,12 @@ export const updateProduct = async (body: any, token: string) => {
     throw error;
   }
 };
+
+export const placeOrder = async (body: any) => {
+  try {
+    const response = await axios.post(`${api_url}products/place-order`, body);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
