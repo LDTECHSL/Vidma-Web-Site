@@ -1,0 +1,153 @@
+.market-page-outer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.market-page-hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #001224 0%, #000000 100%);
+  gap: 25px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.m-hero-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: rgb(0, 135, 197);
+}
+
+.m-hero-title2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: rgb(158, 129, 1);
+  margin-left: 8px;
+}
+
+.m-hero-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgb(192, 192, 192);
+  max-width: 900px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Search Bar Styles */
+.market-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  padding: 10px 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.market-search-container:hover,
+.market-search-container:focus-within {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.02);
+}
+
+.market-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1rem;
+  padding: 10px;
+}
+
+.market-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.market-search-btn {
+  background: linear-gradient(135deg, #0087c5, #00b0ff);
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.market-search-btn:hover {
+  background: linear-gradient(135deg, #00b0ff, #0099d6);
+  transform: rotate(8deg);
+}
+
+/* Existing styles remain the same */
+
+.hide-hero {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+/* Sticky search bar when scrolling */
+.sticky-search-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #001224e6;
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  z-index: 1000;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+}
+
+/* Smaller version of the search bar */
+.market-search-container.small {
+  width: 80%;
+  max-width: 600px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+}
+
+.market-search-container.small .market-search-input {
+  font-size: 0.9rem;
+}
+
+.market-search-container.small .market-search-btn {
+  padding: 14px 14px;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .m-hero-title {
+    font-size: 2rem;
+  }
+
+  .m-hero-title2 {
+    font-size: 1.3rem;
+  }
+
+  .market-search-container {
+    width: 90%;
+    padding: 8px 12px;
+  }
+
+  .m-hero-subtitle {
+    width: 90%;
+    font-size: 0.9rem;
+  }
+}
