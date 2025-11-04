@@ -11,10 +11,23 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import {
+    CollectionsTwoTone,
+    ConnectWithoutContactTwoTone,
+    DesignServicesTwoTone,
+    DomainVerificationTwoTone,
+    EmojiEventsTwoTone,
     ExpandLess,
     ExpandMore,
+    FeedbackTwoTone,
+    GroupsTwoTone,
+    HomeWorkTwoTone,
+    InfoTwoTone,
+    LocalGroceryStoreTwoTone,
+    MovieTwoTone,
     PowerSettingsNewTwoTone,
+    QueryStatsTwoTone,
     RocketLaunchTwoTone,
+    StorefrontTwoTone,
 } from "@mui/icons-material";
 import { } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -119,79 +132,79 @@ export default function Navbar({ children }: Readonly<Props>) {
         {
             group: "Contents",
             name: "About Us Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <InfoTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/aboutus-section",
         },        
         {
             group: "Contents",
             name: "Services Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <DesignServicesTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/services-section",
         },        
         {
             group: "Contents",
             name: "Top Products Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <DomainVerificationTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/top-products-section",
         },
         {
             group: "Contents",
             name: "Contact Us Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <ConnectWithoutContactTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/contactus-section",
         },
         {
             group: "Contents",
             name: "Showrooms Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <HomeWorkTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/showrooms-section",
         },
         {
             group: "Contents",
             name: "Video Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <MovieTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/video-section",
         },
         {
             group: "Contents",
             name: "Gallery Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <CollectionsTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/gallery-section",
         },
         {
             group: "Contents",
             name: "Awards Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <EmojiEventsTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/awards-section",
         },
         {
             group: "Contents",
             name: "Teams Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <GroupsTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/teams-section",
         },
         {
             group: "Contents",
             name: "Stats Section",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <QueryStatsTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/stats-section",
         },
         {
             group: "Reviews",
             name: "Feedbacks",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <FeedbackTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/feedbacks-section",
         },
         {
             group: "Market",
             name: "MarketPlace",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <StorefrontTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/marketplace-section",
         },
         {
             group: "Market",
             name: "Orders",
-            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            icon: <LocalGroceryStoreTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/orders-section",
         }
     ];
