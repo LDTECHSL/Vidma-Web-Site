@@ -10,6 +10,10 @@ namespace UI.Controllers;
 [Route("api/products")]
 public class ProductManagementController(IMediator mediator) : ControllerBase
 {
+    
+    [HttpGet]
+    public async Task<ActionResult<Products>> GetProducts()
+    => Ok(await mediator.Send(new GetProductQuery()));
 
     [HttpGet("paginated")]
     public async Task<ActionResult<PaginatedProducts>> GetPaginatedProducts([FromQuery] int page, [FromQuery] int pageSize)
@@ -41,6 +45,10 @@ public class ProductManagementController(IMediator mediator) : ControllerBase
     
     [HttpPost("add")]
     public async Task<ActionResult<Result>> AddProduct([FromForm] AddProductCommand command)
+    => Ok(await mediator.Send(command));
+    
+    [HttpPost("update")]
+    public async Task<ActionResult<Result>> UpdateProduct([FromForm] UpdateProductCommand command)
     => Ok(await mediator.Send(command));
     
     [HttpDelete]
