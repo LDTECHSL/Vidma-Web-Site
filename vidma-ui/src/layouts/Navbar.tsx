@@ -187,6 +187,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "MarketPlace",
             icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/marketplace-section",
+        },
+        {
+            group: "Market",
+            name: "Orders",
+            icon: <RocketLaunchTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/orders-section",
         }
     ];
 

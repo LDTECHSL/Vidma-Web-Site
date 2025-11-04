@@ -61,7 +61,7 @@ export default function MarketPlaceSection() {
 
     return (
         <div>
-            <BreadCrumb title="Market Place Section" />
+            <BreadCrumb title="MarketPlace" />
             <Backdrop
                 sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
                 open={open}

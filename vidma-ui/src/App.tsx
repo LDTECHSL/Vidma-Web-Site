@@ -17,6 +17,7 @@ import StatsSection from './pages/Console/StatsSection';
 import FeedbacksSection from './pages/Console/FeedbacksSection';
 import MarketPlace from './pages/MarketPlace';
 import MarketPlaceSection from './pages/Console/MarketPlaceSection';
+import OrdersSection from './pages/Console/OrdersSection';
 
 const App: React.FC = () => {
 
@@ -42,6 +43,7 @@ const App: React.FC = () => {
             <Route path="/vidma/console/stats-section" element={<StatsSection />} />
             <Route path="/vidma/console/feedbacks-section" element={<FeedbacksSection />} />
             <Route path="/vidma/console/marketplace-section" element={<MarketPlaceSection />} />
+            <Route path="/vidma/console/orders-section" element={<OrdersSection />} />
           </Routes>
         </Navbar>
       ) : (
