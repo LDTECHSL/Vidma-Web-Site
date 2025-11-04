@@ -55,13 +55,13 @@ export default function MarketPlace() {
     }, []);
 
     const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+    const itemsPerPage = 5;
 
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePageChange = (page: number) => setCurrentPage(page);
+    const handlePageChange = (page: number) => setCurrentPage(page);
 
     return (
         <div className="market-page-outer">
@@ -105,30 +105,30 @@ export default function MarketPlace() {
             )}
 
             <div className="market-items-container">
-        {currentItems.map((item, idx) => (
-          <div className="market-item-card" key={idx}>
-            <img src={item.imageLink} alt={item.name} className="market-item-img" />
-            <div className="market-item-info">
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              <span className="market-item-colors">Colors: {item.colors}</span>
+                {currentItems.map((item, idx) => (
+                    <div className="market-item-card" key={idx}>
+                        <img src={item.imageLink} alt={item.name} className="market-item-img" />
+                        <div className="market-item-info">
+                            <h3>{item.name}</h3>
+                            <p>{item.description}</p>
+                            {/* <span className="market-item-colors">Colors: {item.colors}</span> */}
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Pagination */}
-      <div className="market-pagination">
-        {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
-            onClick={() => handlePageChange(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+            {/* Pagination */}
+            <div className="market-pagination">
+                {[...Array(totalPages)].map((_, i) => (
+                    <button
+                        key={i}
+                        className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
+                        onClick={() => handlePageChange(i + 1)}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 }

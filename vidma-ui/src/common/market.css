@@ -154,6 +154,7 @@
 .market-item-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 20px rgba(0, 150, 255, 0.2);
+  cursor: pointer;
 }
 
 .market-item-img {
@@ -169,7 +170,7 @@
 
 .market-item-info h3 {
   margin: 10px 0 5px;
-  color: #00b4ff;
+  color: #15688b;
 }
 
 .market-item-info p {
