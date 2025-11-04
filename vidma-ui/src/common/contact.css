@@ -92,6 +92,7 @@
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--color-primary, #1976d2);
+  text-align: left;
 }
 
 .cc-desc {
@@ -99,6 +100,7 @@
   color: #444;
   margin-top: 8px;
   word-break: break-word;
+  text-align: left;
 }
 
 /* RIGHT (map) */
@@ -138,6 +140,7 @@
   }
 
   .leaflet-container {
+    width: 100% !important;
     height: 400px;
   }
 }
@@ -174,10 +177,10 @@
   }
 
   .cc-title {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
   .cc-desc {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
   }
 }
