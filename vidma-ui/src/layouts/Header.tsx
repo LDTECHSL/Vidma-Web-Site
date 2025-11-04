@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../common/main.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/vidma-logo.png";
 import { useLanguage } from "../components/LanguageContext";
 import i18n from "../i18n";
@@ -10,6 +10,8 @@ const Header: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation();
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -79,7 +81,8 @@ const Header: React.FC = () => {
             </div>
             
             <div>
-              <button className="primary-button">{t("order")}</button>
+              {/* open in new tab */}
+              <button onClick={() => window.open("/marketplace", "_blank")} className="primary-button">{t("order")}</button>
             </div>
             
           </nav>

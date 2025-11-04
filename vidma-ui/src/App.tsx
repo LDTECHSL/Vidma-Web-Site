@@ -15,6 +15,7 @@ import AwardsSection from './pages/Console/AwardsSection';
 import TeamsSection from './pages/Console/TeamsSection';
 import StatsSection from './pages/Console/StatsSection';
 import FeedbacksSection from './pages/Console/FeedbacksSection';
+import MarketPlace from './pages/MarketPlace';
 
 const App: React.FC = () => {
 
@@ -44,6 +45,7 @@ const App: React.FC = () => {
       ) : (
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/console/login" element={<Login />} />
         </Routes>
       )}
