@@ -141,6 +141,19 @@
   max-width: 1400px; /* Prevents full stretch on large screens */
 }
 
+*{
+  /* border: 1px solid red; */
+}
+
+.no-results {
+  width: 100% !important;
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  padding: 40px 0;
+}
+
+
 .market-item-card {
   background: #ffffff;
   border: 1px solid #2a2a2a;

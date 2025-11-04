@@ -525,3 +525,12 @@ export const getProducts = async (page:any) => {
         throw error;
     }
 }
+
+export const searchProducts = async (query:string) => {
+    try {
+        const response = await axios.get(`${api_url}products/search?query=${query}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

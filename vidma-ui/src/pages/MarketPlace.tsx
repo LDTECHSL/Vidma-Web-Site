@@ -1,7 +1,7 @@
 import "../common/market.css";
 import { FaSearch, FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { getProducts } from "../services/home-api";
+import { getProducts, searchProducts } from "../services/home-api";
 import { Skeleton } from "@mui/material";
 
 
@@ -10,7 +10,7 @@ export default function MarketPlace() {
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(true);
-
+  const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState<any[]>([]);
 
   // const items = [
@@ -99,6 +99,27 @@ export default function MarketPlace() {
     }
   };
 
+  const handleSearch = async (query: string) => {
+    try {
+      setLoading(true);
+      if (!query.trim()) {
+        await handleGetProducts();
+        return;
+      }
+      const response = await searchProducts(query);
+      setItems(response.data);
+
+      if(response.data.length === 0){
+        alert("No products found matching your search.");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
     handleGetProducts();
   }, [currentPage]);
@@ -122,8 +143,10 @@ export default function MarketPlace() {
             type="text"
             placeholder="Search for products, categories, or brands..."
             className="market-search-input"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
           />
-          <button className="market-search-btn">
+          <button className="market-search-btn" onClick={() => handleSearch(searchQuery)}>
             <FaSearch />
           </button>
         </div>
@@ -137,8 +160,10 @@ export default function MarketPlace() {
               type="text"
               placeholder="Search..."
               className="market-search-input"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
             />
-            <button className="market-search-btn">
+            <button className="market-search-btn" onClick={() => handleSearch(searchQuery)}>
               <FaSearch />
             </button>
           </div>
@@ -147,25 +172,34 @@ export default function MarketPlace() {
 
       {/* Items */}
       <div className="market-items-container">
-        {loading
-          ? Array(5)
+        {loading ? (
+          // 🦴 Show loading skeletons
+          Array(5)
             .fill(0)
             .map((_, idx) => (
               <div className="market-item-card" key={idx}>
                 <Skeleton variant="rectangular" width={250} height={180} />
                 <div className="market-item-info">
                   <h3><Skeleton variant="text" width={150} /></h3>
+                  <p><Skeleton variant="text" width={200} /></p>
                 </div>
               </div>
             ))
-          : currentItems.map((item, idx) => (
+        ) : items.length === 0 ? (
+          // ⚠️ Show message when no results
+          <div className="no-results">
+            {/* <p>No products found. Try a different search.</p> */}
+          </div>
+        ) : (
+          // ✅ Show products normally
+          currentItems.map((item, idx) => (
             <div
               className="market-item-card"
               key={idx}
               onClick={() => openModal(item)}
             >
               <img
-                src={item.imageUrl.replace("dl=0", "raw=1")}
+                src={item.imageUrl?.replace("dl=0", "raw=1")}
                 alt={item.productName}
                 className="market-item-img"
               />
@@ -174,22 +208,25 @@ export default function MarketPlace() {
                 <p>{item.description}</p>
               </div>
             </div>
-          ))}
+          ))
+        )}
       </div>
-
 
       {/* Pagination */}
-      <div className="market-pagination">
-        {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
-            onClick={() => setCurrentPage(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {!loading && items.length > 0 && (
+        <div className="market-pagination">
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
+
 
       {/* Modal */}
       {selectedItem && (
