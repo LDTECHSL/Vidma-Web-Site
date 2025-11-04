@@ -10,6 +10,7 @@ import AccessTimeFilled from "@mui/icons-material/AccessTimeFilled";
 import { useEffect, useState } from "react";
 import { getContactUsData, getLocations } from "../services/home-api";
 import { useTranslation } from "react-i18next";
+import { Divider } from "@mui/material";
 
 // Fix default Leaflet marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -105,33 +106,51 @@ export default function ContactUsMap() {
         {/* Contact Details Left */}
         <div className="contact-inner ci">
           <div className="contact-card" data-aos="fade-right">
-            <div className="cc-sub">
-              <LocationPin style={{ fontSize: 40, color: "#1976d2" }} />
-              <div className="cc-title">Address</div>
-            </div>
-            <div className="cc-desc">{contactDetails.address}</div>
-          </div>
+            <LocationPin style={{ fontSize: 30, color: "#1976d2" }} />
 
-          <div className="contact-card" data-aos="fade-right" data-aos-delay="100">
-            <LocalPhone style={{ fontSize: 40, color: "#1976d2" }} />
-            <div className="cc-title">Phone</div>
-            <div className="cc-desc">
-              {contactDetails?.phone?.split(",").map((num: any, i: any) => (
-                <div key={i}>{num.trim()}</div>
-              ))}
+            <Divider orientation="vertical" flexItem style={{ margin: "0 25px", border: "1px solid gray" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", marginLeft: "10px", alignItems: "flex-start", gap: "8px" }}>
+              <div className="cc-title">Vidma Super Engineering (Pvt) Ltd</div>
+              <div className="cc-desc">{contactDetails.address}</div>
             </div>
           </div>
 
-          <div className="contact-card" data-aos="fade-right" data-aos-delay="200">
-            <AlternateEmail style={{ fontSize: 40, color: "#1976d2" }} />
-            <div className="cc-title">Email</div>
-            <div className="cc-desc">{contactDetails.email}</div>
+          <div className="contact-card" data-aos="fade-right">
+            <LocalPhone style={{ fontSize: 30, color: "#1976d2" }} />
+
+            <Divider orientation="vertical" flexItem style={{ margin: "0 25px", border: "1px solid gray" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", marginLeft: "10px", alignItems: "flex-start", gap: "8px" }}>
+              <div className="cc-title">Phone</div>
+              <div className="cc-desc">
+                {contactDetails?.phone?.split(",").map((num: any, i: any) => (
+                  <div key={i}>{num.trim()}</div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="contact-card" data-aos="fade-right" data-aos-delay="300">
-            <AccessTimeFilled style={{ fontSize: 40, color: "#1976d2" }} />
-            <div className="cc-title">Working Hours</div>
-            <div className="cc-desc">{contactDetails.workingHours}</div>
+          <div className="contact-card" data-aos="fade-right">
+            <AlternateEmail style={{ fontSize: 30, color: "#1976d2" }} />
+
+            <Divider orientation="vertical" flexItem style={{ margin: "0 25px", border: "1px solid gray" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", marginLeft: "10px", alignItems: "flex-start", gap: "8px" }}>
+              <div className="cc-title">Email</div>
+              <div className="cc-desc">{contactDetails.email}</div>
+            </div>
+          </div>
+
+          <div className="contact-card" data-aos="fade-right">
+            <AccessTimeFilled style={{ fontSize: 30, color: "#1976d2" }} />
+
+            <Divider orientation="vertical" flexItem style={{ margin: "0 25px", border: "1px solid gray" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", marginLeft: "10px", alignItems: "flex-start", gap: "8px" }}>
+              <div className="cc-title">Working Hours</div>
+              <div className="cc-desc">{contactDetails.workingHours}</div>
+            </div>
           </div>
         </div>
 
@@ -139,16 +158,16 @@ export default function ContactUsMap() {
         <div className="contact-inner" data-aos="fade-left">
           <MapContainer
             center={[7.8731, 80.7718]}
-            zoom={8}
+            zoom={7}
             minZoom={6}
             maxZoom={10}
             maxBounds={sriLankaBounds}
             maxBoundsViscosity={1.0}
             scrollWheelZoom={false}
             style={{
-              height: "800px",
-              width: "100%",
-              borderRadius: "12px",
+              height: "500px",
+              width: "90%",
+              borderRadius: "5px",
             }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
