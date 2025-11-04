@@ -1,10 +1,9 @@
 import "../common/market.css";
-import { FaSearch, FaPlus, FaMinus, FaShoppingCart, FaTrashAlt } from "react-icons/fa";
+import { FaSearch, FaPlus, FaMinus, FaShoppingCart, FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { deleteProduct, getProducts, searchProducts } from "../services/home-api";
+import { getProducts, searchProducts } from "../services/home-api";
 import { Skeleton } from "@mui/material";
-import { LocalGroceryStore, LocalGroceryStoreTwoTone } from "@mui/icons-material";
-
+import { LocalGroceryStoreTwoTone } from "@mui/icons-material";
 
 export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
@@ -15,7 +14,7 @@ export default function MarketPlace() {
   const [items, setItems] = useState<any[]>([]);
   const [cart, setCart] = useState<any[]>([]);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [showCartModal, setShowCartModal] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   // Sticky search bar
   useEffect(() => {
@@ -36,7 +35,6 @@ export default function MarketPlace() {
     if (savedCart) setCart(JSON.parse(savedCart));
   }, []);
 
-  // Modal handlers
   const openModal = (item: any) => {
     setSelectedItem(item);
     setQuantity(0);
@@ -67,7 +65,6 @@ export default function MarketPlace() {
       }
       const response = await searchProducts(query);
       setItems(response.data);
-
       if (response.data.length === 0) {
         alert("No products found matching your search.");
       }
@@ -93,7 +90,7 @@ export default function MarketPlace() {
     }
 
     const newCartItem = {
-      id: selectedItem.id || new Date().getTime(), // fallback ID
+      id: selectedItem.id || new Date().getTime(),
       productName: selectedItem.productName,
       description: selectedItem.description,
       imageUrl: selectedItem.imageUrl,
@@ -101,7 +98,6 @@ export default function MarketPlace() {
       quantity,
     };
 
-    // Check if same item + color exists
     const existingIndex = cart.findIndex(
       (item) =>
         item.productName === newCartItem.productName &&
@@ -110,7 +106,6 @@ export default function MarketPlace() {
 
     let updatedCart;
     if (existingIndex >= 0) {
-      // Update quantity if same product & color already exists
       updatedCart = [...cart];
       updatedCart[existingIndex].quantity += quantity;
     } else {
@@ -119,29 +114,36 @@ export default function MarketPlace() {
 
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-
     alert("Item added to cart!");
     closeModal();
   };
 
-  const handleRemoveFromCart = (index: number) => {
-    const updated = [...cart];
-    updated.splice(index, 1);
+  const handleRemoveFromCart = (id: number) => {
+    const updated = cart.filter(item => item.id !== id);
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // 📦 Make order button
+  const handleQuantityChange = (id: number, delta: number) => {
+    const updated = cart.map(item =>
+      item.id === id
+        ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+        : item
+    );
+    setCart(updated);
+    localStorage.setItem("cart", JSON.stringify(updated));
+  };
+
   const handleMakeOrder = () => {
-    alert("Order placed successfully!");
+    alert("🛒 Order placed successfully!");
     setCart([]);
     localStorage.removeItem("cart");
-    setShowCartModal(false);
+    setShowCart(false);
   };
 
   return (
     <div className="market-page-outer">
-      {/* Hero Section */}
+      {/* HERO + SEARCH */}
       <div className={`market-page-hero ${isSticky ? "hide-hero" : ""}`}>
         <div>
           <span className="m-hero-title">VIDMA</span>
@@ -149,14 +151,13 @@ export default function MarketPlace() {
         </div>
         <div className="m-hero-subtitle">
           Vidma — your one-stop shop for quality roofing, hardware, and export
-          products. Reliable, affordable, and built to last — bringing all your
-          construction and sourcing needs together under one trusted brand.
+          products.
         </div>
 
         <div className="market-search-container">
           <input
             type="text"
-            placeholder="Search for products, categories, or brands..."
+            placeholder="Search for products..."
             className="market-search-input"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
@@ -167,7 +168,6 @@ export default function MarketPlace() {
         </div>
       </div>
 
-      {/* Sticky Search Bar */}
       {isSticky && (
         <div className="sticky-search-bar">
           <div className="market-search-container small">
@@ -185,10 +185,9 @@ export default function MarketPlace() {
         </div>
       )}
 
-      {/* Items */}
+      {/* PRODUCT LIST */}
       <div className="market-items-container">
         {loading ? (
-          // 🦴 Show loading skeletons
           Array(5)
             .fill(0)
             .map((_, idx) => (
@@ -200,34 +199,22 @@ export default function MarketPlace() {
                 </div>
               </div>
             ))
-        ) : items.length === 0 ? (
-          // ⚠️ Show message when no results
-          <div className="no-results">
-            {/* <p>No products found. Try a different search.</p> */}
-          </div>
-        ) : (
-          // ✅ Show products normally
-          currentItems.map((item, idx) => (
-            <div
-              className="market-item-card"
-              key={idx}
-              onClick={() => openModal(item)}
-            >
-              <img
-                src={item.imageUrl?.replace("dl=0", "raw=1")}
-                alt={item.productName}
-                className="market-item-img"
-              />
-              <div className="market-item-info">
-                <h3>{item.productName}</h3>
-                <p>{item.description}</p>
-              </div>
+        ) : currentItems.map((item, idx) => (
+          <div className="market-item-card" key={idx} onClick={() => openModal(item)}>
+            <img
+              src={item.imageUrl?.replace("dl=0", "raw=1")}
+              alt={item.productName}
+              className="market-item-img"
+            />
+            <div className="market-item-info">
+              <h3>{item.productName}</h3>
+              <p>{item.description}</p>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
 
-      {/* Pagination */}
+      {/* PAGINATION */}
       {!loading && items.length > 0 && (
         <div className="market-pagination">
           {[...Array(totalPages)].map((_, i) => (
@@ -242,61 +229,45 @@ export default function MarketPlace() {
         </div>
       )}
 
-      {/* Modal */}
+      {/* PRODUCT MODAL */}
       {selectedItem && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div
-            className="modal-content"
-            onClick={e => e.stopPropagation()} // Prevent background click close
-          >
-            <button className="modal-close" onClick={closeModal}>
-              ✕
-            </button>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>✕</button>
             <img
               src={selectedItem.imageUrl.replace("dl=0", "raw=1")}
               alt={selectedItem.productName}
               className="modal-image"
             />
             <h2 style={{ color: "#15688b" }}>{selectedItem.productName}</h2>
-            <div style={{ height: "10px" }}></div>
             <p style={{ color: "grey" }}>{selectedItem.description}</p>
-            <div style={{ height: "10px" }}></div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-              {selectedItem.color && selectedItem.color.length > 0 ? (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "5px" }}>
-                  {selectedItem.color.split(",").map((clr: string, index: number) => {
-                    const colorValue = clr.trim();
-                    return (
-                      <div
-                        key={index}
-                        title={colorValue}
-                        onClick={() => setSelectedColor(colorValue)}
-                        style={{
-                          backgroundColor: colorValue,
-                          width: "25px",
-                          height: "25px",
-                          borderRadius: "4px",
-                          border: selectedColor === colorValue ? "3px solid #15688b" : "1px solid #ccc",
-                          cursor: "pointer",
-                          transition: "0.2s",
-                        }}
-                      ></div>
-                    );
-                  })}
-                </div>
-              ) : (
-                "No colors listed"
-              )}
+
+            <div style={{ display: "flex", justifyContent: "center", gap: "8px", margin: "10px 0" }}>
+              {selectedItem.color?.split(",").map((clr: string, index: number) => {
+                const colorValue = clr.trim();
+                return (
+                  <div
+                    key={index}
+                    title={colorValue}
+                    onClick={() => setSelectedColor(colorValue)}
+                    style={{
+                      backgroundColor: colorValue,
+                      width: "25px",
+                      height: "25px",
+                      borderRadius: "4px",
+                      border: selectedColor === colorValue ? "3px solid #15688b" : "1px solid #ccc",
+                      cursor: "pointer",
+                      transition: "0.2s",
+                    }}
+                  ></div>
+                );
+              })}
             </div>
 
             <div className="quantity-control">
-              <button onClick={decreaseQty}>
-                <FaMinus />
-              </button>
+              <button onClick={decreaseQty}><FaMinus /></button>
               <span>{quantity}</span>
-              <button onClick={increaseQty}>
-                <FaPlus />
-              </button>
+              <button onClick={increaseQty}><FaPlus /></button>
             </div>
 
             <button
@@ -311,6 +282,7 @@ export default function MarketPlace() {
         </div>
       )}
 
+      {/* CART FLOATING BUTTON */}
       <div
         style={{
           position: "fixed",
@@ -319,7 +291,7 @@ export default function MarketPlace() {
           zIndex: 1000,
           cursor: "pointer",
         }}
-        onClick={() => setShowCartModal(true)}
+        onClick={() => setShowCart(true)}
       >
         {cart.length > 0 && (
           <div
@@ -338,13 +310,11 @@ export default function MarketPlace() {
               alignItems: "center",
               justifyContent: "center",
               boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
-              zIndex: 1001,
             }}
           >
             {cart.length}
           </div>
         )}
-
         <div
           style={{
             width: "65px",
@@ -357,46 +327,36 @@ export default function MarketPlace() {
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
           }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.transform = "scale(1.1)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.transform = "scale(1)")
-          }
         >
           <LocalGroceryStoreTwoTone style={{ fontSize: "35px", color: "#fff" }} />
         </div>
       </div>
 
-      {showCartModal && (
-        <div className="cart-modal-overlay" onClick={() => setShowCartModal(false)}>
-          <div
-            className="cart-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2>Your Cart</h2>
+      {/* 🛒 CART MODAL */}
+      {showCart && (
+        <div className="modal-overlay" onClick={() => setShowCart(false)}>
+          <div className="cart-modal" onClick={e => e.stopPropagation()}>
+            <h2>My Cart</h2>
+            <button className="modal-close" onClick={() => setShowCart(false)}>✕</button>
+
             {cart.length === 0 ? (
-              <p style={{ textAlign: "center", color: "gray" }}>
-                Your cart is empty.
-              </p>
+              <p style={{ textAlign: "center", color: "#888" }}>Your cart is empty.</p>
             ) : (
               <div className="cart-items">
-                {cart.map((item, index) => (
-                  <div className="cart-item" key={index}>
-                    <img
-                      src={item.imageUrl?.replace("dl=0", "raw=1")}
-                      alt={item.productName}
-                    />
-                    <div className="cart-info">
-                      <h4>{item.productName}</h4>
-                      <p>Color: <span style={{ color: item.color }}>{item.color}</span></p>
-                      <p>Qty: {item.quantity}</p>
+                {cart.map(item => (
+                  <div className="cart-item" key={item.id}>
+                    <img src={item.imageUrl.replace("dl=0", "raw=1")} alt={item.productName} className="cart-item-img" />
+                    <div className="cart-item-info">
+                      <h4 style={{ color: "#15688b" }}>{item.productName}</h4>
+                      <p style={{ color: "#666" }}>Color: {item.color}</p>
+                      <div className="quantity-control small">
+                        <button onClick={() => handleQuantityChange(item.id, -1)}><FaMinus /></button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => handleQuantityChange(item.id, 1)}><FaPlus /></button>
+                      </div>
                     </div>
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemoveFromCart(index)}
-                    >
-                      <FaTrashAlt />
+                    <button className="remove-btn" onClick={() => handleRemoveFromCart(item.id)}>
+                      <FaTrash />
                     </button>
                   </div>
                 ))}
@@ -411,7 +371,6 @@ export default function MarketPlace() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

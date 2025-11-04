@@ -369,37 +369,18 @@
   }
 }
 
-.cart-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  z-index: 2000;
-}
-
-.cart-modal-content {
-  width: 95%;
-  max-width: 500px;
+.cart-modal {
   background: #fff;
-  border-radius: 16px 16px 0 0;
-  padding: 20px;
-  animation: slideUp 0.3s ease;
+  max-width: 500px;
+  width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  margin: auto;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  animation: fadeInUp 0.3s ease;
 }
 
 .cart-items {
@@ -412,51 +393,66 @@
 .cart-item {
   display: flex;
   align-items: center;
-  background: #f6f6f6;
+  background: #f7f7f7;
   border-radius: 10px;
   padding: 10px;
-  justify-content: space-between;
+  gap: 10px;
 }
 
-.cart-item img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
+.cart-item-img {
+  width: 70px;
+  height: 70px;
   border-radius: 8px;
+  object-fit: cover;
 }
 
-.cart-info {
+.cart-item-info {
   flex: 1;
-  margin-left: 10px;
 }
 
 .remove-btn {
-  background: transparent;
+  background: none;
   border: none;
-  color: #ff3b3b;
-  cursor: pointer;
+  color: #c0392b;
   font-size: 18px;
-  transition: 0.2s;
-}
-
-.remove-btn:hover {
-  color: #b00000;
-  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .make-order-btn {
-  width: 100%;
   background: #053e58;
   color: #fff;
-  padding: 12px;
   border: none;
-  border-radius: 10px;
-  margin-top: 20px;
-  font-weight: bold;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
 }
-
 .make-order-btn:hover {
-  background: #07628a;
+  background: #075a7d;
+}
+
+.quantity-control.small {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.quantity-control.small button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: #ddd;
+  cursor: pointer;
+}
+.quantity-control.small span {
+  min-width: 25px;
+  text-align: center;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
