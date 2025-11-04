@@ -130,6 +130,89 @@
   padding: 14px 14px;
 }
 
+.market-items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  justify-content: center;
+  align-items: start;
+  gap: 25px;
+  width: 90%;
+  margin: 40px auto;
+  max-width: 1400px; /* Prevents full stretch on large screens */
+}
+
+.market-item-card {
+  background: #ffffff0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.market-item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 150, 255, 0.2);
+}
+
+.market-item-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.market-item-info {
+  padding: 15px;
+  color: #ddd;
+}
+
+.market-item-info h3 {
+  margin: 10px 0 5px;
+  color: #00b4ff;
+}
+
+.market-item-info p {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.market-item-colors {
+  font-size: 0.8rem;
+  color: gold;
+}
+
+/* Pagination */
+.market-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0 60px 0;
+}
+
+.page-btn {
+  background: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+  background: #007bff;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.page-btn.active {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
