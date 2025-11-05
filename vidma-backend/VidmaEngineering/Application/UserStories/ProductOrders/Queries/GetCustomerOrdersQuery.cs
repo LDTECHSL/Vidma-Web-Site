@@ -25,6 +25,9 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
                 CustomerId = c.Id,
                 CustomerName = c.Name,
                 OrderedTime = c.OrderedTime,
+                CustomerEmail = c.Email,
+                CustomerAddress = c.Address,
+                CustomerPhone = c.PhoneNo,
                 OrderItems = c.OrderItems == null
                     ? new List<OrderItemDetails>()
                     : c.OrderItems
@@ -48,7 +51,10 @@ public class CustomerOrders
     public int CustomerId { get; set; }
     
     public string CustomerName { get; set; } = string.Empty;
-
+    
+    public string CustomerEmail { get; set; } = string.Empty;
+    public string CustomerAddress { get; set; } = string.Empty;
+    public string CustomerPhone { get; set; } = string.Empty;
     public DateTime OrderedTime { get; set; }
     
     public List<OrderItemDetails> OrderItems { get; set; } = new List<OrderItemDetails>();

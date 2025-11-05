@@ -157,11 +157,6 @@ export default function MarketPlace() {
       return;
     }
 
-    if (!selectedColor) {
-      showError("Please select a color.");
-      return;
-    }
-
     if (!email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
       showError("Please enter a valid email address.");
       return;
@@ -179,9 +174,11 @@ export default function MarketPlace() {
         email,
         phoneNumber,
         address,
+        color: "",
         orderItems: cart.map(item => ({
           productId: item.id,
           quantity: item.quantity,
+          color: item.color,
         })),
       },
     };
@@ -192,6 +189,12 @@ export default function MarketPlace() {
       localStorage.removeItem("cart");
       setShowForm(false);
       setShowSuccessModal(true);
+      
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhoneNumber("");
+      setAddress("");
     } catch (error) {
       showError("❌ Failed to submit order. Please try again.");
     }
