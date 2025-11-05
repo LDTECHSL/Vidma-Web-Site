@@ -600,3 +600,16 @@ export const placeOrder = async (body: any) => {
     throw error;
   }
 };
+
+export const getOrders = async (token: string) => {
+  try {
+    const response = await axios.get(`${api_url}products/customer-orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

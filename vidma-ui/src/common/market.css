@@ -456,3 +456,54 @@
   from { transform: translateY(40px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #15688b;
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: #000000;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #15688b;
+  box-shadow: 0 0 4px rgba(21, 104, 139, 0.3);
+}
+
+textarea {
+  resize: none;
+  min-height: 70px;
+}
+
+.success-modal {
+  border: 2px solid #15688b;
+  box-shadow: 0 4px 15px rgba(21, 104, 139, 0.3);
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

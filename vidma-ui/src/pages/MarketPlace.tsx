@@ -1,9 +1,10 @@
 import "../common/market.css";
 import { FaSearch, FaPlus, FaMinus, FaShoppingCart, FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { getProducts, searchProducts } from "../services/home-api";
+import { getProducts, placeOrder, searchProducts } from "../services/home-api";
 import { Skeleton } from "@mui/material";
 import { LocalGroceryStoreTwoTone } from "@mui/icons-material";
+import { showError, showSuccess } from "../components/Toast";
 
 export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
@@ -15,6 +16,14 @@ export default function MarketPlace() {
   const [cart, setCart] = useState<any[]>([]);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [showCart, setShowCart] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
 
   // Sticky search bar
   useEffect(() => {
@@ -80,12 +89,9 @@ export default function MarketPlace() {
   }, [currentPage]);
 
   const handleAddToCart = () => {
-    if (!selectedColor) {
-      alert("Please select a color before adding to cart.");
-      return;
-    }
+    
     if (quantity === 0) {
-      alert("Please select a quantity greater than 0.");
+      showError("Please select a quantity greater than 0.");
       return;
     }
 
@@ -114,7 +120,7 @@ export default function MarketPlace() {
 
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    alert("Item added to cart!");
+    showSuccess("Item added to cart!");
     closeModal();
   };
 
@@ -135,10 +141,60 @@ export default function MarketPlace() {
   };
 
   const handleMakeOrder = () => {
-    alert("🛒 Order placed successfully!");
-    setCart([]);
-    localStorage.removeItem("cart");
+    setShowForm(true);
     setShowCart(false);
+  };
+
+  const handleSubmitOrder = async () => {
+
+    if (cart.length === 0) {
+      showError("Your cart is empty.");
+      return;
+    }
+
+    if (!firstName || !lastName || !email || !phoneNumber || !address) {
+      showError("Please fill in all customer details.");
+      return;
+    }
+
+    if (!selectedColor) {
+      showError("Please select a color.");
+      return;
+    }
+
+    if (!email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      showError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!phoneNumber || !/^\+?[0-9]{7,15}$/.test(phoneNumber)) {
+      showError("Please enter a valid phone number.");
+      return;
+    }
+
+    const body = {
+      customerDetails: {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        address,
+        orderItems: cart.map(item => ({
+          productId: item.id,
+          quantity: item.quantity,
+        })),
+      },
+    };
+
+    try {
+      await placeOrder(body);
+      setCart([]);
+      localStorage.removeItem("cart");
+      setShowForm(false);
+      setShowSuccessModal(true);
+    } catch (error) {
+      showError("❌ Failed to submit order. Please try again.");
+    }
   };
 
   return (
@@ -371,6 +427,84 @@ export default function MarketPlace() {
           </div>
         </div>
       )}
+
+      {/* 🛒 ORDER FORM MODAL */}
+      {showForm && (
+        <div className="modal-overlay" onClick={() => setShowForm(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h2 style={{ color: "#15688b", marginBottom: "15px" }}>Order Form</h2>
+            <button className="modal-close" onClick={() => setShowForm(false)}>✕</button>
+
+            <form
+              className="order-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmitOrder();
+              }}
+            >
+              <div className="form-group">
+                <label>First Name</label>
+                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} name="firstName" required placeholder="Enter your first name" />
+              </div>
+
+              <div className="form-group">
+                <label>Last Name</label>
+                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} name="lastName" required placeholder="Enter your last name" />
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" required placeholder="Enter your email" />
+              </div>
+
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} name="phoneNumber" required placeholder="Enter your phone number" />
+              </div>
+
+              <div className="form-group">
+                <label>Address</label>
+                <textarea value={address} onChange={(e) => setAddress(e.target.value)} name="address" required placeholder="Enter your full address"></textarea>
+              </div>
+
+              <button type="submit" className="make-order-btn" style={{ marginTop: "10px" }}>
+                Submit Order
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ SUCCESS MODAL */}
+      {showSuccessModal && (
+        <div className="modal-overlay" onClick={() => setShowSuccessModal(false)}>
+          <div className="modal-content success-modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowSuccessModal(false)}>✕</button>
+            <div style={{ textAlign: "center", padding: "20px" }}>
+              <h2 style={{ color: "#15688b" }}>Order Request Sent!</h2>
+              <p style={{ marginTop: "10px", color: "#333" }}>
+                Your order request has been made successfully.<br />
+                Our agent will contact you soon. 📞
+              </p>
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor: "#15688b",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
