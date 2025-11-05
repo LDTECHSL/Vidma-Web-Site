@@ -7,75 +7,6 @@ import { getGallery, getGalleryById } from "../services/home-api";
 export default function ProjectsGallery() {
     const [selectedProject, setSelectedProject] = useState<any>(null);
     const [albums, setAlbums] = useState<any[]>([]);
-    const [selectedAlbum, setSelectedAlbum] = useState<any>(null);
-
-    const projects = [
-        {
-            id: 1,
-            title: "The Japan Cup",
-            images: [
-                "https://picsum.photos/id/1011/800/600",
-                "https://picsum.photos/id/1012/800/600",
-                "https://picsum.photos/id/1013/800/600",
-                "https://picsum.photos/id/1014/800/600",
-                "https://picsum.photos/id/1012/800/600",
-                "https://picsum.photos/id/1013/800/600",
-                "https://picsum.photos/id/1014/800/600",
-                "https://picsum.photos/id/1012/800/600",
-                "https://picsum.photos/id/1013/800/600",
-                "https://picsum.photos/id/1014/800/600",
-            ],
-        },
-        {
-            id: 2,
-            title: "Galactic Gallop Classic",
-            images: [
-                "https://picsum.photos/id/1021/800/600",
-                "https://picsum.photos/id/1022/800/600",
-                "https://picsum.photos/id/1023/800/600",
-            ],
-        },
-        {
-            id: 3,
-            title: "Dreamland Derby Delight",
-            images: [
-                "https://picsum.photos/id/1031/800/600",
-                "https://picsum.photos/id/1032/800/600",
-                "https://picsum.photos/id/1033/800/600",
-                "https://picsum.photos/id/1034/800/600",
-            ],
-        },
-        {
-            id: 4,
-            title: "The Japan Cup",
-            images: [
-                "https://picsum.photos/id/1011/800/600",
-                "https://picsum.photos/id/1012/800/600",
-                "https://picsum.photos/id/1013/800/600",
-                "https://picsum.photos/id/1014/800/600",
-            ],
-        },
-        {
-            id: 5,
-            title: "Galactic Gallop Classic",
-            images: [
-                "https://picsum.photos/id/1021/800/600",
-                "https://picsum.photos/id/1022/800/600",
-                "https://picsum.photos/id/1023/800/600",
-            ],
-        },
-        {
-            id: 6,
-            title: "Dreamland Derby Delight",
-            images: [
-                "https://picsum.photos/id/1031/800/600",
-                "https://picsum.photos/id/1032/800/600",
-                "https://picsum.photos/id/1033/800/600",
-                "https://picsum.photos/id/1034/800/600",
-            ],
-        },
-    ];
-
     const handleGetAlbums = async () => {
         try {
             const response = await getGallery();
@@ -86,10 +17,6 @@ export default function ProjectsGallery() {
     }
 
     const handleAlbumClick = async (album: any) => {
-        console.log("Album clicked:", album);
-        
-        setSelectedAlbum(album);
-
         try {
             const response = await getGalleryById(album.galleryId);
             const albumData = response.data;

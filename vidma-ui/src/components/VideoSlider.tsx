@@ -13,13 +13,6 @@ export default function VideoSlider() {
     const { t } = useTranslation();
     const { language } = useLanguage();
 
-    const scroll = (direction: "left" | "right") => {
-        if (sliderRef.current) {
-            const scrollAmount = direction === "left" ? -300 : 300;
-            sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        }
-    };
-
     // Convert any YouTube URL format to a valid embed link
     const getYouTubeEmbedUrl = (url: string): string => {
         try {

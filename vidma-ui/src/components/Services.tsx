@@ -1,6 +1,6 @@
 import "../common/services.css";
 import "../common/main.css";
-import { FaAlgolia, FaChess } from "react-icons/fa"; // using react-icons
+import { FaAlgolia } from "react-icons/fa"; // using react-icons
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "./LanguageContext";
 import { getServicesByLanguage } from "../services/home-api";

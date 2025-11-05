@@ -19,6 +19,7 @@ export default function TopProductsSection() {
     const [productsList, setProductsList] = useState<any[]>([]);
     const [ProductName, setProductName] = useState("");
 
+    console.log(imageS1Error);
 
     // Generic drop handler factory for re-use
     const makeDropHandler = useCallback(

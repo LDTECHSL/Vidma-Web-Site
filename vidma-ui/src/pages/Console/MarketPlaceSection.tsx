@@ -2,12 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { addProduct, deleteProduct, getAllProducts, getProducts, updateProduct } from "../../services/home-api";
+import { addProduct, deleteProduct, getAllProducts, updateProduct } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function MarketPlaceSection() {
     const [open, setOpen] = useState(false);
-    const [isExisting, setIsExisting] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [colors, setColors] = useState("");
@@ -16,6 +15,8 @@ export default function MarketPlaceSection() {
     const [products, setProducts] = useState<any[]>([]);
     const [img, setImg] = useState<string>("");
     const [id, setId] = useState<number>(0);
+
+    console.log(imageS1Error);    
 
     const makeDropHandler = useCallback(
         (setFile: (f: File | null) => void, setError: (s: string | null) => void) => {

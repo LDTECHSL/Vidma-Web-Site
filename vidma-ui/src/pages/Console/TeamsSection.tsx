@@ -18,6 +18,8 @@ export default function TeamsSection() {
 
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
+    console.log(imageS1Error);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 

@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress, Divider } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { useCallback, useEffect, useState } from "react";
@@ -25,6 +25,9 @@ export default function AboutUsSection() {
     const [isExisting1, setIsExisting1] = useState(false);
 
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
+    console.log(imageS1Error);
+    
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

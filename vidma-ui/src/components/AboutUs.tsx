@@ -1,14 +1,9 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 import "../common/about.css";
 import "../common/main.css";
-import slide1 from "../assets/about-slide1.jpg";
-import slide2 from "../assets/about-slide2.jpg";
-import slide3 from "../assets/about-slide3.jpg";
-import slide4 from "../assets/about-slide4.jpg";
-import slide5 from "../assets/about-slide5.jpg";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "./LanguageContext";
 import { getAboutUsMainLanguage, getAboutUsSubLanguage } from "../services/home-api";
