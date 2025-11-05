@@ -216,3 +216,9 @@
         height: 120px;
     }
 }
+
+@media (max-width: 375px) {
+    .gallery-item{
+        width: 80%;
+    }
+}
