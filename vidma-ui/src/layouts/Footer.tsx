@@ -318,8 +318,8 @@ export default function Footer() {
                             <p>
                                 <strong>Vidma Super</strong><br />
                                 Sri Lanka<br />
-                                Phone: <a href="tel:0719758425" className="tos-contact-link">0719758425</a><br />
-                                Email: <a href="mailto:vidma@info.com" className="tos-contact-link">vidma@info.com</a>
+                                Phone: <a className="tos-contact-link">076 440 9691 , 077 138 0479</a><br />
+                                Email: <a href="mailto:vidmaengineering@yahoo.com" className="tos-contact-link">vidmaengineering@yahoo.com</a>
                             </p>
                             <p>We will respond to your inquiry within a reasonable timeframe.</p>
                         </div>
@@ -618,8 +618,8 @@ export default function Footer() {
                             <p className="tos-contact-details">
                                 <strong className="tos-company-name">Vidma Super</strong><br />
                                 Sri Lanka<br />
-                                Phone: <a href="tel:0719758425" className="tos-contact-link">0719758425</a><br />
-                                Email: <a href="mailto:vidma@info.com" className="tos-contact-link">vidma@info.com</a>
+                                Phone: <a className="tos-contact-link">076 440 9691 , 077 138 0479</a><br />
+                                Email: <a href="mailto:vidmaengineering@yahoo.com" className="tos-contact-link">vidmaengineering@yahoo.com</a>
                             </p>
                             <p className="tos-paragraph">
                                 We will respond to your inquiry within a reasonable timeframe.

@@ -16,16 +16,35 @@ import Stats from "../components/Stats";
 import { getContactUsData, getHeroData } from "../services/home-api";
 import { FacebookFilled, TikTokOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import Splash from "../components/Splash";
+import "../common/main.css";
 
 export default function Home() {
-   const [slides, setSlides] = useState<any[]>([]);
+  const [slides, setSlides] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [contactDetails, setContactDetails] = useState<any>({});
   const { language } = useLanguage();
+  const [showGoTop, setShowGoTop] = useState(false);
 
   useEffect(() => {
     fetchHeroDetails();
   }, [language]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowGoTop(true);
+      } else {
+        setShowGoTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const fetchHeroDetails = async () => {
     try {
@@ -57,11 +76,11 @@ export default function Home() {
         const img = new Image();
         img.src = slides[index].image.replace("dl=0", "raw=1");
       };
-      
+
       // Preload next image
       const nextIndex = (currentIndex + 1) % slides.length;
       preloadImage(nextIndex);
-      
+
       // Preload previous image
       const prevIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
       preloadImage(prevIndex);
@@ -191,7 +210,18 @@ export default function Home() {
       <Feedback />
       <Team />
       <Reviews />
-      <Stats /> 
+      <Stats />
+
+      {showGoTop && (
+        <button
+          onClick={scrollToTop}
+          className="go-top-btn"
+          aria-label="Go to top"
+        >
+          ↑
+        </button>
+      )}
+
     </Main>
   );
 }
