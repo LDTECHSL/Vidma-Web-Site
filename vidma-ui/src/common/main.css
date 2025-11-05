@@ -816,30 +816,66 @@
 }
 
 .splash-content {
-  width: 350px;
-  height: 350px;
+  width: 380px;
+  height: 380px;
+  position: relative;
+  perspective: 1000px;
+  transition: transform 1s ease-in-out;
+}
+
+.splash-inner {
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  border-radius: 50%;
+  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  border-radius: 50%;
+}
+
+.splash-content.flipped .front {
+  transform: rotateY(180deg);
+}
+
+.splash-content.flipped .back {
+  transform: rotateY(0deg);
+}
+
+.front {
   background: linear-gradient(145deg, #c8e4f6, #ffffff);
-  box-shadow:
-    8px 8px 16px #a1b6c2,
-    -8px -8px 16px #ffffff,
-    inset 4px 4px 8px rgba(255, 255, 255, 0.7),
-    inset -4px -4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 8px 8px 16px #a1b6c2, -8px -8px 16px #ffffff;
+  transform: rotateY(0deg);
+  transition: transform 1s ease-in-out;
 }
 
-
-/* ✅ Resize and center the Lottie */
-.lottie-wrapper {
-  width: 45%; /* adjust between 35%–50% for your preference */
-  max-width: 400px;
-  min-width: 250px;
+.back {
+  background: linear-gradient(145deg, #ffffff, #c8e4f6);
+  box-shadow: 8px 8px 16px #a1b6c2, -8px -8px 16px #ffffff;
+  transform: rotateY(-180deg);
+  transition: transform 1s ease-in-out;
 }
+
+.logo {
+  width: 160px;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Fade text */
+.fade-text {
+  opacity: 0;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #0f5e8a;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-text.show {
+  opacity: 1;
+}
+
 
 .loading-bar-container {
   position: absolute;
@@ -871,4 +907,19 @@
 .fade-text.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .splash-content {
+    width: 280px;
+    height: 280px;
+  }
+
+  .logo {
+    width: 120px;
+  }
+
+  .fade-text {
+    font-size: 14px;
+  }
 }
