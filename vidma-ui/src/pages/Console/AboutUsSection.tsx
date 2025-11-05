@@ -102,33 +102,6 @@ export default function AboutUsSection() {
         }
     }
 
-    const validateAspectRatio = (file: File, expectedRatio = 3 / 2, tolerance = 0.075) =>
-        new Promise<{ ok: boolean; message?: string }>((resolve) => {
-            const url = URL.createObjectURL(file);
-            const img = new Image();
-            img.onload = () => {
-                const ratio = img.width / img.height;
-                URL.revokeObjectURL(url);
-                const min = expectedRatio - expectedRatio * tolerance;
-                const max = expectedRatio + expectedRatio * tolerance;
-                if (ratio >= min && ratio <= max) {
-                    resolve({ ok: true });
-                } else {
-                    resolve({
-                        ok: false,
-                        message: `Invalid aspect ratio. Found ${ratio.toFixed(
-                            2
-                        )}:1 — expected ~${expectedRatio.toFixed(2)} (3:2).`,
-                    });
-                }
-            };
-            img.onerror = () => {
-                URL.revokeObjectURL(url);
-                resolve({ ok: false, message: "Unable to read image." });
-            };
-            img.src = url;
-        });
-
     // Generic drop handler factory for re-use
     const makeDropHandler = useCallback(
         (setFile: (f: File | null) => void, setError: (s: string | null) => void) => {
@@ -141,12 +114,6 @@ export default function AboutUsSection() {
                 // only single file allowed
                 if (!file.type.startsWith("image/")) {
                     setError("Only image files are allowed.");
-                    return;
-                }
-
-                const { ok, message } = await validateAspectRatio(file);
-                if (!ok) {
-                    setError(message || "Invalid image.");
                     return;
                 }
 
