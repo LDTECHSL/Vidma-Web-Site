@@ -65,7 +65,7 @@ public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCust
         {
             ProductId = gi.ProductId,
             Quantity = gi.Quantity,
-            Color = cd.Color 
+            Color = cd.OrderItems.Where(oi => oi.ProductId == gi.ProductId && oi.Quantity == gi.Quantity).Select(oi => oi.Color).FirstOrDefault()
         }).ToList();
 
         customer.OrderItems = items;
