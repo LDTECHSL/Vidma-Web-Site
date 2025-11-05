@@ -100,7 +100,7 @@ export default function Home() {
 
   return (
     <Main>
-      <Splash />
+      {/* <Splash /> */}
       {/* Hero Section */}
       <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
         {slides.map((slide, index) => (
@@ -117,7 +117,7 @@ export default function Home() {
             />
 
             <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-center p-4">
-              <h1 className="text-white text-2xl md:text-4xl font-bold mt-5 mb-5 drop-shadow-lg max-w-[800px]">
+              <h1 className="text-white text-2xl md:text-2xl font-bold mt-5 mb-5 drop-shadow-lg max-w-[800px]">
                 {slide.title}
               </h1>
               <p className="text-white text-base md:text-md mt-5 mb-5 max-w-[700px] drop-shadow-md">

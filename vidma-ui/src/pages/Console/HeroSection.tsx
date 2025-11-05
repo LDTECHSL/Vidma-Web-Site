@@ -219,6 +219,9 @@ export default function HeroSection() {
     } finally {
       getHeroDetails();
       setOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   };
 
