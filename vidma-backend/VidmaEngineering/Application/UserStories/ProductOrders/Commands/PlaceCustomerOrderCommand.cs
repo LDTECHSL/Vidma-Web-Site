@@ -57,13 +57,15 @@ public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCust
             Email = cd.Email,
             PhoneNo = cd.PhoneNumber,
             Address = cd.Address,
-            OrderedTime = DateTime.UtcNow
+            OrderedTime = DateTime.UtcNow,
+           
         };
 
         var items = groupedItems.Select(gi => new OrderItem
         {
             ProductId = gi.ProductId,
-            Quantity = gi.Quantity
+            Quantity = gi.Quantity,
+            Color = cd.Color 
         }).ToList();
 
         customer.OrderItems = items;
@@ -91,12 +93,16 @@ public class CustomerDetailsRequest
 
     public required string Address { get; set; }
     
+    public required string Color { get; set; }
+    
     public List<OrderItems>? OrderItems { get; set; } = new();
 }
 
 public class OrderItems
 {
     public int ProductId { get; set; }
+    
+    public string? Color { get; set; }
 
     public int Quantity { get; set; }
 }

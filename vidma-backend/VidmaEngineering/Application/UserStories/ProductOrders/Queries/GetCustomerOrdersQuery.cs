@@ -32,7 +32,8 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
                         {
                             OrderItemId = oi.Id,
                             ProductName = oi.Product != null ? oi.Product.ProductName : string.Empty,
-                            Quantity = oi.Quantity
+                            Quantity = oi.Quantity,
+                            Color = oi.Product != null ? oi.Product.Color : string.Empty
                         })
                         .ToList()
             })
@@ -60,5 +61,8 @@ public class OrderItemDetails
     public string ProductName { get; set; } = string.Empty;
 
     public int Quantity { get; set; }
+
+
+    public string? Color { get; set; }
 
 }

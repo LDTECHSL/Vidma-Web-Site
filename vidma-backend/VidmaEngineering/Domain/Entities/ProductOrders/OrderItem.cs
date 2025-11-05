@@ -14,6 +14,8 @@ public class OrderItem
     // Quantity for that product
     public int Quantity { get; set; }
 
+    public string Color { get; set; }
+
     // FK to Customer
     public int CustomerId { get; set; }
     public Customer? Customer { get; set; }
