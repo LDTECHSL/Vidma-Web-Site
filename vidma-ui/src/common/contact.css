@@ -45,7 +45,7 @@
   justify-content: space-between;
   align-items: stretch;
   gap: 2%;
-  margin-top: 50px;
+  margin-top: 20px;
   flex-wrap: wrap;
   box-sizing: border-box;
 }
