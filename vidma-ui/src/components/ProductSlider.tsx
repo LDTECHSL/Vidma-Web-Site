@@ -9,13 +9,12 @@ export default function ProductSlider() {
   const [products, setProducts] = useState<any[]>([]);
 
   const handleSelect = (idx: number) => {
-    if (idx === current) return;
-    setAnimate(true);
-    setTimeout(() => {
-      setCurrent(idx);
-      setAnimate(false);
-    }, 300);
-  };
+  if (idx === current) return;
+  setCurrent(idx);
+  setAnimate(true);
+  setTimeout(() => setAnimate(false), 300); // only for fade animation toggle
+};
+
 
   const handleGetTopProducts = async () => {
     try {
@@ -29,7 +28,7 @@ export default function ProductSlider() {
         colors: item.colors
           ? item.colors.split(",").map((c: string) => c.trim())
           : [],
-        material: ["Material information not available"],
+        material: item.materials.split(",").map((m: string) => m.trim()) || ["Material information not available"],
       }));
       setProducts(data);
     } catch (error) {

@@ -137,7 +137,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href={contactDetails.whatsAppLink}
+                  href={contactDetails.whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="button"
