@@ -57,46 +57,46 @@ export default function Feedback() {
     };
 
     const handleMoodClick = (moodId: number, event: React.MouseEvent) => {
-  setSelectedMood(moodId);
-  const emoji = moods.find((m) => m.id === moodId)?.emoji || "😊";
+        setSelectedMood(moodId);
+        const emoji = moods.find((m) => m.id === moodId)?.emoji || "😊";
 
-  createFloatingEmojis(event.clientX, event.clientY, emoji);
-};
+        createFloatingEmojis(event.clientX, event.clientY, emoji);
+    };
 
-const createFloatingEmojis = (x: number, y: number, emoji: string) => {
-  for (let i = 0; i < 6; i++) {
-    const span = document.createElement("span");
-    span.textContent = emoji;
-    span.className = "floating-emoji";
+    const createFloatingEmojis = (x: number, y: number, emoji: string) => {
+        for (let i = 0; i < 6; i++) {
+            const span = document.createElement("span");
+            span.textContent = emoji;
+            span.className = "floating-emoji";
 
-    // random start position near click
-    span.style.left = `${x + (Math.random() - 0.5) * 50}px`;
-    span.style.top = `${y + (Math.random() - 0.5) * 20}px`;
+            // random start position near click
+            span.style.left = `${x + (Math.random() - 0.5) * 50}px`;
+            span.style.top = `${y + (Math.random() - 0.5) * 20}px`;
 
-    document.body.appendChild(span);
+            document.body.appendChild(span);
 
-    const translateY = -(Math.random() * 200 + 150);
-    const translateX = (Math.random() - 0.5) * 80;
-    const rotate = (Math.random() - 0.5) * 60;
+            const translateY = -(Math.random() * 200 + 150);
+            const translateX = (Math.random() - 0.5) * 80;
+            const rotate = (Math.random() - 0.5) * 60;
 
-    const animation = span.animate(
-      [
-        { transform: "translate(0, 0) scale(1)", opacity: 1 },
-        {
-          transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(1.2)`,
-          opacity: 0,
-        },
-      ],
-      {
-        duration: 2000 + Math.random() * 800,
-        easing: "ease-out",
-        fill: "forwards",
-      }
-    );
+            const animation = span.animate(
+                [
+                    { transform: "translate(0, 0) scale(1)", opacity: 1 },
+                    {
+                        transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(1.2)`,
+                        opacity: 0,
+                    },
+                ],
+                {
+                    duration: 2000 + Math.random() * 800,
+                    easing: "ease-out",
+                    fill: "forwards",
+                }
+            );
 
-    animation.onfinish = () => span.remove();
-  }
-};
+            animation.onfinish = () => span.remove();
+        }
+    };
 
 
 
