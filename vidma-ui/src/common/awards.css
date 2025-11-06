@@ -32,7 +32,7 @@
 .awards-track {
   display: flex;
   gap: 25px;
-  animation: scroll 25s linear infinite;
+  animation: scroll 5s linear infinite;
 }
 
 .award-card {
@@ -75,7 +75,7 @@
 /* Infinite scroll animation */
 @keyframes scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-25%); }
 }
 
 /* 📱 Mobile responsive */
