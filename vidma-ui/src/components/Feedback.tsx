@@ -56,6 +56,57 @@ export default function Feedback() {
         }
     };
 
+    const handleMoodClick = (moodId: number, event: React.MouseEvent) => {
+        setSelectedMood(moodId);
+        const emoji = moods.find((m) => m.id === moodId)?.emoji || "😊";
+
+        createEmojiExplosion(event.clientX, event.clientY, emoji);
+    };
+
+    const createEmojiExplosion = (x: number, y: number, emoji: string) => {
+        const container = document.createElement("div");
+        container.className = "emoji-explosion";
+        document.body.appendChild(container);
+
+        for (let i = 0; i < 6; i++) {
+            const span = document.createElement("span");
+            span.textContent = emoji;
+            span.className = "emoji-particle";
+            container.appendChild(span);
+
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = Math.random() * 120 + 30;
+            const translateX = Math.cos(angle) * distance;
+            const translateY = Math.sin(angle) * distance;
+
+            span.animate(
+                [
+                    { transform: "translate(0, 0)", opacity: 1 },
+                    {
+                        transform: `translate(${translateX}px, ${translateY}px) scale(0.5)`,
+                        opacity: 0,
+                    },
+                ],
+                {
+                    duration: 1000 + Math.random() * 500,
+                    easing: "ease-out",
+                    fill: "forwards",
+                }
+            );
+        }
+
+        container.style.position = "fixed";
+        container.style.left = `${x}px`;
+        container.style.top = `${y}px`;
+        container.style.pointerEvents = "none";
+        container.style.zIndex = "9999";
+
+        setTimeout(() => {
+            container.remove();
+        }, 1500);
+    };
+
+
     return (
         <div className="feedback-outer">
             {/* <div className="feedback-inner1"></div> */}
@@ -99,7 +150,7 @@ export default function Feedback() {
                                     key={mood.id}
                                     className={`mood-icon ${selectedMood === mood.id ? "active" : ""
                                         }`}
-                                    onClick={() => setSelectedMood(mood.id)}
+                                    onClick={(e) => handleMoodClick(mood.id, e)}
                                 >
                                     <span>{mood.emoji}</span>
                                     {/* <p >{mood.label}</p> */}
