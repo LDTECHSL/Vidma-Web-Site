@@ -66,7 +66,7 @@ export default function Feedback() {
             <div className="feedback-inner">
                 <div className="feedback-form-card">
                     <h2 className="feedback-title" data-aos="fade-up">{t("feeling")}</h2>
-                    <p className="feedback-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    <p className="feedback-subtitle" data-aos="fade-up">
                         {t("feelingSub")}
                     </p>
 
@@ -79,7 +79,7 @@ export default function Feedback() {
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            data-aos="fade-up" data-aos-delay="200"
+                            data-aos="fade-up"
                         />
 
                         <input
@@ -93,7 +93,7 @@ export default function Feedback() {
                             data-aos="fade-up" data-aos-delay="300"
                         />
 
-                        <div className="mood-container" data-aos="zoom-in" data-aos-delay="400">
+                        <div className="mood-container" data-aos="zoom-in">
                             {moods.map((mood) => (
                                 <div
                                     key={mood.id}
@@ -113,7 +113,7 @@ export default function Feedback() {
                             className="feedback-comment"
                             value={formData.comment}
                             onChange={handleChange}
-                            data-aos="zoom-in" data-aos-delay="300"
+                            data-aos="zoom-in"
                         />
 
                         <button type="submit" className="feedback-submit">
