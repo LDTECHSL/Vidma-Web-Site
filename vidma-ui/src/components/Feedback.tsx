@@ -57,54 +57,47 @@ export default function Feedback() {
     };
 
     const handleMoodClick = (moodId: number, event: React.MouseEvent) => {
-        setSelectedMood(moodId);
-        const emoji = moods.find((m) => m.id === moodId)?.emoji || "😊";
+  setSelectedMood(moodId);
+  const emoji = moods.find((m) => m.id === moodId)?.emoji || "😊";
 
-        createEmojiExplosion(event.clientX, event.clientY, emoji);
-    };
+  createFloatingEmojis(event.clientX, event.clientY, emoji);
+};
 
-    const createEmojiExplosion = (x: number, y: number, emoji: string) => {
-        const container = document.createElement("div");
-        container.className = "emoji-explosion";
-        document.body.appendChild(container);
+const createFloatingEmojis = (x: number, y: number, emoji: string) => {
+  for (let i = 0; i < 6; i++) {
+    const span = document.createElement("span");
+    span.textContent = emoji;
+    span.className = "floating-emoji";
 
-        for (let i = 0; i < 6; i++) {
-            const span = document.createElement("span");
-            span.textContent = emoji;
-            span.className = "emoji-particle";
-            container.appendChild(span);
+    // random start position near click
+    span.style.left = `${x + (Math.random() - 0.5) * 50}px`;
+    span.style.top = `${y + (Math.random() - 0.5) * 20}px`;
 
-            const angle = Math.random() * 2 * Math.PI;
-            const distance = Math.random() * 120 + 30;
-            const translateX = Math.cos(angle) * distance;
-            const translateY = Math.sin(angle) * distance;
+    document.body.appendChild(span);
 
-            span.animate(
-                [
-                    { transform: "translate(0, 0)", opacity: 1 },
-                    {
-                        transform: `translate(${translateX}px, ${translateY}px) scale(0.5)`,
-                        opacity: 0,
-                    },
-                ],
-                {
-                    duration: 1000 + Math.random() * 500,
-                    easing: "ease-out",
-                    fill: "forwards",
-                }
-            );
-        }
+    const translateY = -(Math.random() * 200 + 150);
+    const translateX = (Math.random() - 0.5) * 80;
+    const rotate = (Math.random() - 0.5) * 60;
 
-        container.style.position = "fixed";
-        container.style.left = `${x}px`;
-        container.style.top = `${y}px`;
-        container.style.pointerEvents = "none";
-        container.style.zIndex = "9999";
+    const animation = span.animate(
+      [
+        { transform: "translate(0, 0) scale(1)", opacity: 1 },
+        {
+          transform: `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(1.2)`,
+          opacity: 0,
+        },
+      ],
+      {
+        duration: 2000 + Math.random() * 800,
+        easing: "ease-out",
+        fill: "forwards",
+      }
+    );
 
-        setTimeout(() => {
-            container.remove();
-        }, 1500);
-    };
+    animation.onfinish = () => span.remove();
+  }
+};
+
 
 
     return (
@@ -150,7 +143,7 @@ export default function Feedback() {
                                     key={mood.id}
                                     className={`mood-icon ${selectedMood === mood.id ? "active" : ""
                                         }`}
-                                    onClick={(e) => handleMoodClick(mood.id, e)}
+                                    onClick={(event) => handleMoodClick(mood.id, event)}
                                 >
                                     <span>{mood.emoji}</span>
                                     {/* <p >{mood.label}</p> */}
