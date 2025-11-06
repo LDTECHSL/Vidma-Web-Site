@@ -100,7 +100,7 @@ export default function Home() {
 
   return (
     <Main>
-      {/* <Splash /> */}
+      <Splash />
       {/* Hero Section */}
       <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
         {slides.map((slide, index) => (
