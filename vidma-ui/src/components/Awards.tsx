@@ -22,6 +22,9 @@ export default function Awards() {
 
   const {t} = useTranslation();
 
+  // Create enough duplicates for smooth infinite scroll (8 times to ensure coverage)
+  const duplicatedAwards = Array(8).fill(achievements).flat();
+
   return (
     <div className="awards-outer" data-aos="fade-up">
       <div className="title-outer" data-aos="fade-down">
@@ -33,8 +36,8 @@ export default function Awards() {
 
       <div className="awards-slider">
         <div className="awards-track">
-          {achievements.concat(achievements).map((award, index) => (
-            <div className="award-card" key={index} data-aos="zoom-in">
+          {duplicatedAwards.map((award, index) => (
+            <div className="award-card" key={`award-${index}`} data-aos="zoom-in">
               <img src={award.imageUrl.replace("dl=0", "raw=1")} alt={award.name} />
               <div className="award-info">
                 <h3>{award.name}</h3>

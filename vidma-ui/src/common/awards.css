@@ -32,7 +32,8 @@
 .awards-track {
   display: flex;
   gap: 25px;
-  animation: scroll 5s linear infinite;
+  animation: scroll 60s linear infinite;
+  width: max-content;
 }
 
 .award-card {
@@ -74,20 +75,37 @@
 
 /* Infinite scroll animation */
 @keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-25%); }
+  0% { 
+    transform: translateX(0); 
+  }
+  100% { 
+    transform: translateX(-50%); 
+  }
+}
+
+/* Pause animation on hover */
+.awards-track:hover {
+  animation-play-state: paused;
 }
 
 /* 📱 Mobile responsive */
 @media (max-width: 768px) {
+  .awards-track {
+    animation: scroll 40s linear infinite;
+    gap: 20px;
+  }
   
+  .award-card {
+    width: 280px;
+  }
 }
 
 @media (max-width: 480px) {
-
-  .awards-track{
+  .awards-track {
     margin-top: 30px;
     padding: 10px 0;
+    animation: scroll 30s linear infinite;
+    gap: 15px;
   }
 
   .award-card {
