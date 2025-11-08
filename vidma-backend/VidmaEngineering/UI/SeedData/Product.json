@@ -1,0 +1,5 @@
+[
+  { "ProductName": "Product A", "Description": "High quality product A", "ImageUrl": "https://example.com/prodA.jpg", "Color": "Red" },
+  { "ProductName": "Product B", "Description": "High quality product B", "ImageUrl": "https://example.com/prodB.jpg", "Color": "Blue" }
+]
+

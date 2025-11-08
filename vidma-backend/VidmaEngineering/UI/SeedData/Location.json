@@ -1,0 +1,13 @@
+[
+  {
+    "LocationName": "Main Store",
+    "LocationType": 1,
+    "Address": "123 Industrial Ave, Colombo",
+    "PhoneNumber": "+94112223344",
+    "Email": "store@example.com",
+    "GoogleMapLink": "https://maps.example.com/?q=Main+Store",
+    "CreatedBy": "seed",
+    "CreatedAt": "2025-11-08T00:00:00Z"
+  }
+]
+

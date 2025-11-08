@@ -1,0 +1,5 @@
+[
+  { "GalleryId": 1, "ImageUrl": "https://example.com/gallery1.jpg" },
+  { "GalleryId": 1, "ImageUrl": "https://example.com/gallery2.jpg" }
+]
+

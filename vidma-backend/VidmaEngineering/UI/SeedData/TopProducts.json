@@ -1,0 +1,5 @@
+[
+  { "Name": "Top Product 1", "Description": "Dummy description for product 1", "Colors": "Red,Blue", "ImageLink": null, "ProductName": "Product1", "Materials": "Material1" },
+  { "Name": "Top Product 2", "Description": "Dummy description for product 2", "Colors": "Green,White", "ImageLink": null, "ProductName": "Product2", "Materials": "Material1" }
+]
+

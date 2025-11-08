@@ -1,0 +1,25 @@
+[
+  {
+    "FirstHero": {
+      "English": { "Title": "Quality Products", "Text": "We build with precision." },
+      "Sinhala": { "Title": "ගුණාත්මක නිෂ්පාදන", "Text": "අපි නිරෝගී ලෙස නිර්මාණය කරමි." },
+      "Tamil": { "Title": "தரமான பொருட்கள்", "Text": "நாங்கள் ஞாயிற்று செயல்படுகிறோம்." },
+      "Image": "https://example.com/hero1.png"
+    },
+    "SecondHero": {
+      "English": { "Title": "Trusted Service", "Text": "Customer satisfaction first." },
+      "Sinhala": { "Title": "බරපතළ සේවය", "Text": "ග්‍රාහක තෘප්තිමත් කිරීම ප්‍රථමයි." },
+      "Tamil": { "Title": "நம்பகமான சேவை", "Text": "வாடிக்கையாளர் திருப்தி முதலில்." },
+      "Image": "https://example.com/hero2.png"
+    },
+    "ThirdHero": {
+      "English": { "Title": "Innovative Solutions", "Text": "Engineering excellence." },
+      "Sinhala": { "Title": "නවෝත්පාදන විසදුම්", "Text": "ඉංජිනේරු වාසිය." },
+      "Tamil": { "Title": "புதுமையான தீர்வுகள்", "Text": "பணியமைப்பில் சிறப்பு." },
+      "Image": "https://example.com/hero3.png"
+    },
+    "CreatedBy": "seed",
+    "CreatedAt": "2025-11-08T00:00:00Z"
+  }
+]
+
