@@ -111,7 +111,7 @@ export default function ContactUsMap() {
             <Divider orientation="vertical" flexItem style={{ margin: "0 25px", border: "1px solid gray" }} />
 
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", marginLeft: "10px", alignItems: "flex-start", gap: "8px" }}>
-              <div className="cc-title">Vidma Super Engineering (Pvt) Ltd</div>
+              <div className="cc-title">Vidma Engineering and Trading Co. (Pvt) Ltd</div>
               <div className="cc-desc">{contactDetails.address}</div>
             </div>
           </div>
