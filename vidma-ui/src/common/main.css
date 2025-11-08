@@ -18,33 +18,70 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border: none;
   border-radius: 50%;
   background: linear-gradient(135deg, #0f5e8a, #1e88e5);
   color: white;
   font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
 }
 
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.progress-ring__circle {
+  fill: none;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 157; /* 2 * π * r (25px radius) */
+  stroke-dashoffset: 157;
+  transition: stroke-dashoffset 0.15s ease-out;
+}
+
+.arrow {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hover effect */
 .go-top-btn:hover {
-  background: linear-gradient(135deg, #1e88e5, #0f5e8a);
-  transform: translateY(-4px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
-@media (max-width: 768px) {
+/* Mobile responsive */
+@media (max-width: 426px) {
   .go-top-btn {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     font-size: 20px;
     bottom: 20px;
     right: 20px;
   }
+
+  .progress-ring {
+    display: none;
+  }
+
+  .progress-ring__circle {
+    stroke-width: 2.5;
+  }
 }
+
 
 .logo-img {
   width: 80px;

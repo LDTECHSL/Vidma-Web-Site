@@ -47,7 +47,7 @@ export default function Services() {
               <FaAlgolia />
             </div>
 
-            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid rgba(255, 255, 255, 0.89)' }} />
+            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid black' }} />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: "center", gap: '10px' }}>
               <div className="service-title">{service.title}</div>
@@ -68,7 +68,7 @@ export default function Services() {
             <div className="service-icon">
               <FaAlgolia />
             </div>
-            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid rgba(255, 255, 255, 0.89)' }} />
+            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid black' }} />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: "center", gap: '10px' }}>
               <div className="service-title">{service.title}</div>
@@ -89,7 +89,7 @@ export default function Services() {
             <div className="service-icon">
               <FaAlgolia />
             </div>
-            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid rgba(255, 255, 255, 0.89)' }} />
+            <Divider orientation="vertical" flexItem style={{ margin: '0px 10px', border: '1px solid black' }} />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: "center", gap: '10px' }}>
               <div className="service-title">{service.title}</div>

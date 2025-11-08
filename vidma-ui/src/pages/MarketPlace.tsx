@@ -301,7 +301,7 @@ export default function MarketPlace() {
             <h2 style={{ color: "#15688b" }}>{selectedItem.productName}</h2>
             <p style={{ color: "grey" }}>{selectedItem.description}</p>
 
-            <div style={{ display: "flex", justifyContent: "center", gap: "8px", margin: "10px 0" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", margin: "10px 0" }}>
               {selectedItem.color?.split(",").map((clr: string, index: number) => {
                 const colorValue = clr.trim();
                 return (
@@ -311,8 +311,8 @@ export default function MarketPlace() {
                     onClick={() => setSelectedColor(colorValue)}
                     style={{
                       backgroundColor: colorValue,
-                      width: "25px",
-                      height: "25px",
+                      width: selectedColor === colorValue ? "30px" : "25px",
+                      height: selectedColor === colorValue ? "30px" : "25px",
                       borderRadius: "4px",
                       border: selectedColor === colorValue ? "3px solid #15688b" : "1px solid #ccc",
                       cursor: "pointer",

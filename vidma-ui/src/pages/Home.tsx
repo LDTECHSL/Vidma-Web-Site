@@ -29,18 +29,21 @@ export default function Home() {
     fetchHeroDetails();
   }, [language]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowGoTop(true);
-      } else {
-        setShowGoTop(false);
-      }
-    };
+const [scrollProgress, setScrollProgress] = useState(0);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+// Modify your scroll listener to update progress
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (scrollTop / docHeight) * 100;
+    setScrollProgress(scrolled);
+    setShowGoTop(scrollTop > 300);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -100,7 +103,7 @@ export default function Home() {
 
   return (
     <Main>
-      {/* <Splash /> */}
+      <Splash />
       {/* Hero Section */}
       <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
         {slides.map((slide, index) => (
@@ -137,7 +140,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href={contactDetails.whatsAppLink}
+                  href={contactDetails.whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="button"
@@ -213,14 +216,22 @@ export default function Home() {
       <Stats />
 
       {showGoTop && (
-        <button
-          onClick={scrollToTop}
-          className="go-top-btn"
-          aria-label="Go to top"
-        >
-          ↑
-        </button>
-      )}
+  <button onClick={scrollToTop} className="go-top-btn" aria-label="Go to top">
+    <svg className="progress-ring" width="60" height="60">
+      <circle
+        className="progress-ring__circle"
+        cx="30"
+        cy="30"
+        r="25"
+        style={{
+          strokeDashoffset: 157 - (157 * scrollProgress) / 100, // 157 = 2 * π * 25
+        }}
+      />
+    </svg>
+    <span className="arrow">↑</span>
+  </button>
+)}
+
 
     </Main>
   );
