@@ -38,10 +38,10 @@ public class UpdateGalleryImageCommandHandler : IRequestHandler<UpdateGalleryIma
         galleryImageExists.ThrowIfNull("Gallery Image not found.");
         
         //delete existing image from dropbox
-        if (!string.IsNullOrEmpty(galleryImageExists.ImageUrl))
-        {
-            await _dropBoxService.DeleteImageAsync(galleryImageExists.ImageUrl);
-        }
+        // if (!string.IsNullOrEmpty(galleryImageExists.ImageUrl))
+        // {
+        //     await _dropBoxService.DeleteImageAsync(galleryImageExists.ImageUrl);
+        // }
         
         var imageLink = await _dropBoxService.UploadImageAsync(request.Image, "gallery-images");
         

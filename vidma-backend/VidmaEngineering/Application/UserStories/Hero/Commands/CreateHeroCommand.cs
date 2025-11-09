@@ -61,7 +61,7 @@ public class CreateCommandHandler : IRequestHandler<CreateHeroCommand, Result>
                 {
                     if (existingHero.FirstHero.Image != null)
                     {
-                        await _dropBoxService.DeleteImageAsync(existingHero.FirstHero.Image);
+                        //await _dropBoxService.DeleteImageAsync(existingHero.FirstHero.Image);
                         var url = await _dropBoxService.UploadImageAsync(request.FirstHeroImage, "hero/first");
                         existingHero.FirstHero.Image = url;
                     }
@@ -71,7 +71,7 @@ public class CreateCommandHandler : IRequestHandler<CreateHeroCommand, Result>
                 {
                     if (existingHero.SecondHero.Image != null)
                     {
-                        await _dropBoxService.DeleteImageAsync(existingHero.SecondHero.Image);
+                        //await _dropBoxService.DeleteImageAsync(existingHero.SecondHero.Image);
                         var url = await _dropBoxService.UploadImageAsync(request.SecondHeroImage, "hero/second");
                         existingHero.SecondHero.Image = url;
                     }
@@ -81,7 +81,7 @@ public class CreateCommandHandler : IRequestHandler<CreateHeroCommand, Result>
                 {
                     if (existingHero.ThirdHero.Image != null)
                     {
-                        await _dropBoxService.DeleteImageAsync(existingHero.ThirdHero.Image);
+                        //await _dropBoxService.DeleteImageAsync(existingHero.ThirdHero.Image);
                         var url = await _dropBoxService.UploadImageAsync(request.ThirdHeroImage, "hero/third");
                         existingHero.ThirdHero.Image = url;
                     }

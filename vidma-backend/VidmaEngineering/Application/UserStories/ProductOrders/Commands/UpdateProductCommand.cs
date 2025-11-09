@@ -45,10 +45,10 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         existProduct.Color = request.Color;
         if (request.Image != null)
         {
-            if (!string.IsNullOrEmpty(existProduct.ImageUrl))
-            {
-                await _dropBoxService.DeleteImageAsync(existProduct.ImageUrl);
-            }
+            // if (!string.IsNullOrEmpty(existProduct.ImageUrl))
+            // {
+            //     await _dropBoxService.DeleteImageAsync(existProduct.ImageUrl);
+            // }
             existProduct.ImageUrl = await _dropBoxService.UploadImageAsync(request.Image, "Products");
         }
         

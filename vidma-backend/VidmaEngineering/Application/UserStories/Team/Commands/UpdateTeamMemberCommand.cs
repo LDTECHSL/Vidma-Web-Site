@@ -45,7 +45,7 @@ public class UpdateTeamMemberCommandHandler : IRequestHandler<UpdateTeamMemberCo
         if (request.ImageUrl != null)
         {
             
-            await _dropBoxService.DeleteImageAsync(teamMember.ImageUrl);
+           // await _dropBoxService.DeleteImageAsync(teamMember.ImageUrl);
             var imageUrl = await _dropBoxService.UploadImageAsync(request.ImageUrl, "team");
             teamMember.ImageUrl = imageUrl;
         }

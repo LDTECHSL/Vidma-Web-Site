@@ -91,10 +91,10 @@ public class CreateGalleryCommandHandler : IRequestHandler<CreateGalleryCommand,
 
             if (uploadedUrls.Any())
             {
-                foreach (var url in uploadedUrls)
-                {
-                    await _dropBoxService.DeleteImageAsync(url);
-                }
+                // foreach (var url in uploadedUrls)
+                // {
+                //     await _dropBoxService.DeleteImageAsync(url);
+                // }
 
                 return Result.Failure("Failed to create gallery", ex.Message);
             }
