@@ -6,7 +6,7 @@ import Lottie from "lottie-react";
 import world from "../assets/world.json";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { getContactUsData } from "../services/home-api";
+import { getContactUsData, getDomainInfo } from "../services/home-api";
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Slide } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
@@ -24,6 +24,7 @@ export default function Footer() {
     const [openPrivacy, setOpenPrivacy] = useState(false);
     const [openTerms, setOpenTerms] = useState(false);
     const { t } = useTranslation();
+    const [domainLink, setDomainLink] = useState<{ domainValue?: string }>({})
 
     const getSocialMediaLinks = async () => {
         try {
@@ -34,8 +35,18 @@ export default function Footer() {
         }
     };
 
+    const handleGetDomainInfo = async () => {
+        try {
+            const res = await getDomainInfo()
+            setDomainLink(res.data)
+        } catch (error) {
+            console.error(error);            
+        }
+    }
+
     useEffect(() => {
         getSocialMediaLinks();
+        handleGetDomainInfo();
     }, []);
 
     return (
@@ -105,7 +116,7 @@ export default function Footer() {
                     © {new Date().getFullYear()} Vidma. All Rights Reserved. | Design and Developed by
                     <span style={{ color: "rgba(7, 115, 223, 1)", fontWeight: "bold", cursor: "pointer" }}>
                         {" "}
-                        2D-Coders
+                        <a href={domainLink.domainValue ?? "#"} target="_blank" rel="noopener noreferrer">2D-Coders</a>
                     </span>
                 </div>
             </div>
