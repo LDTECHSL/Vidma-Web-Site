@@ -17,7 +17,7 @@ export default function GallerySection() {
 
   const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
-  const MAX_IMAGES = 10;
+  const MAX_IMAGES = 4;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -269,7 +269,7 @@ export default function GallerySection() {
                 <div className="dropzone-icon">⤓</div>
                 <div className="dropzone-text">
                   Drop up to {MAX_IMAGES} images here or click to select
-                  <div className="dropzone-hint">Each image must be 3:2 aspect ratio</div>
+                  <div className="dropzone-hint">Each image must be 3:2 aspect ratio & Images size need to less than 30MB</div>
                 </div>
               </div>
             ) : (
