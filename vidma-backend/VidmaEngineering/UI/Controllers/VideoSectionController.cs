@@ -4,6 +4,7 @@ using Application.UserStories.VideoSection.Video.Queries;
 using Application.UserStories.VideoSection.VideoHeading.Commands;
 using Application.UserStories.VideoSection.VideoHeading.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;
@@ -12,6 +13,7 @@ namespace UI.Controllers;
 [Route("api/video-section")]
 public class VideoSectionController(IMediator mediator) : ControllerBase
 {
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result>> CreateHero([FromBody] CreateVideoHeadingCommand request)
         => await mediator.Send(request);
@@ -27,10 +29,12 @@ public class VideoSectionController(IMediator mediator) : ControllerBase
             LanguageCode = languageCode
         });
 
+    [Authorize]
     [HttpPost("video")]
     public async Task<ActionResult<Result>> UploadVideoSection([FromBody] CreateVideoCommand request)
         => await mediator.Send(request);
 
+    [Authorize]
     [HttpDelete("video")]
     public async Task<ActionResult<Result>> DeleteVideo([FromQuery] int id)
         => await mediator.Send(new DeleteVideoCommand

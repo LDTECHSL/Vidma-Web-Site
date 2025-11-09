@@ -30,7 +30,7 @@ public class AboutUsController(IMediator mediator) : ControllerBase
             LanguageCode = languageCode
         });
     
-    
+    [Authorize]
     [HttpPost("image")]
     public async Task<ActionResult<Result>> UploadImage([FromForm] CreateAboutUsImageCommand request)
         => await mediator.Send(request);

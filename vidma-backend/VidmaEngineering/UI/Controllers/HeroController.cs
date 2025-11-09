@@ -12,6 +12,7 @@ namespace UI.Controllers;
 [AllowAnonymous]
 public class HeroController(IMediator mediator) : ControllerBase
 {
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result>> CreateHero([FromForm] CreateHeroCommand request)
         => await mediator.Send(request);

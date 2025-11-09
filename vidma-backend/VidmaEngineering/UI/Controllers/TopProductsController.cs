@@ -2,6 +2,7 @@ using Application.Common;
 using Application.UserStories.TopProducts.Commands;
 using Application.UserStories.TopProducts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;
@@ -10,6 +11,7 @@ namespace UI.Controllers;
 [Route("api/top-products")]
 public class TopProductsController(IMediator mediator) : ControllerBase
 {
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result>> CreateProduct([FromForm] CreateTopProductsCommand request)
         => await mediator.Send(request);

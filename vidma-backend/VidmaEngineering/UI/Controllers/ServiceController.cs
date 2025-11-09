@@ -2,6 +2,7 @@ using Application.Common;
 using Application.UserStories.Services.Commands;
 using Application.UserStories.Services.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;
@@ -10,7 +11,7 @@ namespace UI.Controllers;
 [Route("api/services")]
 public class ServiceController(IMediator mediator) : ControllerBase
 {
-    
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result>> CreateService([FromBody] CreateServicesCommand request)
         => await mediator.Send(request);

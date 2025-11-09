@@ -2,6 +2,7 @@ using Application.Common;
 using Application.UserStories.ProductOrders.Commands;
 using Application.UserStories.ProductOrders.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;
@@ -43,14 +44,17 @@ public class ProductManagementController(IMediator mediator) : ControllerBase
     public async Task<ActionResult<List<CustomerOrders>>> GetCustomerOrders()
     => Ok(await mediator.Send(new GetCustomerOrdersQuery()));
     
+    [Authorize]
     [HttpPost("add")]
     public async Task<ActionResult<Result>> AddProduct([FromForm] AddProductCommand command)
     => Ok(await mediator.Send(command));
     
+    [Authorize]
     [HttpPost("update")]
     public async Task<ActionResult<Result>> UpdateProduct([FromForm] UpdateProductCommand command)
     => Ok(await mediator.Send(command));
     
+    [Authorize]
     [HttpDelete]
     public async Task<ActionResult<Result>> DeleteProduct([FromQuery] int productId)
     => Ok(await mediator.Send(new DeleteProductCommand { ProductId = productId }));
