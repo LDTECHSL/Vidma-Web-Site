@@ -267,6 +267,7 @@
 }
 
 .color-list {
+    width: 250px;
     margin-top: 15px;
     display: flex;
     gap: 10px;
@@ -338,6 +339,15 @@
     #slide .item .image { width: 50%; top: 15%; }
     .content .left { max-width: 45%; left: 20px; }
     .content .right { max-width: 35%; right: 20px; }
+
+    .color-list{
+        width: 150px;
+    }
+
+    .color-dot{
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .top-products-carousel {
