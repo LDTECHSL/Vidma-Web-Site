@@ -95,7 +95,7 @@ export default function ProductSlider() {
         </div>
 
         {/* Thumbnails */}
-        <div className="thumbnail-row" data-aos="fade-up">
+        <div className="thumbnail-row">
           {products.map((p, idx) => (
             <div
               key={idx}
