@@ -1,5 +1,25 @@
 [
-  { "GalleryId": 1, "ImageUrl": "https://example.com/gallery1.jpg" },
-  { "GalleryId": 1, "ImageUrl": "https://example.com/gallery2.jpg" }
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/8y1dudbvmtjd4s7f9hf8z/TJP_8687_7d0cec0a-d112-4529-bd9c-9b89779c3205.JPG?rlkey=ry6q6l7aux2rkah1dh0wvn2fk&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/28g5byi0ctdj486adhvjs/TJP_8482_0b7f3f37-661a-4e45-a851-515d54574fb8.JPG?rlkey=hkmhjzfblwv4d15cg3gfnonnh&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/ow6ee182ieprd45h326j5/TJP_8522_d93513fd-d9c6-453e-b693-0c4d8dcd9b2b.JPG?rlkey=t6pvsyk5d9y1iffqa6gbgbnoe&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/9v5jhavy3pp6mnpfeniz8/TJP_8477_9a804dc2-a5b4-412a-9e83-dedd290c6406.JPG?rlkey=njx64nhh1njujzcn3k0xam8qm&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/3kepqgdy0qlc0aqdc2mab/IMG_9782_842f75dc-ace0-4bd4-a3b6-69e29332025b.jpg?rlkey=gpmx7re3epnhlq5hl9cwdyw6a&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/qtgkcpqdkyuo3mnnjijq2/TJP_7193_54d373ee-2cb0-48c6-a77d-5e8e78e8164d.JPG?rlkey=xbic6sxetii2ocmg8gvmwywyn&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/wrdz60jk94j60si2ppea0/TJP_8472_74dba2e9-ea70-48fd-98b3-d79e14e3abc8.JPG?rlkey=frcrha6h01re3pa6k35jheujn&dl=0" },
+  { "GalleryId": 1, "ImageUrl": "https://www.dropbox.com/scl/fi/eqoy2klheek84lngkzdwo/TJP_8528_fc3d78af-30a5-4afb-94a5-a2fdde1441e0.JPG?rlkey=2lbxub63v1m7yfcoix0q27h4x&dl=0" },
+  { "GalleryId": 2, "ImageUrl": "https://www.dropbox.com/scl/fi/vt9hhkzv49sdb55xo2fic/TJP_6570_365474ab-d6d9-4a10-8167-f0bc1a5ceaea.JPG?rlkey=wn8mett27h2xoirhpxtqhz4am&dl=0" },
+  { "GalleryId": 2, "ImageUrl": "https://www.dropbox.com/scl/fi/u0jirlhc2tagrixvvimwb/TJP_6594_69ad0d75-c5b9-4585-82ce-d26e14930fff.JPG?rlkey=tphxdlvvkmz0fgse31zu6s6tx&dl=0" },
+  { "GalleryId": 2, "ImageUrl": "https://www.dropbox.com/scl/fi/txgw57vdxxa9nzypunf07/TJP_6602_a1d4d6eb-774b-4d40-97ea-60ecc83cfa5d.JPG?rlkey=9sf45x0qwpdkydb9hcs1av67n&dl=0" },
+  { "GalleryId": 2, "ImageUrl": "https://www.dropbox.com/scl/fi/q5h88dg03xzu5g8bsens8/TJP_6616_21fa35f8-186f-46bc-ada2-dfa9b24f2fd6.JPG?rlkey=rt7vd0gnrrziwudi97mx9gs5t&dl=0" },
+  { "GalleryId": 2, "ImageUrl": "https://www.dropbox.com/scl/fi/iqwqfvjt4qyz23ionmk96/TJP_6629_30d76f34-5e0d-4f4c-b6ca-25f01999f106.JPG?rlkey=eskkw0smxau34pt4psjwpej59&dl=0" },
+  { "GalleryId": 2, "ImageUrl": "https://www.dropbox.com/scl/fi/83sjz6h5ffqeej9r3dvgf/TJP_6651_01c4f21f-b70c-471d-ba77-ebb8d08d01fb.JPG?rlkey=ztcix10bvt5m5oi4plctufj1b&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/desipsojrm7qlrzslwlv2/EMBILIPITIYA-2_11f5f6b8-93f1-4524-99da-ae586dbf044c.jpeg?rlkey=iahla6mkq4t0bbphpjbu9nu5w&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/6tg9ti6dyyvn7wr4gaezx/DAMBULLA-2_65cf38c8-2865-491e-88ea-4869eb14a869.JPG?rlkey=h75xekyeozjlr3rnes3hwtg8f&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/uauhocehr63ncdvs584ni/WERAHERA-1_09fc896c-efa8-478f-8987-ff8f81c14a07.JPG?rlkey=g8ebgjn1v1x35fypizcu9v5qi&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/5rx3iyzmtwknivz31z8d9/WERAHERA-2_ed9733f2-c71d-44b6-9918-8e279ac1c57d.jpg?rlkey=ksgaehqwhwn78iomed4rm28ad&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/p6txkl4ff9xtcdco59t8q/EMBILIPITIYA-1_e7b4c715-2c3b-413b-86f5-db82363e679a.jpeg?rlkey=ctu4ns9ziwdeph5ska4lut6z1&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/un1d1mo5jdprl1v22pf8a/AMPARA-1_af9df2c9-73a8-4268-9627-da7e6812c53a.jpeg?rlkey=t3fway43ub1n6z9vauujwetx7&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/5tccg9aj4oxakh65lxriu/AMPARA-2_fa3ba5c2-a424-4918-abd9-bf68647c5d30.jpeg?rlkey=afccfuzxgwwb3hxb56m1xmpq4&dl=0" },
+  { "GalleryId": 3, "ImageUrl": "https://www.dropbox.com/scl/fi/rxo2dx9jtzgui5kzggfn4/DAMBULLA-1_9fca89aa-0e9c-4ac7-bede-c6b6d509c8a5.JPG?rlkey=e46uwml0c142p2wodii1hb5sm&dl=0" }
 ]
 

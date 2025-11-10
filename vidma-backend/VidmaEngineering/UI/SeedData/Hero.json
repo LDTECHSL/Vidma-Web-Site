@@ -1,22 +1,22 @@
 [
   {
     "FirstHero": {
-      "English": { "Title": "Quality Products", "Text": "We build with precision." },
-      "Sinhala": { "Title": "ගුණාත්මක නිෂ්පාදන", "Text": "අපි නිරෝගී ලෙස නිර්මාණය කරමි." },
-      "Tamil": { "Title": "தரமான பொருட்கள்", "Text": "நாங்கள் ஞாயிற்று செயல்படுகிறோம்." },
-      "Image": "https://example.com/hero1.png"
+      "English": { "Title": "Strength That Lasts, Style That Protects", "Text": "Built to endure and designed to impress. Our roofing solutions combine lasting strength with modern style, ensuring protection, durability, and beauty for every home, every season, and every generation." },
+      "Sinhala": { "Title": "කල් පවතින ශක්තිය, ආරක්ෂා කරන විලාසිතාව", "Text": "දිරා නොයන ශක්තියක් සහ නවීන රූපලාවණ්\u200Dයයක් සමඟ අපගේ වහල විසඳුම් ඔබේ ගෘහයට ආරක්ෂාව, දිගුකාලීනත්වය සහ සුන්දරත්වය ලබා දෙයි—සෑම කාලයකටම, සෑම පරපුරකටම." },
+      "Tamil": { "Title": "நீடித்து நிலைக்கும் வலிமை, பாதுகாக்கும் நடை", "Text": "நீடிக்கும் வலிமையுடன் நவீன அழகை இணைக்கும் எங்கள் கூரைத் தீர்வுகள், உங்கள் வீட்டிற்கு பாதுகாப்பு, நீடிப்பு மற்றும் அழகை ஒவ்வொரு காலத்திலும், ஒவ்வொரு தலைமுறைக்கும் வழங்குகின்றன." },
+      "Image": "https://www.dropbox.com/scl/fi/bpuk45uj5iszo2mpx6n4w/DSC_0059_66134cb5-092b-40db-bc96-c2b8e5f21782.JPG?rlkey=mnhse97xamqg5dcwm9igplolb&dl=0"
     },
     "SecondHero": {
-      "English": { "Title": "Trusted Service", "Text": "Customer satisfaction first." },
-      "Sinhala": { "Title": "බරපතළ සේවය", "Text": "ග්‍රාහක තෘප්තිමත් කිරීම ප්‍රථමයි." },
-      "Tamil": { "Title": "நம்பகமான சேவை", "Text": "வாடிக்கையாளர் திருப்தி முதலில்." },
-      "Image": "https://example.com/hero2.png"
+      "English": { "Title": "The Perfect Fit For Your Roof , Gutter & Gate", "Text": "Engineered for perfection, our roofing, gutter, and gate solutions ensure strength, style, and long-lasting protection. Designed to match your home perfectly—durable, elegant, and built to withstand every condition." },
+      "Sinhala": { "Title": "වහලෙට, පීල්ලට, ගේට්ටුවට තිතටම සෙට්වෙන විද්මා සුපර්", "Text": "අපගේ වහල, ගටර් සහ ගේට් විසඳුම් සම්පූර්ණ අනුකූලතාවයට නිර්මාණය කර ඇත. ශක්තිය, රූපලාවණ්\u200Dයය සහ දිගුකාලීන ආරක්ෂාව එක් කර ඔබගේ නිවසට සම්පූර්ණ ගැලපීමක් ලබා දෙයි." },
+      "Tamil": { "Title": "உங்கள் கூரை, சாக்கடை மற்றும் வாயிலுக்கு சரியான பொருத்தம்", "Text": "எங்கள் கூரை, கால்வாய் மற்றும் கதவு தீர்வுகள் சிறந்த பொருத்தத்துடன் வடிவமைக்கப்பட்டவை. நீடிப்பு, அழகு மற்றும் பாதுகாப்பை இணைத்து, உங்கள் வீட்டிற்கு சரியான பொருத்தத்தைக் கொடுக்கின்றன." },
+      "Image": "https://www.dropbox.com/scl/fi/l0vvvrr36unejowniwmoi/TJP_6010_bb04a9cb-272c-4f6f-9868-870af9484b64.JPG?rlkey=cvkmzbcptu9i4kzwe5a8gbpfi&dl=0"
     },
     "ThirdHero": {
-      "English": { "Title": "Innovative Solutions", "Text": "Engineering excellence." },
-      "Sinhala": { "Title": "නවෝත්පාදන විසදුම්", "Text": "ඉංජිනේරු වාසිය." },
-      "Tamil": { "Title": "புதுமையான தீர்வுகள்", "Text": "பணியமைப்பில் சிறப்பு." },
-      "Image": "https://example.com/hero3.png"
+      "English": { "Title": "Covering Dreams, One Roof at a Time", "Text": "We build more than roofs — we cover dreams. Our durable and stylish roofing solutions protect every home with care, quality, and craftsmanship, giving you confidence that lasts for years." },
+      "Sinhala": { "Title": "සිහින ආවරණය කිරීම, එක වහලක් බැගින්", "Text": "අපි වහලවල් පමණක් නොව, සිහින ආවරණය කරමු. දිගුකාලීන ශක්තිය, උසස් ගුණාත්මකත්වය සහ රූපලාවණ්\u200Dයය සමඟ ඔබගේ නිවස ආරක්ෂා කරමින් විශ්වාසය සහ ආරක්ෂාව ගෙන එයි." },
+      "Tamil": { "Title": "கனவுகளை மறைத்தல், ஒரு நேரத்தில் ஒரு கூரை", "Text": "நாங்கள் கூரைகளை மட்டுமல்ல, கனவுகளையும் காக்கிறோம். எங்கள் நீடித்தும் அழகான கூரைத் தீர்வுகள், உங்கள் வீட்டை தரம், பாதுகாப்பு மற்றும் நம்பிக்கையுடன் வருடங்கள் முழுவதும் பாதுகாக்கின்றன." },
+      "Image": "https://www.dropbox.com/scl/fi/ygb6o0oxprdverzrxeska/TJP_5597_e6f41598-7f17-40ba-bddd-8b631bf6f20e.JPG?rlkey=cgfmu2a6q6hlqsh5elxksppop&dl=0"
     },
     "CreatedBy": "seed",
     "CreatedAt": "2025-11-08T00:00:00Z"

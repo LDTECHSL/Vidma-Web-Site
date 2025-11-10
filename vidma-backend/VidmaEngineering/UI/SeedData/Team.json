@@ -1,18 +1,38 @@
 [
   {
-    "Name": "Alice Johnson",
-    "Position": "Project Manager",
-    "ImageUrl": "https://example.com/images/alice.jpg"
+    "Name": "MR. Gamini Wanniarachchi",
+    "Position": "Managing Director",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/33voaz25txo1aivxp1yl8/WhatsApp-Image-2025-11-08-at-00.46.11-2-_85509ebe-64d0-4a4c-afa7-d63597f91cfc.jpeg?rlkey=vh7tezmbvjuke6rxpehq9qzox&dl=0"
   },
   {
-    "Name": "Bob Smith",
-    "Position": "Lead Engineer",
-    "ImageUrl": "https://example.com/images/bob.jpg"
+    "Name": "MR. Vidu Wanniarachchi",
+    "Position": "Director",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/ldpc0wl3fnkve2quqvzhh/WhatsApp-Image-2025-11-08-at-00.46.12-1-_76c0fe1f-3352-4ac6-8238-78fd1b6b177c.jpeg?rlkey=k362ne1630m7loq9a7jbr9xc0&dl=0"
   },
   {
-    "Name": "Carol Williams",
-    "Position": "Designer",
-    "ImageUrl": "https://example.com/images/carol.jpg"
+    "Name": "MR.Saman Perera",
+    "Position": "Head Of Finance",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/at4pg9zm330b9kqzzl02d/WhatsApp-Image-2025-11-07-at-18.02.28_0bc61918-b68f-415e-8b79-9869cd6fca2a.jpeg?rlkey=0f0jtvl8iwq61iycc0a3trb0g&dl=0"
+  },
+  {
+    "Name": "MR. Vimukthi Liyanage",
+    "Position": "Head Of Credit Control",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/of5bumi6nxq9fjjy9n05h/DSC06820_91186192-1110-49d9-ade8-510667d726cc.jpg?rlkey=de6lyhsrcrf6g1i0g7zfr05p9&dl=0"
+  },
+  {
+    "Name": "MR. Mahesh Kirinda",
+    "Position": "Sales Performance Manager",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/9xkuuoezocf0bmft9xyai/WhatsApp-Image-2025-11-08-at-00.46.13_a20066c1-ad37-41ba-99b8-6cb2a46fce56.jpeg?rlkey=9b47e4s4gebok3dliefe9b9vl&dl=0"
+  },
+  {
+    "Name": "MS. Dushanthi Jayamini",
+    "Position": "Operations Manager",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/50tmrz9z6vzv0xesp6bvz/WhatsApp-Image-2025-11-08-at-00.46.10_bce8cad3-f62a-41a0-84b4-769c2dd5e490.jpeg?rlkey=u227w0pbd4cesjhhtb2md5kts&dl=0"
+  },
+  {
+    "Name": "MR. Asantha Thihara",
+    "Position": "HR Manager",
+    "ImageUrl": "https://www.dropbox.com/scl/fi/c78e153dxbyy9talkkcdr/WhatsApp-Image-2025-11-10-at-09.25.01_fe396be3-b026-45fe-91e1-efe20522269c.jpeg?rlkey=8oe45diozc63w6q6o72ii0sk0&dl=0"
   }
 ]
 
