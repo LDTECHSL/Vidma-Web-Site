@@ -95,6 +95,11 @@ export default function MarketPlace() {
       return;
     }
 
+    if (!selectedColor) {
+      showError("Please select a color.");
+      return;
+    }
+
     const newCartItem = {
       id: selectedItem.id || new Date().getTime(),
       productName: selectedItem.productName,
@@ -292,7 +297,9 @@ export default function MarketPlace() {
       {selectedItem && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeModal}>✕</button>
+            <button className="modal-close" onClick={()=>{
+              closeModal(); setSelectedColor(null);
+            }}>✕</button>
             <img
               src={selectedItem.imageUrl.replace("dl=0", "raw=1")}
               alt={selectedItem.productName}
