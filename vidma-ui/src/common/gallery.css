@@ -222,3 +222,78 @@
         width: 80%;
     }
 }
+
+.gallery-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.image-spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    z-index: 1;
+}
+
+.image-spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #333;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.gallery-modal-grid img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.gallery-modal-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Update responsive styles */
+@media (max-width: 768px) {
+    .gallery-image-wrapper {
+        height: 140px;
+    }
+    
+    .gallery-modal-grid img {
+        height: 140px;
+    }
+    
+    .image-spinner {
+        width: 30px;
+        height: 30px;
+        border-width: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery-image-wrapper {
+        height: 120px;
+    }
+    
+    .gallery-modal-grid img {
+        height: 120px;
+    }
+}

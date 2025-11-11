@@ -204,7 +204,7 @@ export default function TeamsSection() {
                                 <div className="dropzone-icon">⤓</div>
                                 <div className="dropzone-text">
                                     Drop image here or click to select
-                                    <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div>
+                                    {/* <div className="dropzone-hint">Only one image (3:2 aspect ratio)</div> */}
                                 </div>
                             </div>
                         ) : (

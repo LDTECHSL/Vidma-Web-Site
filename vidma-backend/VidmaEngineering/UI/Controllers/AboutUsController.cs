@@ -4,6 +4,7 @@ using Application.UserStories.AboutUs.AboutUsImage.Queries;
 using Application.UserStories.AboutUs.Commands;
 using Application.UserStories.AboutUs.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;
@@ -13,7 +14,7 @@ namespace UI.Controllers;
 public class AboutUsController(IMediator mediator) : ControllerBase
 {
     
-
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result>> CreateHero([FromBody] CreateAboutUsCommand request)
         => await mediator.Send(request);
@@ -29,7 +30,7 @@ public class AboutUsController(IMediator mediator) : ControllerBase
             LanguageCode = languageCode
         });
     
-    
+    [Authorize]
     [HttpPost("image")]
     public async Task<ActionResult<Result>> UploadImage([FromForm] CreateAboutUsImageCommand request)
         => await mediator.Send(request);

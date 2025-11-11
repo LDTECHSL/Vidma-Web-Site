@@ -11,10 +11,12 @@ namespace UI.Controllers;
 [Route("api/location")]
 public class LocationController(IMediator mediator) : ControllerBase
 {
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result>> CreateLocation([FromBody] CreateLocationCommand request)
         => await mediator.Send(request);
-
+    
+    [Authorize]
     [HttpDelete]
     public async Task<ActionResult<Result>> DeleteLocation([FromQuery] DeleteLocationCommand request)
         => await mediator.Send(request);

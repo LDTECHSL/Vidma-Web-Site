@@ -1,18 +1,13 @@
 [
-  {
-    "Name": "Top Product 1",
-    "Description": "Dummy description for product 1",
-    "Colors": "Red,Blue",
-    "ImageLink": null,
-    "ProductName": "Product1",
-    "Materials": "Material1"
-  },
-  {
-    "Name": "Top Product 2",
-    "Description": "Dummy description for product 2",
-    "Colors": "Green,White",
-    "ImageLink": null,
-    "ProductName": "Product2",
-    "Materials": "Material1"
-  }
+  { "Name": "Roofing Sheets", "Description": "Dummy description for product 1", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/qot1fku6ypozpg0zoqsb4/NON-COLOUR_c203b7c5-6b36-4bf2-9ecb-592a383e1511.png?rlkey=m1u2wb8675sp11deckxqokspv&dl=0", "ProductName": "Product1", "Materials": "Material1" },
+  { "Name": "Tile Roofing - Rata ULU", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/7xcz92rrr1n7rl7hg2zrp/BROWN_35621a9a-1912-4b48-9c39-bada613cf1bb.png?rlkey=4hbr39lzys6u5r4p5ucwewgqc&dl=0", "ProductName": "Product2", "Materials": "Material1" },
+  { "Name": "Tile Roofing - Sinhala ULU", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/08z7fbmbozhaz27p7giw5/D-GREEN_f746797a-e228-4753-868e-930f8bff5d96.png?rlkey=nl49344xokxm186gni2dh3d4s&dl=0", "ProductName": "Product3", "Materials": "Material1" },
+  { "Name": "Square Nozzle", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/czh2r9gfw2sfss0avogqj/SQUARE-NOZZLE_71712238-eb15-46f2-acb8-8af162ecb4be.png?rlkey=w9d5bwirwugxoy5yfb8qx1h31&dl=0", "ProductName": "Product4", "Materials": "Material1" },
+  { "Name": "Gutters", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/53raiybqy2qr6dr9rv4xu/AM_BLUE-removebg-preview_bc9fd986-dd31-4656-b9b5-c2c39ecff8b4.png?rlkey=r0j97dcylvsaegmpiuduyd42u&dl=0", "ProductName": "Product5", "Materials": "Material1" },
+  { "Name": "Half Curve Sheets", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/jvp5yxlb1bftyr2ueu5mo/BROWN_59093f2a-f1ac-4f4d-9988-4a287ec8f8a2.png?rlkey=o8ddyn6mfukzhdqov6ryh7vf5&dl=0", "ProductName": "Product6", "Materials": "Material1" },
+  { "Name": "Full Curve Sheets", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/fxk4ter5r21ju3ufuraym/GRAY_93b88bcb-8bfa-44cc-bf95-3580e8e86afd.png?rlkey=suepsg09gdg61xce7ms9iyc03&dl=0", "ProductName": "Product7", "Materials": "Material1" },
+  { "Name": "Barge Board", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/qa67oa79ikth7db9awc63/Bardge_Flashing-removebg-preview_cd1cd0bd-2867-4adb-98f4-0bd0b7887374.png?rlkey=0kubkon9hv1btpn3079b4hpw4&dl=0", "ProductName": "Product8", "Materials": "Material1" },
+  { "Name": "Down Pipe", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/pciusipnfgwt8xg3o5ry6/99_775d2404-0aff-4743-819f-67db7079b22e.png?rlkey=vxh9s9tdr48qq50if19dmuff5&dl=0", "ProductName": "Product9", "Materials": "Material1" },
+  { "Name": "RIB Cap", "Description": "Dummy description for product 2", "Colors": "#771139, #ee3e27, #6b0d0e, #ffe2a8, #221e1f, #7c835a, #144c33, #314a9c, #067787, #fefefe, #d3d4d6, #959499", "ImageLink": "https://www.dropbox.com/scl/fi/vo81nt3aljlariz8o1yrh/13_0a014a58-2722-43b9-8ba7-81b095f9b0bf.png?rlkey=ntk8qqjossec7eu20h8by7xwo&dl=0", "ProductName": "Product10", "Materials": "Material1" }
 ]
+

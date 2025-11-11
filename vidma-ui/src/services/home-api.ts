@@ -613,3 +613,12 @@ export const getOrders = async (token: string) => {
     throw error;
   }
 };
+
+export const getDomainInfo = async () => {
+  try {
+    const response = await axios.get(`${api_url}footer`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -49,6 +49,6 @@ public class FooterController : ControllerBase
     private class FooterDto
     {
         public string? DomainName { get; set; }
-        public string? Value { get; set; }
+        public string? DomainValue { get; set; }
     }
 }

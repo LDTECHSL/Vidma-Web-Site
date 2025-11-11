@@ -18,6 +18,7 @@ import FeedbacksSection from './pages/Console/FeedbacksSection';
 import MarketPlace from './pages/MarketPlace';
 import MarketPlaceSection from './pages/Console/MarketPlaceSection';
 import OrdersSection from './pages/Console/OrdersSection';
+import UserMaintenance from './pages/Console/UserMaintenance';
 
 const App: React.FC = () => {
 
@@ -51,6 +52,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/console/login" element={<Login />} />
+          <Route path="/user-maintenance/p/HADFH4UPa70+xg6C1KGQ==" element={<UserMaintenance />} />
         </Routes>
       )}
     </>

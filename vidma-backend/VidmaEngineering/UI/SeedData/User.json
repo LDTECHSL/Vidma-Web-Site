@@ -1,5 +1,4 @@
 [
-  { "UserName": "admin", "Password": "password123" },
-  { "UserName": "editor", "Password": "editorpass" }
+  { "UserName": "vidma@admin", "Password": "$2a$10$ivZ/aQsUr/bpmKuJGBf.Xu3.v3KU33EmRRa95ThlRza.OUrV/5WLO" }
 ]
 
