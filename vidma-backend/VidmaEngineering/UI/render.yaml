@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: vidma-backend
+    env: dotnet
+    buildCommand: dotnet publish -c Release -o out
+    startCommand: dotnet out/VidmaEngineering.dll
+    rootDir: vidma-backend/VidmaEngineering
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__Default
+        sync: false  # we’ll add the real value later in the Render dashboard
