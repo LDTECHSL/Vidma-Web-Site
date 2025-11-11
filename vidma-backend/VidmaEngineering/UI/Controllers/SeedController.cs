@@ -16,6 +16,7 @@ using Domain.Entities.VideoSection.Videos;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace UI.Controllers;
 
@@ -68,7 +69,8 @@ public class SeedController : ControllerBase
         {
             if (_context.Team.Any())
             {
-                return BadRequest(new { message = "Team table already contains data. Clear it first if you want to reseed." });
+                return BadRequest(new
+                    { message = "Team table already contains data. Clear it first if you want to reseed." });
             }
 
             var jsonFilePath = Path.Combine(_environment.ContentRootPath, "SeedData", "Team.json");
@@ -82,10 +84,11 @@ public class SeedController : ControllerBase
             await _context.Team.AddRangeAsync(teams);
             await _context.SaveChangesAsync(CancellationToken.None);
 
+            var count = teams.Count;
             return Ok(new
             {
                 message = "Team data seeded successfully",
-                count = teams.Count,
+                count,
                 teams = teams
             });
         }
@@ -108,7 +111,10 @@ public class SeedController : ControllerBase
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "User seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("hero")]
@@ -124,7 +130,10 @@ public class SeedController : ControllerBase
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Hero seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("location")]
@@ -135,12 +144,16 @@ public class SeedController : ControllerBase
             if (_context.Location.Any()) return BadRequest(new { message = "Location table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "Location.json");
             var items = await ReadJsonListAsync<Location>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No location data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No location data found in JSON file" });
             await _context.Location.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Location seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("contactus")]
@@ -151,12 +164,16 @@ public class SeedController : ControllerBase
             if (_context.ContactUs.Any()) return BadRequest(new { message = "ContactUs table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "ContactUs.json");
             var items = await ReadJsonListAsync<ContactUs>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No contactus data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No contactus data found in JSON file" });
             await _context.ContactUs.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "ContactUs seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("aboutus")]
@@ -167,12 +184,16 @@ public class SeedController : ControllerBase
             if (_context.AboutUs.Any()) return BadRequest(new { message = "AboutUs table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "AboutUs.json");
             var items = await ReadJsonListAsync<AboutUs>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No aboutus data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No aboutus data found in JSON file" });
             await _context.AboutUs.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "AboutUs seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("aboutusimage")]
@@ -180,15 +201,39 @@ public class SeedController : ControllerBase
     {
         try
         {
-            if (_context.AboutUsImage.Any()) return BadRequest(new { message = "AboutUsImage table already contains data (config may have seeded entries)." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "AboutUsImage.json");
             var items = await ReadJsonListAsync<AboutUsImage>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No aboutusimage data found in JSON file" });
-            await _context.AboutUsImage.AddRangeAsync(items);
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No aboutusimage data found in JSON file" });
+
+            // Upsert by ImageNumber to respect configuration-seeded entries (which provide Ids)
+            foreach (var item in items)
+            {
+                var existing = await _context.AboutUsImage.FirstOrDefaultAsync(a => a.ImageNumber == item.ImageNumber);
+                if (existing == null)
+                {
+                    await _context.AboutUsImage.AddAsync(item);
+                }
+                else
+                {
+                    // Copy fields into the tracked entity to avoid tracking conflicts
+                    existing.ImageLink = item.ImageLink;
+                    existing.EnglishDesc = item.EnglishDesc;
+                    existing.TamilDesc = item.TamilDesc;
+                    existing.SinhalaDesc = item.SinhalaDesc;
+
+                    // existing is tracked; explicit Update is optional but harmless
+                    _context.AboutUsImage.Update(existing);
+                }
+            }
+
             await _context.SaveChangesAsync(CancellationToken.None);
-            return Ok(new { message = "AboutUsImage seeded", count = items.Count });
+            return Ok(new { message = "AboutUsImage seeded/updated", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("service")]
@@ -196,15 +241,43 @@ public class SeedController : ControllerBase
     {
         try
         {
-            if (_context.Service.Any()) return BadRequest(new { message = "Service table already contains data (config may have seeded entries)." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "Service.json");
             var items = await ReadJsonListAsync<Service>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No service data found in JSON file" });
-            await _context.Service.AddRangeAsync(items);
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No service data found in JSON file" });
+
+
+            foreach (var item in items)
+            {
+                var existing = await _context.Service.FirstOrDefaultAsync(s => s.Id == item.Id);
+
+                if (existing == null)
+                {
+                    await _context.Service.AddAsync(item);
+                }
+                else
+                {
+                    existing.EnglishDesc = item.EnglishDesc;
+                    existing.EnglishTitle = item.EnglishTitle;
+                    existing.SinhalaDesc = item.SinhalaDesc;
+                    existing.SinhalaTitle = item.SinhalaTitle;
+                    existing.TamilDesc = item.TamilDesc;
+                    existing.TamilTitle = item.TamilTitle;
+
+                    _context.Service.Update(existing);
+                }
+            }
+
+            // Save all changes in one transaction instead of per-item to avoid concurrency and tracking issues
             await _context.SaveChangesAsync(CancellationToken.None);
-            return Ok(new { message = "Service seeded", count = items.Count });
+
+
+            return Ok(new { message = "Service seeded/updated", total = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("topproducts")]
@@ -212,15 +285,49 @@ public class SeedController : ControllerBase
     {
         try
         {
-            if (_context.TopProducts.Any()) return BadRequest(new { message = "TopProducts table already contains data (config may have seeded entries)." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "TopProducts.json");
             var items = await ReadJsonListAsync<TopProducts>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No topproducts data found in JSON file" });
-            await _context.TopProducts.AddRangeAsync(items);
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No topproducts data found in JSON file" });
+
+            // Allowed ProductName values come from configuration: Product1..Product10
+            var allowed = Enumerable.Range(1, 10).Select(i => $"Product{i}").ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            // Validate incoming ProductNames first to avoid check-constraint DB errors
+            var invalid = items.Where(it => string.IsNullOrWhiteSpace(it.ProductName) || !allowed.Contains(it.ProductName)).ToList();
+            if (invalid.Any())
+            {
+                var invalidNames = invalid.Select(i => i.ProductName).Distinct();
+                return BadRequest(new { message = "Invalid ProductName values in JSON. Allowed: Product1..Product10", invalid = invalidNames });
+            }
+
+            foreach (var item in items)
+            {
+                var existing = await _context.TopProducts.FirstOrDefaultAsync(tp => tp.ProductName == item.ProductName);
+                if (existing == null)
+                {
+                    await _context.TopProducts.AddAsync(item);
+                }
+                else
+                {
+                    // Update tracked entity properties
+                    existing.Name = item.Name;
+                    existing.Description = item.Description;
+                    existing.Colors = item.Colors;
+                    existing.ImageLink = item.ImageLink;
+                    existing.Materials = item.Materials;
+
+                    _context.TopProducts.Update(existing);
+                }
+            }
+
             await _context.SaveChangesAsync(CancellationToken.None);
-            return Ok(new { message = "TopProducts seeded", count = items.Count });
+            return Ok(new { message = "TopProducts seeded/updated", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("videoheading")]
@@ -228,15 +335,20 @@ public class SeedController : ControllerBase
     {
         try
         {
-            if (_context.VideoHeading.Any()) return BadRequest(new { message = "VideoHeading table already contains data." });
+            if (_context.VideoHeading.Any())
+                return BadRequest(new { message = "VideoHeading table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "VideoHeading.json");
             var items = await ReadJsonListAsync<VideoHeading>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No videoheading data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No videoheading data found in JSON file" });
             await _context.VideoHeading.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "VideoHeading seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("videos")]
@@ -252,7 +364,10 @@ public class SeedController : ControllerBase
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Videos seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("stats")]
@@ -268,7 +383,10 @@ public class SeedController : ControllerBase
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Stats seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("gallery")]
@@ -279,12 +397,16 @@ public class SeedController : ControllerBase
             if (_context.Gallery.Any()) return BadRequest(new { message = "Gallery table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "Gallery.json");
             var items = await ReadJsonListAsync<Gallery>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No gallery data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No gallery data found in JSON file" });
             await _context.Gallery.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Gallery seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("galleryimages")]
@@ -292,15 +414,20 @@ public class SeedController : ControllerBase
     {
         try
         {
-            if (_context.GalleryImages.Any()) return BadRequest(new { message = "GalleryImages table already contains data." });
+            if (_context.GalleryImages.Any())
+                return BadRequest(new { message = "GalleryImages table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "GalleryImages.json");
             var items = await ReadJsonListAsync<GalleryImages>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No galleryimages data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No galleryimages data found in JSON file" });
             await _context.GalleryImages.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "GalleryImages seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("achievements")]
@@ -308,15 +435,20 @@ public class SeedController : ControllerBase
     {
         try
         {
-            if (_context.Achievements.Any()) return BadRequest(new { message = "Achievements table already contains data." });
+            if (_context.Achievements.Any())
+                return BadRequest(new { message = "Achievements table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "Achievements.json");
             var items = await ReadJsonListAsync<Achievements>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No achievements data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No achievements data found in JSON file" });
             await _context.Achievements.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Achievements seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("form")]
@@ -332,7 +464,10 @@ public class SeedController : ControllerBase
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Form seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("product")]
@@ -343,12 +478,16 @@ public class SeedController : ControllerBase
             if (_context.Product.Any()) return BadRequest(new { message = "Product table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "Product.json");
             var items = await ReadJsonListAsync<Product>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No product data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No product data found in JSON file" });
             await _context.Product.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Product seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("customer")]
@@ -359,12 +498,16 @@ public class SeedController : ControllerBase
             if (_context.Customer.Any()) return BadRequest(new { message = "Customer table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "Customer.json");
             var items = await ReadJsonListAsync<Customer>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No customer data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No customer data found in JSON file" });
             await _context.Customer.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "Customer seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
 
     [HttpPost("orderitem")]
@@ -375,12 +518,15 @@ public class SeedController : ControllerBase
             if (_context.OrderItem.Any()) return BadRequest(new { message = "OrderItem table already contains data." });
             var path = Path.Combine(_environment.ContentRootPath, "SeedData", "OrderItem.json");
             var items = await ReadJsonListAsync<OrderItem>(path);
-            if (items == null || !items.Any()) return BadRequest(new { message = "No orderitem data found in JSON file" });
+            if (items == null || !items.Any())
+                return BadRequest(new { message = "No orderitem data found in JSON file" });
             await _context.OrderItem.AddRangeAsync(items);
             await _context.SaveChangesAsync(CancellationToken.None);
             return Ok(new { message = "OrderItem seeded", count = items.Count });
         }
-        catch (Exception ex) { return StatusCode(500, new { error = ex.Message }); }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
-
 }
