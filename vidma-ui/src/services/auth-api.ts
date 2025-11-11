@@ -11,3 +11,12 @@ export const login = async (body: any) => {
         throw error;
     }
 }
+
+export const createUser = async (body: any) => {
+    try {
+        const response = await axios.post(`${api_url}auth/register`, body);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
