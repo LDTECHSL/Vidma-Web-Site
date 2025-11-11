@@ -8,13 +8,13 @@ export default function ProjectsGallery() {
     const [selectedProject, setSelectedProject] = useState<any>(null);
     const [albums, setAlbums] = useState<any[]>([]);
     const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>({});
-    
+
     const handleGetAlbums = async () => {
         try {
             const response = await getGallery();
             setAlbums(response.data);
         } catch (error) {
-            console.error("Error fetching gallery albums:", error);            
+            console.error("Error fetching gallery albums:", error);
         }
     }
 
@@ -23,7 +23,7 @@ export default function ProjectsGallery() {
             const response = await getGalleryById(album.galleryId);
             const albumData = response.data;
             setSelectedProject(albumData);
-            
+
             // Initialize loading state for all images
             const initialLoadingState: { [key: number]: boolean } = {};
             albumData.images.forEach((_: any, index: number) => {
@@ -46,7 +46,7 @@ export default function ProjectsGallery() {
         handleGetAlbums();
     }, []);
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div className="gallery-outer">
@@ -57,31 +57,42 @@ export default function ProjectsGallery() {
                 {t("projects1Sub")}
             </div>
             <div className="gallery-sub-outer">
-                {albums.map((album) => (
-                    <div
-                        className="gallery-item"
-                        key={album.id}
-                        onClick={() => handleAlbumClick(album)}
-                        data-aos="fade-up"
-                    >
-                        <div className="gallery-thumbnail">
-                            <div className="thumb-left">
-                                {album.images.slice(0, 2).map((img:any, index:any) => (
-                                    <img key={index} src={img.imageUrl.replace("dl=0", "raw=1")} alt="" />
-                                ))}
+                {albums
+                    // ✅ Only include albums with at least 3 images
+                    .filter(album => album.images && album.images.length >= 3)
+                    .map((album) => (
+                        <div
+                            className="gallery-item"
+                            key={album.id}
+                            onClick={() => handleAlbumClick(album)}
+                            data-aos="fade-up"
+                        >
+                            <div className="gallery-thumbnail">
+                                <div className="thumb-left">
+                                    {album.images.slice(0, 2).map((img: any, index: any) => (
+                                        <img
+                                            key={index}
+                                            src={img.imageUrl.replace("dl=0", "raw=1")}
+                                            alt=""
+                                        />
+                                    ))}
+                                </div>
+                                <div className="thumb-right">
+                                    <img
+                                        src={album.images[2].imageUrl.replace("dl=0", "raw=1")}
+                                        alt=""
+                                    />
+                                </div>
                             </div>
-                            <div className="thumb-right">
-                                <img src={album.images[2].imageUrl.replace("dl=0", "raw=1")} alt="" />
-                            </div>
-                        </div>
 
-                        <div className="gallery-info">
-                            <h3>{album.title}</h3>
-                            <p>{album.count} Photos</p>
+                            <div className="gallery-info">
+                                <h3>{album.title}</h3>
+                                <p>{album.count} Photos</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
+
 
             {/* Modal */}
             {selectedProject && (
@@ -99,8 +110,8 @@ export default function ProjectsGallery() {
                                             <div className="image-spinner"></div>
                                         </div>
                                     )}
-                                    <img 
-                                        src={img.imageUrl.replace("dl=0", "raw=1")} 
+                                    <img
+                                        src={img.imageUrl.replace("dl=0", "raw=1")}
                                         alt=""
                                         onLoad={() => handleImageLoad(index)}
                                         style={{ opacity: loadingImages[index] ? 0 : 1 }}
