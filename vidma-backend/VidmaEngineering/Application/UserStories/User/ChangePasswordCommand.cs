@@ -34,12 +34,6 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
 
         existingUser.ThrowIfNull("User not found.");
 
-        //validate old password
-        if (!BCrypt.Net.BCrypt.Verify(request.OldPassword, existingUser.Password))
-        {
-            return Result.Failure("Old password is incorrect.");
-        }
-
         existingUser.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
         _context.User.Update(existingUser);
         await _context.SaveChangesAsync(cancellationToken);
