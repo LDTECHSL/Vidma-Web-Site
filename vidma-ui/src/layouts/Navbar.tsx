@@ -37,6 +37,7 @@ import {
     RightCircleTwoTone,
 } from "@ant-design/icons";
 import { IconButton, Typography, useMediaQuery } from "@mui/material";
+import useIdleTimer from "../components/IdleTimer";
 
 const drawerWidth = 230;
 
@@ -116,11 +117,23 @@ export default function Navbar({ children }: Readonly<Props>) {
     const handleOpen = () => setMobileOpen(true);
     const handleClose = () => setMobileOpen(false);
 
+    const token = sessionStorage.getItem("vidmaAuthToken") || "";
+
     const handleLogout = () => {
-        // Perform logout logic here
         sessionStorage.removeItem("vidmaAuthToken");
         navigate("/console/login");
     };
+
+    useIdleTimer({
+        timeout: 600000,
+        onIdle: handleLogout,
+    });
+
+    React.useEffect(() => {
+        if (token === "") {
+            navigate("/console/login");
+        }
+    }, []);
 
     const drawerItems: NavItem[] = [
         {
@@ -134,13 +147,13 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "About Us Section",
             icon: <InfoTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/aboutus-section",
-        },        
+        },
         {
             group: "Contents",
             name: "Services Section",
             icon: <DesignServicesTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/services-section",
-        },        
+        },
         {
             group: "Contents",
             name: "Top Products Section",
