@@ -16,5 +16,5 @@ createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </LanguageProvider>
     </ErrorBoundary>
-  </StrictMode>,
+  </StrictMode>
 )
