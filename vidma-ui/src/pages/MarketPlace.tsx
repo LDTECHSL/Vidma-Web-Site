@@ -5,7 +5,6 @@ import { getProducts, placeOrder, searchProducts } from "../services/home-api";
 import { Skeleton } from "@mui/material";
 import { LocalGroceryStoreTwoTone } from "@mui/icons-material";
 import { showError, showSuccess } from "../components/Toast";
-import { Helmet } from "react-helmet-async";
 
 export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
