@@ -6,17 +6,14 @@ import ErrorBoundary from './components/ErrorBoundary.tsx'
 import './i18n';
 import { LanguageProvider } from './components/LanguageContext.tsx'
 import { BrowserRouter } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
       <LanguageProvider>
-        <HelmetProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </LanguageProvider>
     </ErrorBoundary>
   </StrictMode>

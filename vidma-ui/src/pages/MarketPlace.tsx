@@ -208,15 +208,6 @@ export default function MarketPlace() {
 
   return (
     <>
-      <Helmet>
-        <title>Vidma Marketplace - Quality Roofing & Hardware Products</title>
-        <meta
-          name="description"
-          content="Explore Vidma Marketplace for top-quality roofing, hardware, and export products tailored to your needs."
-        />
-        <link rel="canonical" href="/marketplace" />
-      </Helmet>
-
       <div className="market-page-outer">
         {/* HERO + SEARCH */}
         <div className={`market-page-hero ${isSticky ? "hide-hero" : ""}`}>
