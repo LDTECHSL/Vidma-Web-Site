@@ -217,9 +217,17 @@
     }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
+
+    .gallery-sub-outer{
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
     .gallery-item{
-        width: 80%;
+        width: 100%;
     }
 }
 
