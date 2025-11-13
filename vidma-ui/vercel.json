@@ -1,5 +1,12 @@
 {
+  "buildCommand": "tsc -b && vite build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
