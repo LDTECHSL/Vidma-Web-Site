@@ -1,8 +1,6 @@
 {
-  "buildCommand": "tsc -b && vite build",
+  "buildCommand": "vite build",
   "outputDirectory": "dist",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/(.*)",
