@@ -1,6 +1,7 @@
 using Domain.Entities;
 using Domain.Entities.AboutUs;
 using Domain.Entities.Achievemnets;
+using Domain.Entities.Catalogues;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Form;
 using Domain.Entities.Gallery;
@@ -41,6 +42,7 @@ public interface IApplicationDbContext
     DbSet<Product> Product { get; }
     DbSet<OrderItem> OrderItem { get; }
     DbSet<Customer> Customer { get; }
+    DbSet<Catalogue> Catalogue { get; }
 
 
     

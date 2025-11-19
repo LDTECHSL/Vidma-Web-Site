@@ -2,6 +2,7 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.AboutUs;
 using Domain.Entities.Achievemnets;
+using Domain.Entities.Catalogues;
 using Domain.Entities.ContactUs;
 using Domain.Entities.Form;
 using Domain.Entities.Gallery;
@@ -48,6 +49,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<OrderItem> OrderItem { get; set; }
     public DbSet<Product> Product { get; set; }
     public DbSet<Customer> Customer { get; set; }
+    public DbSet<Catalogue> Catalogue { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
