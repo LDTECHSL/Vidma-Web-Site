@@ -1,0 +1,11 @@
+# https://www.robotstxt.org/robotstxt.html
+# Vidma Engineering - Robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /vidma/console/
+Disallow: /console/login
+Disallow: /user-maintenance/
+
+# Sitemap location
+Sitemap: https://vidmaengineering.lk/sitemap.xml
