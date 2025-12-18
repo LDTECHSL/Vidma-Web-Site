@@ -17,6 +17,7 @@ import { getContactUsData, getHeroData } from "../services/home-api";
 import { FacebookFilled, TikTokOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import Splash from "../components/Splash";
 import "../common/main.css";
+import Catalogues from "../components/Catalogues";
 
 export default function Home() {
   const [slides, setSlides] = useState<any[]>([]);
@@ -205,6 +206,9 @@ useEffect(() => {
       <div id="contact"><ContactUs /> </div>
 
       <VideoSlider />
+
+      <Catalogues />
+
       <div id="gallery">
         <ProjectsGallery />
       </div>

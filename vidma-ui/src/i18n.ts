@@ -53,7 +53,9 @@ i18n.use(initReactI18next).init({
         followUs: "Follow Us",
         facebook: "Facebook",
         tiktok: "TikTok",
-        companies: "Companies"
+        companies: "Companies",
+        catalogues: "Catalogues",
+        cataloguesSub: "Explore Our Product Catalogues"
       },
     },
     si: {
@@ -106,7 +108,9 @@ i18n.use(initReactI18next).init({
         followUs: "අප අනුගමනය කරන්න",
         facebook: "ෆේස්බුක්",
         tiktok: "ටික්ටොක්",
-        companies: "සමාගම්"
+        companies: "සමාගම්",
+        catalogues: "කැටලොග්",
+        cataloguesSub: "අපගේ නිෂ්පාදන කැටලොග් සොයා බලන්න"
       },
     },
     ta: {
@@ -159,7 +163,9 @@ i18n.use(initReactI18next).init({
         followUs: "எங்களை பின்தொடருங்கள்",
         facebook: "பேஸ்புக்",
         tiktok: "டிக்டாக்",
-        companies: "நிறுவனங்கள்"
+        companies: "நிறுவனங்கள்",
+        catalogues: "கட்டலாக்கள்",
+        cataloguesSub: "எங்கள் தயாரிப்பு கட்டலாக்களை ஆராயுங்கள்"
       },
     },
   },
