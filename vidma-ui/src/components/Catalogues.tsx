@@ -6,7 +6,6 @@ import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 // Fallback to CDN if bundling fails
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import { useTranslation } from "react-i18next";
-import { LeftCircleFilled } from "@ant-design/icons";
 
 export default function Catalogues() {
     const [cats, setCats] = useState<any[]>([]);
