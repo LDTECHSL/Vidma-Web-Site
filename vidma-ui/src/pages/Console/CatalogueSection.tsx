@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { createCatalogue, deleteCatalogue, getCatalogues, updateGallery } from "../../services/home-api";
+import { createCatalogue, deleteCatalogue, getCatalogues } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
 export default function CatalogueSection() {
@@ -12,7 +12,6 @@ export default function CatalogueSection() {
     const [errors, setErrors] = useState<string[]>([]);
 
     const [albums, setAlbums] = useState<any[]>([]);
-    const [albumId, setAlbumId] = useState<any>(null);
 
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
@@ -43,22 +42,6 @@ export default function CatalogueSection() {
             showError("Error creating catalogue");
         } finally {
             setOpen(false);
-        }
-    };
-
-    const handleUpdateGalleryName = async (name1: any) => {
-        if (albumId === null) return;
-
-        setOpen(true);
-
-        try {
-            await updateGallery({ galleryId: albumId, title: name1 }, token);
-            showSuccess("Saved!");
-        } catch (error) {
-            showError("Error updating gallery");
-        } finally {
-            setOpen(false);
-            handleGetAllCatalogues();
         }
     };
 
@@ -137,14 +120,6 @@ export default function CatalogueSection() {
             }, 1000);
         }
     }
-
-    const handleDeleteImage = async (Id: number) => {
-        const confirmDelete1 = window.confirm("Are you sure you want to delete this pdf?");
-        if (!confirmDelete1) return;
-        setOpen(true);
-        
-    };
-
     return (
         <div>
             <BreadCrumb title="Catalogue Section" />
@@ -162,7 +137,6 @@ export default function CatalogueSection() {
                                 value={name}
                                 onChange={(e) => {
                                     setName(e.target.value);
-                                    handleUpdateGalleryName(e.target.value);
                                 }}
                                 placeholder="Enter title"
                             />
