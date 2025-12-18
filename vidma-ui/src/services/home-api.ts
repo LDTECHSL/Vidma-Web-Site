@@ -622,3 +622,49 @@ export const getDomainInfo = async () => {
     throw error;
   }
 };
+
+export const createCatalogue = async (body: any, token: string) => {
+  try {
+    const response = await axios.post(`${api_url}catalogue/create`, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCatalogue = async (id: string, token: string) => {
+  try {
+    const response = await axios.delete(`${api_url}catalogue?id=${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
+  catch (error) {
+    throw error;
+  }
+};
+
+export const getCatalogues = async () => {
+  try {
+    const response = await axios.get(`${api_url}catalogue`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCatalogueById = async (id: any) => {
+  try {
+    const response = await axios.get(`${api_url}catalogue/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

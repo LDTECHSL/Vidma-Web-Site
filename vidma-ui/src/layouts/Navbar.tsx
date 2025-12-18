@@ -19,6 +19,7 @@ import {
     ExpandLess,
     ExpandMore,
     FeedbackTwoTone,
+    FlagTwoTone,
     GroupsTwoTone,
     HomeWorkTwoTone,
     InfoTwoTone,
@@ -177,6 +178,12 @@ export default function Navbar({ children }: Readonly<Props>) {
             name: "Video Section",
             icon: <MovieTwoTone style={{ fontSize: "18px" }} />,
             path: "/vidma/console/video-section",
+        },
+        {
+            group: "Contents",
+            name: "Catalogue Section",
+            icon: <FlagTwoTone style={{ fontSize: "18px" }} />,
+            path: "/vidma/console/catalogue-section",
         },
         {
             group: "Contents",
