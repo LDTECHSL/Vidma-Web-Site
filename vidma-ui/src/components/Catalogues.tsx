@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "../common/main.css";
 import { getCatalogues } from "../services/home-api";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
@@ -6,12 +6,13 @@ import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 // Fallback to CDN if bundling fails
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import { useTranslation } from "react-i18next";
+import { LeftCircleFilled } from "@ant-design/icons";
 
 export default function Catalogues() {
-
     const [cats, setCats] = useState<any[]>([]);
     const [thumbs, setThumbs] = useState<Record<number, string>>({});
     const { t } = useTranslation();
+    const rowRef = useRef<HTMLDivElement | null>(null);
 
     const handleGetCatalogues = async () => {
         try {
@@ -149,6 +150,11 @@ export default function Catalogues() {
         window.open(url, "_blank", "noopener,noreferrer");
     };
 
+    const scrollRow = (offset: number) => {
+        if (!rowRef.current) return;
+        rowRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    };
+
     return (
         <div className="products-outer" style={{ padding: "20px 0" }}>
                 <div className="title-outer" data-aos="fade-up">
@@ -157,84 +163,135 @@ export default function Catalogues() {
                 <div className="title-sub-outer" data-aos="fade-up">
                     {t("cataloguesSub")}
                 </div>
-                <div
-                    className="catalogues-row"
-                    style={{
-                        width: "100%",
-                        display: "grid",
-                        gridAutoFlow: "column",
-                        gridAutoColumns: "minmax(250px, 250px)",
-                        columnGap: 40,
-                        overflowX: "auto",
-                        padding: "0 8px 10px",
-                        scrollbarWidth: "thin",
-                        msOverflowStyle: "auto",
-                        WebkitOverflowScrolling: "touch",
-                    }}
-                >
-                    {cats.map((cat) => (
-                        <div
-                            key={cat.id}
-                            className="catalogue-card"
-                            style={{
-                                minWidth: 250,
-                                maxWidth: 250,
-                                border: "1px solid #eee",
-                                borderRadius: 8,
-                                background: "#fff",
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-                                overflow: "hidden",
-                            }}
-                        >
-                            <button
-                                type="button"
-                                onClick={() => openPdf(cat.catalogueFile)}
+                <div style={{ position: "relative", width: "100%" }}>
+                    <button
+                        type="button"
+                        onClick={() => scrollRow(-320)}
+                        aria-label="Scroll catalogues left"
+                        style={{
+                            position: "absolute",
+                            left: 0,
+                            top: "40%",
+                            transform: "translateY(-50%)",
+                            zIndex: 2,
+                            border: "none",
+                            background: "rgba(255,255,255,0.9)",
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                            borderRadius: "50%",
+                            width: 40,
+                            height: 40,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                        }}
+                    >
+                        ←
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => scrollRow(320)}
+                        aria-label="Scroll catalogues right"
+                        style={{
+                            position: "absolute",
+                            right: 15,
+                            top: "40%",
+                            transform: "translateY(-50%)",
+                            zIndex: 2,
+                            border: "none",
+                            background: "rgba(255,255,255,0.9)",
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                            borderRadius: "50%",
+                            width: 40,
+                            height: 40,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                        }}
+                    >
+                        →
+                    </button>
+                    <div
+                        ref={rowRef}
+                        className="catalogues-row"
+                        style={{
+                            width: "100%",
+                            display: "grid",
+                            gridAutoFlow: "column",
+                            gridAutoColumns: "minmax(250px, 250px)",
+                            columnGap: 40,
+                            overflowX: "auto",
+                            padding: "0 40px 10px", // leave space for arrows
+                            scrollbarWidth: "thin",
+                            msOverflowStyle: "auto",
+                            WebkitOverflowScrolling: "touch",
+                        }}
+                    >
+                        {cats.map((cat) => (
+                            <div
+                                key={cat.id}
+                                className="catalogue-card"
                                 style={{
-                                    width: "100%",
-                                    display: "block",
-                                    border: "none",
-                                    background: "transparent",
-                                    cursor: "pointer",
-                                    padding: 0,
+                                    minWidth: 250,
+                                    maxWidth: 250,
+                                    border: "1px solid #eee",
+                                    borderRadius: 8,
+                                    background: "#fff",
+                                    boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                                    overflow: "hidden",
                                 }}
-                                aria-label={`Open catalogue ${cat.name}`}
-                                title="Open catalogue"
                             >
-                                <div style={{ width: "100%", background: "#f9f9f9" }}>
-                                    {thumbs[cat.id] ? (
-                                        <img
-                                            src={thumbs[cat.id]}
-                                            alt={`${cat.name} thumbnail`}
-                                            style={{ width: "100%", display: "block" }}
-                                            loading="lazy"
-                                        />
-                                    ) : (
-                                        <div
-                                            style={{
-                                                width: "100%",
-                                                height: 280,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                color: "#888",
-                                                fontSize: 14,
-                                            }}
-                                        >
-                                            Generating preview...
-                                        </div>
-                                    )}
-                                </div>
-                                <div style={{ padding: "10px 12px" }}>
-                                    <div style={{ fontWeight: 600, fontSize: 14 }}>{cat.name}</div>
-                                    <div style={{ fontSize: 12, color: "#666" }}>Tap to view PDF</div>
-                                </div>
-                            </button>
-                        </div>
-                    ))}
-                    {cats.length === 0 && (
-                        <div style={{ color: "#666" }}>No catalogues available.</div>
-                    )}
+                                <button
+                                    type="button"
+                                    onClick={() => openPdf(cat.catalogueFile)}
+                                    style={{
+                                        width: "100%",
+                                        display: "block",
+                                        border: "none",
+                                        background: "transparent",
+                                        cursor: "pointer",
+                                        padding: 0,
+                                    }}
+                                    aria-label={`Open catalogue ${cat.name}`}
+                                    title="Open catalogue"
+                                >
+                                    <div style={{ width: "100%", background: "#f9f9f9" }}>
+                                        {thumbs[cat.id] ? (
+                                            <img
+                                                src={thumbs[cat.id]}
+                                                alt={`${cat.name} thumbnail`}
+                                                style={{ width: "100%", display: "block" }}
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <div
+                                                style={{
+                                                    width: "100%",
+                                                    height: 280,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    color: "#888",
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                Generating preview...
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div style={{ padding: "10px 12px" }}>
+                                        <div style={{ fontWeight: 600, fontSize: 14 }}>{cat.name}</div>
+                                        <div style={{ fontSize: 12, color: "#666" }}>Tap to view PDF</div>
+                                    </div>
+                                </button>
+                            </div>
+                        ))}
+                        {cats.length === 0 && (
+                            <div style={{ color: "#666" }}>No catalogues available.</div>
+                        )}
+                    </div>
                 </div>
             </div>
-            );
+    );
 }
