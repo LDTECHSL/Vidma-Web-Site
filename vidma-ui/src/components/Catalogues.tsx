@@ -95,10 +95,11 @@ export default function Catalogues() {
                     const pdf = await loadingTask.promise;
                     const page = await pdf.getPage(1);
 
-                    const viewport = page.getViewport({ scale: 1 });
-                    const targetWidth = 200; // px
-                    const scale = targetWidth / viewport.width;
-                    const scaledViewport = page.getViewport({ scale });
+                    // Normalize thumbnails to a consistent height so landscape PDFs do not look tiny
+                    const viewport = page.getViewport({ scale: 1, rotation: page.rotate || 0 });
+                    const targetHeight = 280; // px
+                    const scale = targetHeight / viewport.height;
+                    const scaledViewport = page.getViewport({ scale, rotation: page.rotate || 0 });
 
                     const canvas = document.createElement("canvas");
                     const ctx = canvas.getContext("2d");
@@ -260,7 +261,7 @@ export default function Catalogues() {
                                             <img
                                                 src={thumbs[cat.id]}
                                                 alt={`${cat.name} thumbnail`}
-                                                style={{ width: "100%", display: "block" }}
+                                                style={{ width: "100%", height: 280, objectFit: "contain", background: "#f9f9f9", display: "block" }}
                                                 loading="lazy"
                                             />
                                         ) : (
