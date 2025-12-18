@@ -162,7 +162,7 @@ export default function Catalogues() {
                 <div className="title-sub-outer" data-aos="fade-up">
                     {t("cataloguesSub")}
                 </div>
-                <div style={{ position: "relative", width: "100%" }}>
+                <div style={{ position: "relative", maxWidth: "90%", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <button
                         type="button"
                         onClick={() => scrollRow(-320)}
@@ -193,7 +193,7 @@ export default function Catalogues() {
                         aria-label="Scroll catalogues right"
                         style={{
                             position: "absolute",
-                            right: 15,
+                            right: 0,
                             top: "40%",
                             transform: "translateY(-50%)",
                             zIndex: 2,
@@ -221,7 +221,7 @@ export default function Catalogues() {
                             gridAutoColumns: "minmax(250px, 250px)",
                             columnGap: 40,
                             overflowX: "auto",
-                            padding: "0 40px 10px", // leave space for arrows
+                            padding: "0 50px 10px", // leave space for arrows
                             scrollbarWidth: "thin",
                             msOverflowStyle: "auto",
                             WebkitOverflowScrolling: "touch",
