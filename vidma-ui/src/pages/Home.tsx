@@ -17,6 +17,7 @@ import { getContactUsData, getHeroData } from "../services/home-api";
 import { FacebookFilled, TikTokOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import Splash from "../components/Splash";
 import "../common/main.css";
+import Catalogues from "../components/Catalogues";
 
 export default function Home() {
   const [slides, setSlides] = useState<any[]>([]);
@@ -103,7 +104,7 @@ useEffect(() => {
 
   return (
     <Main>
-      <Splash />
+      {/* <Splash /> */}
       {/* Hero Section */}
       <div className="relative w-full h-[80vh] sm:h-[70vh] xs:h-[60vh] overflow-hidden home-outer mt-5">
         {slides.map((slide, index) => (
@@ -205,6 +206,9 @@ useEffect(() => {
       <div id="contact"><ContactUs /> </div>
 
       <VideoSlider />
+
+      <Catalogues />
+
       <div id="gallery">
         <ProjectsGallery />
       </div>
