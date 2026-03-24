@@ -368,6 +368,10 @@ export default function MarketPlaceSection() {
                     </div>
                 </div>
 
+                <div className="form-group">
+                    {/* Thickness */}
+                </div>
+
                 <div
                     className="dropzone"
                     onDragOver={onDragOver}
