@@ -599,7 +599,7 @@ export default function MarketPlace() {
                             {group.material && <p className="cart-meta-line">Material: <span className="cart-meta-badge">{group.material}</span></p>}
                             {group.color && (
                               <div className="cart-color-row">
-                                <span>Colour:</span>
+                                Color:
                                 <span
                                   className="cart-color-swatch"
                                   style={{ backgroundColor: group.color }}

@@ -585,6 +585,7 @@
   gap: 8px;
   color: #666;
   margin: 2px 0;
+  font-size: 0.84rem;
 }
 
 .cart-color-swatch {
@@ -635,12 +636,12 @@
   gap: 10px;
   color: #1f2a3d;
   margin: 0;
-  font-size: 1.6rem;
+  font-size: 1.25rem;
 }
 
 .cart-title svg {
   color: #2b78df;
-  font-size: 1.8rem;
+  font-size: 1.25rem;
 }
 
 .modern-cart-modal .modal-close {
@@ -653,32 +654,36 @@
 .modern-cart-groups {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .modern-cart-group {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.6fr);
+  align-items: start;
+  gap: 14px;
   border: 1px solid #dbe2ef;
-  border-radius: 16px;
+  border-radius: 12px;
   background: #ffffff;
-  padding: 14px;
+  padding: 10px 12px;
 }
 
 .modern-cart-summary {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 10px;
 }
 
 .cart-product-title {
-  margin: 2px 0 6px;
+  margin: 0 0 4px;
   color: #1f2a3d;
-  font-size: 1.2rem;
+  font-size: 0.95rem;
 }
 
 .cart-meta-line {
-  margin: 4px 0;
+  margin: 2px 0;
   color: #5d6678;
-  font-size: 1rem;
+  font-size: 0.84rem;
 }
 
 .cart-meta-badge {
@@ -687,25 +692,28 @@
   background: linear-gradient(135deg, #2c7ce0, #2365c4);
   color: #fff;
   border-radius: 8px;
-  padding: 2px 10px;
+  padding: 1px 7px;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
 
 .cart-length-table {
-  margin-top: 12px;
-  border-top: 1px solid #e3e8f3;
+  margin-top: 0;
+  border-top: none;
+  border-left: 1px solid #e3e8f3;
+  padding-left: 12px;
 }
 
 .cart-length-row {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1.2fr auto;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  padding: 10px 2px;
+  padding: 8px 2px;
   border-bottom: 1px solid #e9edf5;
   color: #334157;
-  font-size: 1rem;
+  font-size: 0.82rem;
 }
 
 .cart-length-header {
@@ -750,7 +758,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -765,7 +773,18 @@
   background: linear-gradient(135deg, #2c7ce0, #2365c4);
 }
 
+.modern-cart-group .cart-item-img {
+  width: 84px;
+  height: 84px;
+  border-radius: 10px;
+}
+
 @media (max-width: 768px) {
+  .modern-cart-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
   .modern-cart-summary {
     flex-direction: column;
   }
@@ -773,6 +792,11 @@
   .cart-length-row {
     grid-template-columns: 1fr 0.8fr 1fr auto;
     font-size: 0.92rem;
+  }
+
+  .cart-length-table {
+    border-left: none;
+    padding-left: 0;
   }
 
   .cart-footer-actions {
