@@ -371,6 +371,16 @@
   font-weight: 600;
 }
 
+.option-chip-btn {
+  cursor: pointer;
+}
+
+.option-chip-btn.active {
+  background: #1f72db;
+  color: #ffffff;
+  border-color: #1f72db;
+}
+
 .color-dot-list {
   display: flex;
   flex-wrap: wrap;
@@ -392,6 +402,23 @@
 
 .color-dot-btn.active {
   box-shadow: 0 0 0 3px #2a72d8;
+}
+
+.length-qty-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.length-qty-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.length-qty-control {
+  margin: 0;
 }
 
 

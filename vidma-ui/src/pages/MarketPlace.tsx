@@ -10,6 +10,9 @@ export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [quantity, setQuantity] = useState(0);
+  const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
+  const [selectedThickness, setSelectedThickness] = useState<string | null>(null);
+  const [lengthQuantities, setLengthQuantities] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState<any[]>([]);
@@ -51,13 +54,38 @@ export default function MarketPlace() {
   }, []);
 
   const openModal = (item: any) => {
+    const lengths = parseCsvValues(item.length);
+    const initialLengthQuantities = lengths.reduce((acc, len) => {
+      acc[len] = 0;
+      return acc;
+    }, {} as Record<string, number>);
+
     setSelectedItem(item);
     setQuantity(0);
+    setSelectedColor(null);
+    setSelectedMaterial(null);
+    setSelectedThickness(null);
+    setLengthQuantities(initialLengthQuantities);
   };
-  const closeModal = () => setSelectedItem(null);
+
+  const closeModal = () => {
+    setSelectedItem(null);
+    setSelectedColor(null);
+    setSelectedMaterial(null);
+    setSelectedThickness(null);
+    setLengthQuantities({});
+    setQuantity(0);
+  };
 
   const increaseQty = () => setQuantity(q => q + 1);
   const decreaseQty = () => setQuantity(q => (q > 0 ? q - 1 : 0));
+
+  const updateLengthQty = (length: string, delta: number) => {
+    setLengthQuantities((prev) => ({
+      ...prev,
+      [length]: Math.max(0, (prev[length] || 0) + delta),
+    }));
+  };
 
   const handleGetProducts = async () => {
     try {
@@ -95,41 +123,79 @@ export default function MarketPlace() {
   }, [currentPage]);
 
   const handleAddToCart = () => {
+    const hasColorOptions = parseCsvValues(selectedItem?.color).length > 0;
+    const materialValues = parseCsvValues(selectedItem?.material);
+    const thicknessValues = parseCsvValues(selectedItem?.thickness);
+    const lengthValues = parseCsvValues(selectedItem?.length);
+    const hasLengthOptions = lengthValues.length > 0;
 
-    if (quantity === 0) {
-      showError("Please select a quantity greater than 0.");
+    if (materialValues.length > 0 && !selectedMaterial) {
+      showError("Please select a material.");
       return;
     }
-
-    const hasColorOptions = parseCsvValues(selectedItem?.color).length > 0;
 
     if (hasColorOptions && !selectedColor) {
       showError("Please select a color.");
       return;
     }
 
-    const newCartItem = {
-      id: selectedItem.id || new Date().getTime(),
-      productName: selectedItem.productName,
-      description: selectedItem.description,
-      imageUrl: selectedItem.imageUrl,
-      color: selectedColor || "",
-      quantity,
-    };
-
-    const existingIndex = cart.findIndex(
-      (item) =>
-        item.productName === newCartItem.productName &&
-        item.color === newCartItem.color
-    );
-
-    let updatedCart;
-    if (existingIndex >= 0) {
-      updatedCart = [...cart];
-      updatedCart[existingIndex].quantity += quantity;
-    } else {
-      updatedCart = [...cart, newCartItem];
+    if (thicknessValues.length > 0 && !selectedThickness) {
+      showError("Please select a thickness.");
+      return;
     }
+
+    if (hasLengthOptions) {
+      const totalSelectedQty = lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0);
+      if (totalSelectedQty === 0) {
+        showError("Please add quantity for at least one length.");
+        return;
+      }
+    } else if (quantity === 0) {
+      showError("Please select a quantity greater than 0.");
+      return;
+    }
+
+    const itemsToAdd = hasLengthOptions
+      ? lengthValues
+          .filter((len) => (lengthQuantities[len] || 0) > 0)
+          .map((len) => ({
+            cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-${len}`,
+            id: selectedItem.id,
+            productId: selectedItem.id,
+            productName: selectedItem.productName,
+            description: selectedItem.description,
+            imageUrl: selectedItem.imageUrl,
+            material: selectedMaterial || "",
+            color: selectedColor || "",
+            thickness: selectedThickness || "",
+            length: len,
+            quantity: lengthQuantities[len],
+          }))
+      : [
+          {
+            cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-none`,
+            id: selectedItem.id,
+            productId: selectedItem.id,
+            productName: selectedItem.productName,
+            description: selectedItem.description,
+            imageUrl: selectedItem.imageUrl,
+            material: selectedMaterial || "",
+            color: selectedColor || "",
+            thickness: selectedThickness || "",
+            length: "",
+            quantity,
+          },
+        ];
+
+    const updatedCart = [...cart];
+    itemsToAdd.forEach((newCartItem) => {
+      const existingIndex = updatedCart.findIndex((item) => item.cartItemId === newCartItem.cartItemId);
+      if (existingIndex >= 0) {
+        updatedCart[existingIndex].quantity += newCartItem.quantity;
+      } else {
+        updatedCart.push(newCartItem);
+      }
+    });
 
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -137,15 +203,15 @@ export default function MarketPlace() {
     closeModal();
   };
 
-  const handleRemoveFromCart = (id: number) => {
-    const updated = cart.filter(item => item.id !== id);
+  const handleRemoveFromCart = (cartItemId: string) => {
+    const updated = cart.filter(item => item.cartItemId !== cartItemId);
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  const handleQuantityChange = (id: number, delta: number) => {
+  const handleQuantityChange = (cartItemId: string, delta: number) => {
     const updated = cart.map(item =>
-      item.id === id
+      item.cartItemId === cartItemId
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
@@ -189,7 +255,7 @@ export default function MarketPlace() {
         address,
         color: "",
         orderItems: cart.map(item => ({
-          productId: item.id,
+          productId: item.productId || item.id,
           quantity: item.quantity,
           color: item.color,
         })),
@@ -314,18 +380,22 @@ export default function MarketPlace() {
 
                 return (
                   <>
-              <button className="modal-close" onClick={() => {
-                closeModal(); setSelectedColor(null);
-              }}>✕</button>
+              <button className="modal-close" onClick={closeModal}>✕</button>
               <h2 className="product-modal-title">{selectedItem.productName}</h2>
-              {selectedItem.description && <p className="product-modal-description">{selectedItem.description}</p>}
 
               {materialValues.length > 0 && (
                 <div className="product-option-section">
                   <h4>Material</h4>
                   <div className="option-chip-list">
                     {materialValues.map((material) => (
-                      <span key={material} className="option-chip">{material}</span>
+                      <button
+                        key={material}
+                        type="button"
+                        className={`option-chip option-chip-btn ${selectedMaterial === material ? "active" : ""}`}
+                        onClick={() => setSelectedMaterial(material)}
+                      >
+                        {material}
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -354,7 +424,14 @@ export default function MarketPlace() {
                   <h4>Thickness (mm)</h4>
                   <div className="option-chip-list">
                     {thicknessValues.map((thickness) => (
-                      <span key={thickness} className="option-chip">{thickness}</span>
+                      <button
+                        key={thickness}
+                        type="button"
+                        className={`option-chip option-chip-btn ${selectedThickness === thickness ? "active" : ""}`}
+                        onClick={() => setSelectedThickness(thickness)}
+                      >
+                        {thickness}
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -363,23 +440,38 @@ export default function MarketPlace() {
               {lengthValues.length > 0 && (
                 <div className="product-option-section">
                   <h4>Length (ft)</h4>
-                  <div className="option-chip-list">
+                  <div className="length-qty-list">
                     {lengthValues.map((length) => (
-                      <span key={length} className="option-chip">{length}</span>
+                      <div key={length} className="length-qty-row">
+                        <span className="option-chip">{length}</span>
+                        <div className="quantity-control small length-qty-control">
+                          <button type="button" onClick={() => updateLengthQty(length, -1)}><FaMinus /></button>
+                          <span>{lengthQuantities[length] || 0}</span>
+                          <button type="button" onClick={() => updateLengthQty(length, 1)}><FaPlus /></button>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              <div className="quantity-control">
-                <button onClick={decreaseQty}><FaMinus /></button>
-                <span>{quantity}</span>
-                <button onClick={increaseQty}><FaPlus /></button>
-              </div>
+              {lengthValues.length === 0 && (
+                <div className="quantity-control">
+                  <button onClick={decreaseQty}><FaMinus /></button>
+                  <span>{quantity}</span>
+                  <button onClick={increaseQty}><FaPlus /></button>
+                </div>
+              )}
 
               <button
-                className={`add-to-cart-btn ${quantity > 0 ? "enabled" : "disabled"}`}
-                disabled={quantity === 0}
+                className={`add-to-cart-btn ${(lengthValues.length > 0
+                  ? lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0) > 0
+                  : quantity > 0)
+                  ? "enabled"
+                  : "disabled"}`}
+                disabled={lengthValues.length > 0
+                  ? lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0) === 0
+                  : quantity === 0}
                 onClick={handleAddToCart}
               >
                 <FaShoppingCart />
@@ -454,18 +546,21 @@ export default function MarketPlace() {
               ) : (
                 <div className="cart-items">
                   {cart.map(item => (
-                    <div className="cart-item" key={item.id}>
+                    <div className="cart-item" key={item.cartItemId || item.id}>
                       <img src={item.imageUrl.replace("dl=0", "raw=1")} alt={item.productName} className="cart-item-img" />
                       <div className="cart-item-info">
                         <h4 style={{ color: "#15688b" }}>{item.productName}</h4>
+                        {item.material && <p style={{ color: "#666" }}>Material: {item.material}</p>}
                         {item.color && <p style={{ color: "#666" }}>Color: {item.color}</p>}
+                        {item.thickness && <p style={{ color: "#666" }}>Thickness: {item.thickness} mm</p>}
+                        {item.length && <p style={{ color: "#666" }}>Length: {item.length} ft</p>}
                         <div className="quantity-control small">
-                          <button onClick={() => handleQuantityChange(item.id, -1)}><FaMinus /></button>
+                          <button onClick={() => handleQuantityChange(item.cartItemId || item.id, -1)}><FaMinus /></button>
                           <span>{item.quantity}</span>
-                          <button onClick={() => handleQuantityChange(item.id, 1)}><FaPlus /></button>
+                          <button onClick={() => handleQuantityChange(item.cartItemId || item.id, 1)}><FaPlus /></button>
                         </div>
                       </div>
-                      <button className="remove-btn" onClick={() => handleRemoveFromCart(item.id)}>
+                      <button className="remove-btn" onClick={() => handleRemoveFromCart(item.cartItemId || item.id)}>
                         <FaTrash />
                       </button>
                     </div>
