@@ -380,8 +380,10 @@ export default function MarketPlace() {
 
                 return (
                   <>
-              <button className="modal-close" onClick={closeModal}>✕</button>
-              <h2 className="product-modal-title">{selectedItem.productName}</h2>
+              <div className="product-modal-header">
+                <h2 className="product-modal-title">{selectedItem.productName}</h2>
+                <button className="modal-close" onClick={closeModal}>✕</button>
+              </div>
               {materialValues.length > 0 && (
                 <div className="product-option-section">
                   <h4>Material</h4>
@@ -550,7 +552,17 @@ export default function MarketPlace() {
                       <div className="cart-item-info">
                         <h4 style={{ color: "#15688b" }}>{item.productName}</h4>
                         {item.material && <p style={{ color: "#666" }}>Material: {item.material}</p>}
-                        {item.color && <p style={{ color: "#666" }}>Color: {item.color}</p>}
+                        {item.color && (
+                          <div className="cart-color-row">
+                            <span>Color:</span>
+                            <span
+                              className="cart-color-swatch"
+                              style={{ backgroundColor: item.color }}
+                              title={item.color}
+                              aria-label={`Selected color ${item.color}`}
+                            />
+                          </div>
+                        )}
                         {item.thickness && <p style={{ color: "#666" }}>Thickness: {item.thickness} mm</p>}
                         {item.length && <p style={{ color: "#666" }}>Length: {item.length} ft</p>}
                         <div className="quantity-control small">
