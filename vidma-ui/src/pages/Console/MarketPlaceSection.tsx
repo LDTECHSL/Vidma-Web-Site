@@ -20,18 +20,23 @@ const DEFAULT_MARKETPLACE_COLORS = [
     "#8f939b"
 ];
 
+const MATERIAL_OPTIONS = ["Supershine", "Vidma", "Union"];
+
 export default function MarketPlaceSection() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [selectedColors, setSelectedColors] = useState<string[]>(DEFAULT_MARKETPLACE_COLORS);
     const [colorPickerValue, setColorPickerValue] = useState(DEFAULT_MARKETPLACE_COLORS[0]);
+    const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+    const [isMaterialDropdownOpen, setIsMaterialDropdownOpen] = useState(false);
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>(null);
     const [products, setProducts] = useState<any[]>([]);
     const [img, setImg] = useState<string>("");
     const [id, setId] = useState<number>(0);
     const colorInputRef = useRef<HTMLInputElement | null>(null);
+    const materialDropdownRef = useRef<HTMLDivElement | null>(null);
 
     console.log(imageS1Error);
 
@@ -98,14 +103,29 @@ export default function MarketPlaceSection() {
         setSelectedColors((prev) => prev.filter((color) => color !== value));
     };
 
+    const toggleMaterial = (material: string) => {
+        setSelectedMaterials((prev) => {
+            if (prev.includes(material)) {
+                return prev.filter((item) => item !== material);
+            }
+            return [...prev, material];
+        });
+    };
+
+    const removeMaterial = (material: string) => {
+        setSelectedMaterials((prev) => prev.filter((item) => item !== material));
+    };
+
     const handleSubmit = async () => {
         const colors = selectedColors.join(",");
+        const materials = selectedMaterials.join(",");
 
         if (id === 0) {
             const formData = new FormData();
             formData.append("ProductName", name);
             formData.append("Description", description);
             formData.append("Color", colors);
+            formData.append("Material", materials);
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -128,6 +148,7 @@ export default function MarketPlaceSection() {
             formData.append("ProductName", name);
             formData.append("Description", description);
             formData.append("Color", colors);
+            formData.append("Material", materials);
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -179,6 +200,19 @@ export default function MarketPlaceSection() {
         handleGetProducts();
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (materialDropdownRef.current && !materialDropdownRef.current.contains(event.target as Node)) {
+                setIsMaterialDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const rowClick = (product: any) => {
         setName(product.productName);
         setDescription(product.description);
@@ -190,6 +224,11 @@ export default function MarketPlaceSection() {
         if (productColors.length > 0) {
             setColorPickerValue(productColors[0]);
         }
+        const productMaterials = (product.material || "")
+            .split(",")
+            .map((material: string) => material.trim())
+            .filter((material: string) => !!material);
+        setSelectedMaterials(productMaterials);
         setImg(product.imageUrl);
         setId(product.id);
     }
@@ -261,6 +300,64 @@ export default function MarketPlaceSection() {
                                             className="selected-color-remove"
                                             onClick={() => removeColor(color)}
                                             aria-label={`Remove ${color}`}
+                                        >
+                                            x
+                                        </button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label>Materials</label>
+                    <div className="multi-select-dropdown" ref={materialDropdownRef}>
+                        <button
+                            type="button"
+                            className="multi-select-trigger"
+                            onClick={() => setIsMaterialDropdownOpen((prev) => !prev)}
+                            aria-expanded={isMaterialDropdownOpen}
+                            aria-label="Select materials"
+                        >
+                            <span>
+                                {selectedMaterials.length > 0
+                                    ? `${selectedMaterials.length} material${selectedMaterials.length > 1 ? "s" : ""} selected`
+                                    : "Select materials"}
+                            </span>
+                            <span className={`multi-select-arrow ${isMaterialDropdownOpen ? "open" : ""}`}>⌄</span>
+                        </button>
+
+                        {isMaterialDropdownOpen && (
+                            <div className="multi-select-menu">
+                                {MATERIAL_OPTIONS.map((material) => {
+                                    const isChecked = selectedMaterials.includes(material);
+                                    return (
+                                        <label key={material} className="multi-select-option">
+                                            <input
+                                                type="checkbox"
+                                                checked={isChecked}
+                                                onChange={() => toggleMaterial(material)}
+                                            />
+                                            <span>{material}</span>
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        <div className="selected-materials-list">
+                            {selectedMaterials.length === 0 ? (
+                                <span className="selected-materials-empty">No materials selected yet</span>
+                            ) : (
+                                selectedMaterials.map((material) => (
+                                    <div key={material} className="selected-material-chip">
+                                        <span className="selected-material-value">{material}</span>
+                                        <button
+                                            type="button"
+                                            className="selected-material-remove"
+                                            onClick={() => removeMaterial(material)}
+                                            aria-label={`Remove ${material}`}
                                         >
                                             x
                                         </button>
