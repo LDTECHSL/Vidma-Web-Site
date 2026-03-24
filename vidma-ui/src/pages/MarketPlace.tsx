@@ -25,6 +25,12 @@ export default function MarketPlace() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
 
+  const parseCsvValues = (value?: string | null) =>
+    (value || "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => !!item);
+
   // Sticky search bar
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 150);
@@ -95,7 +101,9 @@ export default function MarketPlace() {
       return;
     }
 
-    if (!selectedColor) {
+    const hasColorOptions = parseCsvValues(selectedItem?.color).length > 0;
+
+    if (hasColorOptions && !selectedColor) {
       showError("Please select a color.");
       return;
     }
@@ -105,7 +113,7 @@ export default function MarketPlace() {
       productName: selectedItem.productName,
       description: selectedItem.description,
       imageUrl: selectedItem.imageUrl,
-      color: selectedColor,
+      color: selectedColor || "",
       quantity,
     };
 
@@ -298,38 +306,70 @@ export default function MarketPlace() {
         {selectedItem && (
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
+              {(() => {
+                const colorValues = parseCsvValues(selectedItem.color);
+                const materialValues = parseCsvValues(selectedItem.material);
+                const thicknessValues = parseCsvValues(selectedItem.thickness);
+                const lengthValues = parseCsvValues(selectedItem.length);
+
+                return (
+                  <>
               <button className="modal-close" onClick={() => {
                 closeModal(); setSelectedColor(null);
               }}>✕</button>
-              <img
-                src={selectedItem.imageUrl.replace("dl=0", "raw=1")}
-                alt={selectedItem.productName}
-                className="modal-image"
-              />
-              <h2 style={{ color: "#15688b" }}>{selectedItem.productName}</h2>
-              <p style={{ color: "grey" }}>{selectedItem.description}</p>
+              <h2 className="product-modal-title">{selectedItem.productName}</h2>
+              {selectedItem.description && <p className="product-modal-description">{selectedItem.description}</p>}
 
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", margin: "10px 0" }}>
-                {selectedItem.color?.split(",").map((clr: string, index: number) => {
-                  const colorValue = clr.trim();
-                  return (
-                    <div
-                      key={index}
-                      title={colorValue}
-                      onClick={() => setSelectedColor(colorValue)}
-                      style={{
-                        backgroundColor: colorValue,
-                        width: selectedColor === colorValue ? "30px" : "25px",
-                        height: selectedColor === colorValue ? "30px" : "25px",
-                        borderRadius: "4px",
-                        border: selectedColor === colorValue ? "3px solid #15688b" : "1px solid #ccc",
-                        cursor: "pointer",
-                        transition: "0.2s",
-                      }}
-                    ></div>
-                  );
-                })}
-              </div>
+              {materialValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Material</h4>
+                  <div className="option-chip-list">
+                    {materialValues.map((material) => (
+                      <span key={material} className="option-chip">{material}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {colorValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Colour</h4>
+                  <div className="color-dot-list">
+                    {colorValues.map((colorValue, index) => (
+                      <button
+                        key={`${colorValue}-${index}`}
+                        type="button"
+                        className={`color-dot-btn ${selectedColor === colorValue ? "active" : ""}`}
+                        style={{ backgroundColor: colorValue }}
+                        onClick={() => setSelectedColor(colorValue)}
+                        title={colorValue}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {thicknessValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Thickness (mm)</h4>
+                  <div className="option-chip-list">
+                    {thicknessValues.map((thickness) => (
+                      <span key={thickness} className="option-chip">{thickness}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {lengthValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Length (ft)</h4>
+                  <div className="option-chip-list">
+                    {lengthValues.map((length) => (
+                      <span key={length} className="option-chip">{length}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="quantity-control">
                 <button onClick={decreaseQty}><FaMinus /></button>
@@ -345,6 +385,9 @@ export default function MarketPlace() {
                 <FaShoppingCart />
                 <span>Add to Cart</span>
               </button>
+                  </>
+                );
+              })()}
             </div>
           </div>
         )}
@@ -415,7 +458,7 @@ export default function MarketPlace() {
                       <img src={item.imageUrl.replace("dl=0", "raw=1")} alt={item.productName} className="cart-item-img" />
                       <div className="cart-item-info">
                         <h4 style={{ color: "#15688b" }}>{item.productName}</h4>
-                        <p style={{ color: "#666" }}>Color: {item.color}</p>
+                        {item.color && <p style={{ color: "#666" }}>Color: {item.color}</p>}
                         <div className="quantity-control small">
                           <button onClick={() => handleQuantityChange(item.id, -1)}><FaMinus /></button>
                           <span>{item.quantity}</span>

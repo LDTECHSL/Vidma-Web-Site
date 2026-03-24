@@ -141,10 +141,6 @@
   max-width: 1400px; /* Prevents full stretch on large screens */
 }
 
-*{
-  /* border: 1px solid red; */
-}
-
 .no-results {
   width: 100% !important;
   text-align: center;
@@ -334,6 +330,68 @@
 .add-to-cart-btn.enabled:hover {
   background: #0099ff;
   transform: scale(1.05);
+}
+
+.product-modal-title {
+  color: #1e2a3b;
+  text-align: left;
+  margin: 6px 0 4px;
+}
+
+.product-modal-description {
+  color: #6b7280;
+  text-align: left;
+  margin: 0 0 14px;
+}
+
+.product-option-section {
+  margin: 12px 0;
+  text-align: left;
+}
+
+.product-option-section h4 {
+  margin: 0 0 8px;
+  color: #2b3342;
+  font-size: 1rem;
+}
+
+.option-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option-chip {
+  border: 1px solid #d6dbe3;
+  background: #f3f6fb;
+  color: #2f3b52;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.color-dot-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color-dot-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  border: 1px solid #cfd5df;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-dot-btn:hover {
+  transform: translateY(-1px);
+}
+
+.color-dot-btn.active {
+  box-shadow: 0 0 0 3px #2a72d8;
 }
 
 
