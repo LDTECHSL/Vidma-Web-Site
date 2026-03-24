@@ -21,55 +21,52 @@ export default function OrdersSection() {
     handleGetOrders();
   }, []);
 
+  const formatOrderDateTime = (value?: string) => {
+    if (!value) return "N/A";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleString();
+  };
+
+  const isHexColor = (value?: string | null) => /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test((value || "").trim());
+
+  const displayValue = (value?: string | null) => {
+    const normalized = (value || "").trim();
+    return normalized ? normalized : "N/A";
+  };
+
   return (
-    <div>
+    <div className="orders-section">
       <BreadCrumb title="Orders" />
 
-      <div>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            marginTop: "20px",
-            cursor: "pointer",
-          }}
-        >
+      <div className="orders-table-wrap">
+        <table className="orders-table">
           <thead>
-            <tr style={{ backgroundColor: "#f5f5f5" }}>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>#</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Customer Name</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Ordered Items Count</th>
-              <th style={{ border: "1px solid #ddd", padding: "8px" }}>Order Date</th>
+            <tr>
+              <th>#</th>
+              <th>Customer Name</th>
+              <th>Ordered Items</th>
+              <th>Ordered Time</th>
             </tr>
           </thead>
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td colSpan={5} style={{ textAlign: "center", padding: "20px" }}>
+                <td colSpan={4} className="orders-empty">
                   No orders found.
                 </td>
               </tr>
             ) : (
               orders.map((order, index) => (
                 <tr
-                  key={order.id}
+                  key={order.customerId || index}
                   onClick={() => setSelectedOrder(order)}
-                  style={{
-                    transition: "background 0.2s",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "#f0f9ff")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                  className="orders-table-row"
                 >
-                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>{index + 1}</td>
-                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    {order.customerName}
-                  </td>
-                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    {order.orderItems.length}
-                  </td>
-                  <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    {order.orderedTime.split("T")[0]}
-                  </td>
+                  <td>{index + 1}</td>
+                  <td>{displayValue(order.customerName)}</td>
+                  <td>{order.orderItems?.length || 0}</td>
+                  <td>{formatOrderDateTime(order.orderedTime)}</td>
                 </tr>
               ))
             )}
@@ -77,122 +74,103 @@ export default function OrdersSection() {
         </table>
       </div>
 
-      {/* ✅ Beautiful Modal */}
       {selectedOrder && (
         <div
-          className="modal-overlay"
+          className="orders-modal-overlay"
           onClick={() => setSelectedOrder(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            backgroundColor: "rgba(0,0,0,0.6)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-          }}
         >
           <div
-            className="modal-content"
+            className="orders-modal-card"
             onClick={(e) => e.stopPropagation()}
-            style={{
-              background: "white",
-              borderRadius: "12px",
-              width: "90%",
-              maxWidth: "600px",
-              padding: "25px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-              animation: "fadeIn 0.3s ease",
-            }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h2 style={{ color: "#15688b", margin: 0 }}>Order Details</h2>
-              <button
-                onClick={() => setSelectedOrder(null)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  color: "#000000ff",
-                }}
-              >
+            <div className="orders-modal-header">
+              <div>
+                <h2 className="orders-modal-title">Order Details</h2>
+                <p className="orders-modal-subtitle">
+                  Ordered on {formatOrderDateTime(selectedOrder.orderedTime)}
+                </p>
+              </div>
+              <button className="orders-modal-close" onClick={() => setSelectedOrder(null)}>
                 ✕
               </button>
             </div>
 
-            <div style={{ marginTop: "15px", color: "#333" }}>
-              <p>
-                <strong>Customer Name:</strong> {selectedOrder.customerName}
-              </p>
-              <p>
-                <strong>Email:</strong> {selectedOrder.customerEmail || "N/A"}
-              </p>
-              <p>
-                <strong>Phone:</strong> {selectedOrder.customerPhone || "N/A"}
-              </p>
-              <p>
-                <strong>Address:</strong> {selectedOrder.customerAddress || "N/A"}
-              </p>
-              <p>
-                <strong>Order Date:</strong> {selectedOrder.orderedTime.split("T")[0]}
-              </p>
+            <div className="orders-customer-grid">
+              <div className="orders-info-card">
+                <span className="orders-info-label">Customer</span>
+                <span className="orders-info-value">{displayValue(selectedOrder.customerName)}</span>
+              </div>
+              <div className="orders-info-card">
+                <span className="orders-info-label">Email</span>
+                <span className="orders-info-value">{displayValue(selectedOrder.customerEmail)}</span>
+              </div>
+              <div className="orders-info-card">
+                <span className="orders-info-label">Phone</span>
+                <span className="orders-info-value">{displayValue(selectedOrder.customerPhone)}</span>
+              </div>
+              <div className="orders-info-card">
+                <span className="orders-info-label">Address</span>
+                <span className="orders-info-value">{displayValue(selectedOrder.customerAddress)}</span>
+              </div>
             </div>
 
-            <h3 style={{ marginTop: "20px", color: "#15688b" }}>Ordered Items</h3>
-            <div
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "10px",
-                marginTop: "10px",
-                maxHeight: "200px",
-                overflowY: "auto",
-                color: "#333"
-              }}
-            >
-              {selectedOrder.orderItems.map((item: any, i: number) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    borderBottom: "1px solid #eee",
-                    padding: "8px 0",
-                  }}
-                >
-                  <span>{item.productName}</span>
-                  <span>{item.color}</span>
-                  <span>Qty: {item.quantity}</span>
-                </div>
-              ))}
+            <div className="orders-items-panel">
+              <h3 className="orders-items-title">Ordered Items</h3>
+              <div className="orders-items-table-wrap">
+                <table className="orders-items-table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Color</th>
+                      <th>Material</th>
+                      <th>Thickness</th>
+                      <th>Length</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedOrder.orderItems?.length ? (
+                      selectedOrder.orderItems.map((item: any, i: number) => (
+                        <tr key={item.orderItemId || i}>
+                          <td>{displayValue(item.productName)}</td>
+                          <td>
+                            <div className="orders-color-cell">
+                              {isHexColor(item.color) ? (
+                                <span
+                                  className="orders-color-swatch"
+                                  style={{ backgroundColor: item.color }}
+                                  title={item.color}
+                                />
+                              ) : (
+                                <span className="orders-empty-color">-</span>
+                              )}
+                              <span>{displayValue(item.color)}</span>
+                            </div>
+                          </td>
+                          <td>{displayValue(item.material)}</td>
+                          <td>{displayValue(item.thickness)}</td>
+                          <td>{displayValue(item.length)}</td>
+                          <td>{item.quantity || 0}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="orders-empty">No items found.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            <div style={{ textAlign: "center", marginTop: "25px" }}>
-              <button
-                onClick={() => setSelectedOrder(null)}
-                style={{
-                  backgroundColor: "#15688b",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "8px",
-                  padding: "10px 20px",
-                  cursor: "pointer",
-                }}
-              >
+            <div className="orders-modal-footer">
+              <button className="orders-close-btn" onClick={() => setSelectedOrder(null)}>
                 Close
               </button>
             </div>
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
     </div>
   );
 }

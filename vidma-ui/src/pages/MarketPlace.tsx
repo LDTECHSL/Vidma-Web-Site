@@ -256,19 +256,33 @@ export default function MarketPlace() {
       return;
     }
 
+    const uniqueColors = [...new Set(cart.map((item) => (item.color || "").trim()).filter(Boolean))];
+
+    const orderItems = cart
+      .map((item) => ({
+        productId: Number(item.productId || item.id),
+        color: String(item.color || "").trim(),
+        quantity: Number(item.quantity) || 0,
+        material: item.material || null,
+        thickness: item.thickness || null,
+        length: item.length || null,
+      }))
+      .filter((item) => Number.isFinite(item.productId) && item.quantity > 0);
+
+    if (orderItems.length === 0) {
+      showError("Your cart has invalid items. Please re-add products and try again.");
+      return;
+    }
+
     const body = {
       customerDetails: {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        address,
-        color: "",
-        orderItems: cart.map(item => ({
-          productId: item.productId || item.id,
-          quantity: item.quantity,
-          color: item.color,
-        })),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        phoneNumber: phoneNumber.trim(),
+        address: address.trim(),
+        color: uniqueColors.join(","),
+        orderItems,
       },
     };
 
@@ -284,8 +298,15 @@ export default function MarketPlace() {
       setEmail("");
       setPhoneNumber("");
       setAddress("");
-    } catch (error) {
-      showError("❌ Failed to submit order. Please try again.");
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        (Array.isArray(error?.response?.data?.errors) && error.response.data.errors.length > 0
+          ? error.response.data.errors.join(", ")
+          : null) ||
+        error?.response?.data?.title ||
+        "Failed to submit order. Please try again.";
+      showError(errorMessage);
     }
   };
 
