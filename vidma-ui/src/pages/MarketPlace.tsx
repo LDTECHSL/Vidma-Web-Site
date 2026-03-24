@@ -34,6 +34,21 @@ export default function MarketPlace() {
       .map((item) => item.trim())
       .filter((item) => !!item);
 
+  const parseLengthNumber = (value?: string | null) => {
+    const parsed = Number((value || "").trim());
+    return Number.isFinite(parsed) ? parsed : null;
+  };
+
+  const formatLengthTotal = (length?: string | null, quantity?: number) => {
+    const qty = quantity || 0;
+    const lengthNumber = parseLengthNumber(length);
+    if (lengthNumber === null) {
+      return "-";
+    }
+    const total = lengthNumber * qty;
+    return Number.isInteger(total) ? `${total}` : total.toFixed(2);
+  };
+
   // Sticky search bar
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 150);
@@ -209,19 +224,14 @@ export default function MarketPlace() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  const handleQuantityChange = (cartItemId: string, delta: number) => {
-    const updated = cart.map(item =>
-      item.cartItemId === cartItemId
-        ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-        : item
-    );
-    setCart(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
-  };
-
   const handleMakeOrder = () => {
     setShowForm(true);
     setShowCart(false);
+  };
+
+  const handleClearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
   };
 
   const handleSubmitOrder = async () => {
@@ -538,51 +548,107 @@ export default function MarketPlace() {
         {/* 🛒 CART MODAL */}
         {showCart && (
           <div className="modal-overlay" onClick={() => setShowCart(false)}>
-            <div className="cart-modal" onClick={e => e.stopPropagation()}>
-              <h2>My Cart</h2>
+            <div className="cart-modal modern-cart-modal" onClick={e => e.stopPropagation()}>
+              <h2 className="cart-title">
+                <FaShoppingCart />
+                <span>My Cart</span>
+              </h2>
               <button className="modal-close" onClick={() => setShowCart(false)}>✕</button>
 
               {cart.length === 0 ? (
                 <p style={{ textAlign: "center", color: "#888" }}>Your cart is empty.</p>
               ) : (
-                <div className="cart-items">
-                  {cart.map(item => (
-                    <div className="cart-item" key={item.cartItemId || item.id}>
-                      <img src={item.imageUrl.replace("dl=0", "raw=1")} alt={item.productName} className="cart-item-img" />
-                      <div className="cart-item-info">
-                        <h4 style={{ color: "#15688b" }}>{item.productName}</h4>
-                        {item.material && <p style={{ color: "#666" }}>Material: {item.material}</p>}
-                        {item.color && (
-                          <div className="cart-color-row">
-                            <span>Color:</span>
-                            <span
-                              className="cart-color-swatch"
-                              style={{ backgroundColor: item.color }}
-                              title={item.color}
-                              aria-label={`Selected color ${item.color}`}
-                            />
-                          </div>
-                        )}
-                        {item.thickness && <p style={{ color: "#666" }}>Thickness: {item.thickness} mm</p>}
-                        {item.length && <p style={{ color: "#666" }}>Length: {item.length} ft</p>}
-                        <div className="quantity-control small">
-                          <button onClick={() => handleQuantityChange(item.cartItemId || item.id, -1)}><FaMinus /></button>
-                          <span>{item.quantity}</span>
-                          <button onClick={() => handleQuantityChange(item.cartItemId || item.id, 1)}><FaPlus /></button>
+                <div className="modern-cart-groups">
+                  {Object.values(
+                    cart.reduce((acc, item) => {
+                      const groupKey = `${item.productId || item.id}-${item.productName}-${item.material || ""}-${item.color || ""}-${item.thickness || ""}`;
+
+                      if (!acc[groupKey]) {
+                        acc[groupKey] = {
+                          groupKey,
+                          productName: item.productName,
+                          imageUrl: item.imageUrl,
+                          material: item.material || "",
+                          color: item.color || "",
+                          thickness: item.thickness || "",
+                          rows: [],
+                        };
+                      }
+
+                      acc[groupKey].rows.push({
+                        cartItemId: item.cartItemId || item.id,
+                        length: item.length || "",
+                        quantity: item.quantity,
+                      });
+
+                      return acc;
+                    }, {} as Record<string, any>)
+                  ).map((group: any) => (
+                    <div className="modern-cart-group" key={group.groupKey}>
+                      <div className="modern-cart-summary">
+                        <img
+                          src={group.imageUrl.replace("dl=0", "raw=1")}
+                          alt={group.productName}
+                          className="cart-item-img"
+                        />
+                        <div className="cart-item-info">
+                          <h4 className="cart-product-title">{group.productName}</h4>
+                          {group.material && <p className="cart-meta-line">Material: <span className="cart-meta-badge">{group.material}</span></p>}
+                          {group.color && (
+                            <div className="cart-color-row">
+                              <span>Colour:</span>
+                              <span
+                                className="cart-color-swatch"
+                                style={{ backgroundColor: group.color }}
+                                title={group.color}
+                                aria-label={`Selected color ${group.color}`}
+                              />
+                            </div>
+                          )}
+                          {group.thickness && <p className="cart-meta-line">Thickness: {group.thickness} mm</p>}
                         </div>
                       </div>
-                      <button className="remove-btn" onClick={() => handleRemoveFromCart(item.cartItemId || item.id)}>
-                        <FaTrash />
-                      </button>
+
+                      <div className="cart-length-table">
+                        <div className="cart-length-row cart-length-header">
+                          <span>Length</span>
+                          <span>Quantity</span>
+                          <span>Total Length</span>
+                          <span></span>
+                        </div>
+
+                        {group.rows.map((row: any) => (
+                          <div className="cart-length-row" key={row.cartItemId}>
+                            <span>{row.length ? `${row.length} ft` : "-"}</span>
+                            <span>{row.quantity}</span>
+                            <span>{formatLengthTotal(row.length, row.quantity)} {row.length ? "ft" : ""}</span>
+                            <button
+                              className="cart-row-delete"
+                              type="button"
+                              onClick={() => handleRemoveFromCart(row.cartItemId)}
+                              aria-label="Remove row"
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
               )}
 
               {cart.length > 0 && (
-                <button className="make-order-btn" onClick={handleMakeOrder}>
-                  Make Order
-                </button>
+                <div className="cart-footer-actions">
+                  <button className="cart-clear-btn" onClick={handleClearCart}>
+                    <FaTrash />
+                    <span>Remove</span>
+                  </button>
+                  <button className="make-order-btn" onClick={handleMakeOrder}>
+                    <FaShoppingCart />
+                    <span>Make Order</span>
+                  </button>
+                </div>
               )}
             </div>
           </div>
