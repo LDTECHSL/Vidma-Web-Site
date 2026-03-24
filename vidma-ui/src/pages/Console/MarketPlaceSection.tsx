@@ -30,6 +30,12 @@ export default function MarketPlaceSection() {
     const [colorPickerValue, setColorPickerValue] = useState(DEFAULT_MARKETPLACE_COLORS[0]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [isMaterialDropdownOpen, setIsMaterialDropdownOpen] = useState(false);
+    const [thicknessInput, setThicknessInput] = useState("");
+    const [selectedThicknesses, setSelectedThicknesses] = useState<string[]>([]);
+    const [thicknessError, setThicknessError] = useState("");
+    const [lengthInput, setLengthInput] = useState("");
+    const [selectedLengths, setSelectedLengths] = useState<string[]>([]);
+    const [lengthError, setLengthError] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>(null);
     const [products, setProducts] = useState<any[]>([]);
@@ -37,8 +43,6 @@ export default function MarketPlaceSection() {
     const [id, setId] = useState<number>(0);
     const colorInputRef = useRef<HTMLInputElement | null>(null);
     const materialDropdownRef = useRef<HTMLDivElement | null>(null);
-
-    console.log(imageS1Error);
 
     const makeDropHandler = useCallback(
         (setFile: (f: File | null) => void, setError: (s: string | null) => void) => {
@@ -51,6 +55,29 @@ export default function MarketPlaceSection() {
                 // only single file allowed
                 if (!file.type.startsWith("image/")) {
                     setError("Only image files are allowed.");
+                    return;
+                }
+
+                const isSquareImage = await new Promise<boolean>((resolve) => {
+                    const tempImage = new Image();
+                    const tempUrl = URL.createObjectURL(file);
+
+                    tempImage.onload = () => {
+                        const isSquare = tempImage.width === tempImage.height;
+                        URL.revokeObjectURL(tempUrl);
+                        resolve(isSquare);
+                    };
+
+                    tempImage.onerror = () => {
+                        URL.revokeObjectURL(tempUrl);
+                        resolve(false);
+                    };
+
+                    tempImage.src = tempUrl;
+                });
+
+                if (!isSquareImage) {
+                    setError("Only square images are allowed (1:1 ratio).");
                     return;
                 }
 
@@ -116,16 +143,104 @@ export default function MarketPlaceSection() {
         setSelectedMaterials((prev) => prev.filter((item) => item !== material));
     };
 
+    const addThickness = (value: string) => {
+        const normalized = value.trim();
+        const decimalPattern = /^\d*\.?\d+$/;
+
+        if (!normalized) {
+            return;
+        }
+
+        if (!decimalPattern.test(normalized)) {
+            setThicknessError("Only numbers with decimals are allowed.");
+            return;
+        }
+
+        setSelectedThicknesses((prev) => {
+            if (prev.includes(normalized)) {
+                return prev;
+            }
+            return [...prev, normalized];
+        });
+        setThicknessInput("");
+        setThicknessError("");
+    };
+
+    const removeThickness = (value: string) => {
+        setSelectedThicknesses((prev) => prev.filter((item) => item !== value));
+    };
+
+    const handleThicknessInputChange = (value: string) => {
+        if (/^\d*\.?\d*$/.test(value)) {
+            setThicknessInput(value);
+            if (thicknessError) {
+                setThicknessError("");
+            }
+        }
+    };
+
+    const addLength = (value: string) => {
+        const normalized = value.trim();
+        const decimalPattern = /^\d*\.?\d+$/;
+
+        if (!normalized) {
+            return;
+        }
+
+        if (!decimalPattern.test(normalized)) {
+            setLengthError("Only numbers with decimals are allowed.");
+            return;
+        }
+
+        setSelectedLengths((prev) => {
+            if (prev.includes(normalized)) {
+                return prev;
+            }
+            return [...prev, normalized];
+        });
+        setLengthInput("");
+        setLengthError("");
+    };
+
+    const removeLength = (value: string) => {
+        setSelectedLengths((prev) => prev.filter((item) => item !== value));
+    };
+
+    const handleLengthInputChange = (value: string) => {
+        if (/^\d*\.?\d*$/.test(value)) {
+            setLengthInput(value);
+            if (lengthError) {
+                setLengthError("");
+            }
+        }
+    };
+
     const handleSubmit = async () => {
+        const trimmedName = name.trim();
         const colors = selectedColors.join(",");
         const materials = selectedMaterials.join(",");
+        const thicknesses = selectedThicknesses.join(",");
+        const lengths = selectedLengths.join(",");
+
+        if (!trimmedName) {
+            showError("Product name is required.");
+            return;
+        }
+
+        const hasImage = !!imageS1 || !!img;
+        if (!hasImage) {
+            showError("Image is required.");
+            return;
+        }
 
         if (id === 0) {
             const formData = new FormData();
-            formData.append("ProductName", name);
+            formData.append("ProductName", trimmedName);
             formData.append("Description", description);
             formData.append("Color", colors);
             formData.append("Material", materials);
+            formData.append("Thickness", thicknesses);
+            formData.append("Length", lengths);
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -145,10 +260,12 @@ export default function MarketPlaceSection() {
         } else {
             const formData = new FormData();
             formData.append("ProductId", id.toString());
-            formData.append("ProductName", name);
+            formData.append("ProductName", trimmedName);
             formData.append("Description", description);
             formData.append("Color", colors);
             formData.append("Material", materials);
+            formData.append("Thickness", thicknesses);
+            formData.append("Length", lengths);
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -229,6 +346,20 @@ export default function MarketPlaceSection() {
             .map((material: string) => material.trim())
             .filter((material: string) => !!material);
         setSelectedMaterials(productMaterials);
+        const productThicknesses = (product.thickness || "")
+            .split(",")
+            .map((thickness: string) => thickness.trim())
+            .filter((thickness: string) => !!thickness);
+        setSelectedThicknesses(productThicknesses);
+        const productLengths = (product.length || "")
+            .split(",")
+            .map((length: string) => length.trim())
+            .filter((length: string) => !!length);
+        setSelectedLengths(productLengths);
+        setThicknessInput("");
+        setThicknessError("");
+        setLengthInput("");
+        setLengthError("");
         setImg(product.imageUrl);
         setId(product.id);
     }
@@ -369,7 +500,83 @@ export default function MarketPlaceSection() {
                 </div>
 
                 <div className="form-group">
-                    {/* Thickness */}
+                    <label>Thickness (mm)</label>
+                        <input
+                            type="text"
+                            inputMode="decimal"
+                            value={thicknessInput}
+                            onChange={(e) => handleThicknessInputChange(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    addThickness(thicknessInput);
+                                }
+                            }}
+                            placeholder="Type thickness and press Enter"
+                            className="decimal-input-no-spinner"
+                            aria-label="Thickness value"
+                        />
+                    {thicknessError && <div className="thickness-error-text">{thicknessError}</div>}
+
+                    <div className="selected-thicknesses-list">
+                        {selectedThicknesses.length === 0 ? (
+                            <span className="selected-thicknesses-empty">No thickness values added yet</span>
+                        ) : (
+                            selectedThicknesses.map((thickness) => (
+                                <div className="selected-thickness-chip" key={thickness}>
+                                    <span className="selected-thickness-value">{thickness}</span>
+                                    <button
+                                        type="button"
+                                        className="selected-thickness-remove"
+                                        onClick={() => removeThickness(thickness)}
+                                        aria-label={`Remove ${thickness}`}
+                                    >
+                                        x
+                                    </button>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label>Length (ft)</label>
+                    <input
+                        type="text"
+                        inputMode="decimal"
+                        value={lengthInput}
+                        onChange={(e) => handleLengthInputChange(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                addLength(lengthInput);
+                            }
+                        }}
+                        placeholder="Type length and press Enter"
+                        className="decimal-input-no-spinner"
+                        aria-label="Length value"
+                    />
+                    {lengthError && <div className="length-error-text">{lengthError}</div>}
+
+                    <div className="selected-lengths-list">
+                        {selectedLengths.length === 0 ? (
+                            <span className="selected-lengths-empty">No length values added yet</span>
+                        ) : (
+                            selectedLengths.map((length) => (
+                                <div className="selected-length-chip" key={length}>
+                                    <span className="selected-length-value">{length}</span>
+                                    <button
+                                        type="button"
+                                        className="selected-length-remove"
+                                        onClick={() => removeLength(length)}
+                                        aria-label={`Remove ${length}`}
+                                    >
+                                        x
+                                    </button>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
 
                 <div
@@ -424,6 +631,8 @@ export default function MarketPlaceSection() {
                         </div>
                     )}
                 </div>
+
+                {imageS1Error && <div className="error-text">{imageS1Error}</div>}
 
                 <div style={{ marginTop: "10px", color: "red" }}>
                     {

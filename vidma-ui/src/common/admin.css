@@ -524,6 +524,141 @@
   background: #cfddef;
 }
 
+.thickness-input-wrap {
+  margin-top: 4px;
+}
+
+.decimal-input-no-spinner {
+  width: 100%;
+  height: 44px;
+  border: 1px solid #d6e0f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #2e405f;
+  outline: none;
+}
+
+.decimal-input-no-spinner:focus {
+  border-color: #9db8e8;
+  box-shadow: 0 0 0 3px rgba(20, 122, 214, 0.12);
+}
+
+.decimal-input-no-spinner::-webkit-outer-spin-button,
+.decimal-input-no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.decimal-input-no-spinner {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.thickness-error-text {
+  margin-top: 6px;
+  color: #c13838;
+  font-size: 12px;
+}
+
+.selected-thicknesses-list {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selected-thicknesses-empty {
+  color: #657085;
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+.selected-thickness-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d6e0f0;
+  border-radius: 999px;
+  padding: 5px 6px 5px 10px;
+  background: linear-gradient(135deg, #fffdfa 0%, #f6f8ff 100%);
+}
+
+.selected-thickness-value {
+  color: #30415f;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.selected-thickness-remove {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: #dfe9f7;
+  color: #40587a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-thickness-remove:hover {
+  background: #cfddef;
+}
+
+.length-error-text {
+  margin-top: 6px;
+  color: #c13838;
+  font-size: 12px;
+}
+
+.selected-lengths-list {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selected-lengths-empty {
+  color: #657085;
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+.selected-length-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d6e0f0;
+  border-radius: 999px;
+  padding: 5px 6px 5px 10px;
+  background: linear-gradient(135deg, #fffdfa 0%, #f6f8ff 100%);
+}
+
+.selected-length-value {
+  color: #30415f;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.selected-length-remove {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: #dfe9f7;
+  color: #40587a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-length-remove:hover {
+  background: #cfddef;
+}
+
 .social-section {
   margin-top: 15px;
 }
