@@ -377,7 +377,7 @@ export default function MarketPlaceSection() {
             <form className="admin-form">
                 <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
                     <div className="form-group">
-                        <label>Name</label>
+                        <label>Name *</label>
                         <input
                             type="text"
                             value={name}

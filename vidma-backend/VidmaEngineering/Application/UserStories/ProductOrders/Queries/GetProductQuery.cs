@@ -24,7 +24,10 @@ public class GetProductQueryHandler : IRequestHandler<GetProductQuery, List<Prod
                 Id = p.Id,
                 ProductName = p.ProductName,
                 ImageUrl = p.ImageUrl,
-                Color = p.Color
+                Color = p.Color,
+                Material = p.Material,
+                Thickness = p.Thickness,
+                Length = p.Length
             })
             .ToListAsync(cancellationToken);
 
