@@ -371,7 +371,7 @@ export default function MarketPlace() {
         {/* PRODUCT MODAL */}
         {selectedItem && (
           <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-content product-modal" onClick={e => e.stopPropagation()}>
               {(() => {
                 const colorValues = parseCsvValues(selectedItem.color);
                 const materialValues = parseCsvValues(selectedItem.material);
@@ -382,7 +382,6 @@ export default function MarketPlace() {
                   <>
               <button className="modal-close" onClick={closeModal}>✕</button>
               <h2 className="product-modal-title">{selectedItem.productName}</h2>
-
               {materialValues.length > 0 && (
                 <div className="product-option-section">
                   <h4>Material</h4>
