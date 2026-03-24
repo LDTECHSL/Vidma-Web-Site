@@ -8,12 +8,11 @@ namespace Application.UserStories.ProductOrders.Commands;
 public class AddProductCommand : IRequest<Result>
 {
     public required string ProductName { get; set; }
-
-    public string? Description { get; set; }
-
     public IFormFile? Image { get; set; }
-
     public string? Color { get; set; }
+    public string? Material { get; set; }
+    public string? Thickness { get; set; }
+    public string? Length { get; set; }
 }
 
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Result>
@@ -32,11 +31,13 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Resul
         var product = new Domain.Entities.ProductOrders.Product
         {
             ProductName = request.ProductName,
-            Description = request.Description,
             ImageUrl = request.Image != null
                 ? await _dropBoxService.UploadImageAsync(request.Image, "Products")
                 : null,
-            Color = request.Color
+            Color = request.Color,
+            Material = request.Material,
+            Thickness = request.Thickness,
+            Length = request.Length
         };
 
         _context.Product.Add(product);

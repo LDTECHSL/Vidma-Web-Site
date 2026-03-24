@@ -34,7 +34,6 @@ public class GetProductsWIthPaginationQueryHandler : IRequestHandler<GetProducts
             {
                 Id = p.Id,
                 ProductName = p.ProductName,
-                Description = p.Description,
                 ImageUrl = p.ImageUrl,
                 Color = p.Color
             })

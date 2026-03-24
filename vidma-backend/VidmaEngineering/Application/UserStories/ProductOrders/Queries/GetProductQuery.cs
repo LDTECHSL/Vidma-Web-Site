@@ -23,7 +23,6 @@ public class GetProductQueryHandler : IRequestHandler<GetProductQuery, List<Prod
             {
                 Id = p.Id,
                 ProductName = p.ProductName,
-                Description = p.Description,
                 ImageUrl = p.ImageUrl,
                 Color = p.Color
             })

@@ -76,8 +76,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             entity.Property(p => p.ProductName)
                 .IsRequired()
                 .HasMaxLength(500);
-            entity.Property(p => p.Description)
-                .HasMaxLength(1000);
 
             entity.HasMany(p => p.OrderItems)
                 .WithOne(oi => oi.Product)
