@@ -546,7 +546,7 @@
   overflow-y: auto;
   margin: auto;
   border-radius: 16px;
-  padding: 20px;
+  padding: 0 20px 10px 20px;
   position: relative;
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   animation: fadeInUp 0.3s ease;
@@ -598,10 +598,35 @@
 .modern-cart-modal {
   max-width: 860px;
   width: 95%;
+  max-height: 80vh;
   border: 1px solid #dbe4f5;
   border-radius: 20px;
   background: linear-gradient(165deg, #ffffff 0%, #f4f7ff 100%);
   box-shadow: 0 20px 44px rgba(22, 57, 112, 0.22);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-modal-header {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(165deg, #ffffff 0%, #f4f7ff 100%);
+  padding: 20px 0 12px;
+  border-bottom: 1px solid #e3e9f5;
+  margin-bottom: 12px;
+}
+
+.cart-modal-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 2px;
+  padding-bottom: 12px;
 }
 
 .cart-title {
@@ -609,13 +634,20 @@
   align-items: center;
   gap: 10px;
   color: #1f2a3d;
-  margin: 0 0 14px;
+  margin: 0;
   font-size: 1.6rem;
 }
 
 .cart-title svg {
   color: #2b78df;
   font-size: 1.8rem;
+}
+
+.modern-cart-modal .modal-close {
+  position: static;
+  margin-left: auto;
+  color: #6a7488;
+  line-height: 1;
 }
 
 .modern-cart-groups {
@@ -695,13 +727,18 @@
 }
 
 .cart-footer-actions {
-  margin-top: 16px;
+  margin-top: 0;
   display: grid;
   grid-template-columns: 1fr 1.6fr;
   gap: 0;
   border: 1px solid #dbe2ef;
   border-radius: 12px;
   overflow: hidden;
+  position: sticky;
+  bottom: 0;
+  z-index: 7;
+  background: linear-gradient(165deg, #ffffff 0%, #f4f7ff 100%);
+  flex-shrink: 0;
 }
 
 .cart-clear-btn,

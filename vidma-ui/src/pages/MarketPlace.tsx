@@ -549,94 +549,98 @@ export default function MarketPlace() {
         {showCart && (
           <div className="modal-overlay" onClick={() => setShowCart(false)}>
             <div className="cart-modal modern-cart-modal" onClick={e => e.stopPropagation()}>
-              <h2 className="cart-title">
-                <FaShoppingCart />
-                <span>My Cart</span>
-              </h2>
-              <button className="modal-close" onClick={() => setShowCart(false)}>✕</button>
+              <div className="cart-modal-header">
+                <h2 className="cart-title">
+                  <FaShoppingCart />
+                  <span>My Cart</span>
+                </h2>
+                <button className="modal-close" onClick={() => setShowCart(false)}>✕</button>
+              </div>
 
-              {cart.length === 0 ? (
-                <p style={{ textAlign: "center", color: "#888" }}>Your cart is empty.</p>
-              ) : (
-                <div className="modern-cart-groups">
-                  {Object.values(
-                    cart.reduce((acc, item) => {
-                      const groupKey = `${item.productId || item.id}-${item.productName}-${item.material || ""}-${item.color || ""}-${item.thickness || ""}`;
+              <div className="cart-modal-body">
+                {cart.length === 0 ? (
+                  <p style={{ textAlign: "center", color: "#888" }}>Your cart is empty.</p>
+                ) : (
+                  <div className="modern-cart-groups">
+                    {Object.values(
+                      cart.reduce((acc, item) => {
+                        const groupKey = `${item.productId || item.id}-${item.productName}-${item.material || ""}-${item.color || ""}-${item.thickness || ""}`;
 
-                      if (!acc[groupKey]) {
-                        acc[groupKey] = {
-                          groupKey,
-                          productName: item.productName,
-                          imageUrl: item.imageUrl,
-                          material: item.material || "",
-                          color: item.color || "",
-                          thickness: item.thickness || "",
-                          rows: [],
-                        };
-                      }
+                        if (!acc[groupKey]) {
+                          acc[groupKey] = {
+                            groupKey,
+                            productName: item.productName,
+                            imageUrl: item.imageUrl,
+                            material: item.material || "",
+                            color: item.color || "",
+                            thickness: item.thickness || "",
+                            rows: [],
+                          };
+                        }
 
-                      acc[groupKey].rows.push({
-                        cartItemId: item.cartItemId || item.id,
-                        length: item.length || "",
-                        quantity: item.quantity,
-                      });
+                        acc[groupKey].rows.push({
+                          cartItemId: item.cartItemId || item.id,
+                          length: item.length || "",
+                          quantity: item.quantity,
+                        });
 
-                      return acc;
-                    }, {} as Record<string, any>)
-                  ).map((group: any) => (
-                    <div className="modern-cart-group" key={group.groupKey}>
-                      <div className="modern-cart-summary">
-                        <img
-                          src={group.imageUrl.replace("dl=0", "raw=1")}
-                          alt={group.productName}
-                          className="cart-item-img"
-                        />
-                        <div className="cart-item-info">
-                          <h4 className="cart-product-title">{group.productName}</h4>
-                          {group.material && <p className="cart-meta-line">Material: <span className="cart-meta-badge">{group.material}</span></p>}
-                          {group.color && (
-                            <div className="cart-color-row">
-                              <span>Colour:</span>
-                              <span
-                                className="cart-color-swatch"
-                                style={{ backgroundColor: group.color }}
-                                title={group.color}
-                                aria-label={`Selected color ${group.color}`}
-                              />
-                            </div>
-                          )}
-                          {group.thickness && <p className="cart-meta-line">Thickness: {group.thickness} mm</p>}
-                        </div>
-                      </div>
-
-                      <div className="cart-length-table">
-                        <div className="cart-length-row cart-length-header">
-                          <span>Length</span>
-                          <span>Quantity</span>
-                          <span>Total Length</span>
-                          <span></span>
-                        </div>
-
-                        {group.rows.map((row: any) => (
-                          <div className="cart-length-row" key={row.cartItemId}>
-                            <span>{row.length ? `${row.length} ft` : "-"}</span>
-                            <span>{row.quantity}</span>
-                            <span>{formatLengthTotal(row.length, row.quantity)} {row.length ? "ft" : ""}</span>
-                            <button
-                              className="cart-row-delete"
-                              type="button"
-                              onClick={() => handleRemoveFromCart(row.cartItemId)}
-                              aria-label="Remove row"
-                            >
-                              <FaTrash />
-                            </button>
+                        return acc;
+                      }, {} as Record<string, any>)
+                    ).map((group: any) => (
+                      <div className="modern-cart-group" key={group.groupKey}>
+                        <div className="modern-cart-summary">
+                          <img
+                            src={group.imageUrl.replace("dl=0", "raw=1")}
+                            alt={group.productName}
+                            className="cart-item-img"
+                          />
+                          <div className="cart-item-info">
+                            <h4 className="cart-product-title">{group.productName}</h4>
+                            {group.material && <p className="cart-meta-line">Material: <span className="cart-meta-badge">{group.material}</span></p>}
+                            {group.color && (
+                              <div className="cart-color-row">
+                                <span>Colour:</span>
+                                <span
+                                  className="cart-color-swatch"
+                                  style={{ backgroundColor: group.color }}
+                                  title={group.color}
+                                  aria-label={`Selected color ${group.color}`}
+                                />
+                              </div>
+                            )}
+                            {group.thickness && <p className="cart-meta-line">Thickness: {group.thickness} mm</p>}
                           </div>
-                        ))}
+                        </div>
+
+                        <div className="cart-length-table">
+                          <div className="cart-length-row cart-length-header">
+                            <span>Length</span>
+                            <span>Quantity</span>
+                            <span>Total Length</span>
+                            <span></span>
+                          </div>
+
+                          {group.rows.map((row: any) => (
+                            <div className="cart-length-row" key={row.cartItemId}>
+                              <span>{row.length ? `${row.length} ft` : "-"}</span>
+                              <span>{row.quantity}</span>
+                              <span>{formatLengthTotal(row.length, row.quantity)} {row.length ? "ft" : ""}</span>
+                              <button
+                                className="cart-row-delete"
+                                type="button"
+                                onClick={() => handleRemoveFromCart(row.cartItemId)}
+                                aria-label="Remove row"
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {cart.length > 0 && (
                 <div className="cart-footer-actions">
