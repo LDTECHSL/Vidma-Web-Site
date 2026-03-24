@@ -1,22 +1,39 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { addProduct, deleteProduct, getAllProducts, updateProduct } from "../../services/home-api";
 import { showError, showSuccess } from "../../components/Toast";
 
+const DEFAULT_MARKETPLACE_COLORS = [
+    "#7e2b4a",
+    "#ef3d2f",
+    "#6f2d33",
+    "#ead29a",
+    "#2f3138",
+    "#868b60",
+    "#2e6b54",
+    "#2f4fa3",
+    "#0d7f8a",
+    "#ffffff",
+    "#c7c1c1",
+    "#8f939b"
+];
+
 export default function MarketPlaceSection() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [colors, setColors] = useState("");
+    const [selectedColors, setSelectedColors] = useState<string[]>(DEFAULT_MARKETPLACE_COLORS);
+    const [colorPickerValue, setColorPickerValue] = useState(DEFAULT_MARKETPLACE_COLORS[0]);
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>(null);
     const [products, setProducts] = useState<any[]>([]);
     const [img, setImg] = useState<string>("");
     const [id, setId] = useState<number>(0);
+    const colorInputRef = useRef<HTMLInputElement | null>(null);
 
-    console.log(imageS1Error);    
+    console.log(imageS1Error);
 
     const makeDropHandler = useCallback(
         (setFile: (f: File | null) => void, setError: (s: string | null) => void) => {
@@ -61,7 +78,28 @@ export default function MarketPlaceSection() {
 
     const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
+    const normalizeColorHex = (value: string) => value.trim().toLowerCase();
+
+    const addColor = (value: string) => {
+        const normalized = normalizeColorHex(value);
+        if (!normalized) {
+            return;
+        }
+
+        setSelectedColors((prev) => {
+            if (prev.includes(normalized)) {
+                return prev;
+            }
+            return [...prev, normalized];
+        });
+    };
+
+    const removeColor = (value: string) => {
+        setSelectedColors((prev) => prev.filter((color) => color !== value));
+    };
+
     const handleSubmit = async () => {
+        const colors = selectedColors.join(",");
 
         if (id === 0) {
             const formData = new FormData();
@@ -113,7 +151,7 @@ export default function MarketPlaceSection() {
         if (!window.confirm("Are you sure you want to delete this product?")) {
             return;
         }
-        
+
         setOpen(true);
         try {
             await deleteProduct(id.toString(), token);
@@ -144,7 +182,14 @@ export default function MarketPlaceSection() {
     const rowClick = (product: any) => {
         setName(product.productName);
         setDescription(product.description);
-        setColors(product.color);
+        const productColors = (product.color || "")
+            .split(",")
+            .map((color: string) => normalizeColorHex(color))
+            .filter((color: string) => !!color);
+        setSelectedColors(productColors);
+        if (productColors.length > 0) {
+            setColorPickerValue(productColors[0]);
+        }
         setImg(product.imageUrl);
         setId(product.id);
     }
@@ -170,25 +215,62 @@ export default function MarketPlaceSection() {
                             placeholder="Enter name"
                         />
                     </div>
+                </div>
 
-                    <div className="form-group">
-                        <label>Colors</label>
-                        <input
-                            type="text"
-                            value={colors}
-                            onChange={(e) => setColors(e.target.value)}
-                            placeholder="Enter colors"
-                        />
+                <div className="form-group">
+                    <label>Colors</label>
+                    <div className="multi-color-picker">
+                        <div className="multi-color-picker-controls">
+                            <input
+                                type="color"
+                                ref={colorInputRef}
+                                value={colorPickerValue}
+                                onChange={(e) => setColorPickerValue(normalizeColorHex(e.target.value))}
+                                className="hidden-color-input"
+                                aria-label="Pick color"
+                            />
+                            <button
+                                type="button"
+                                className="color-picker-trigger"
+                                onClick={() => colorInputRef.current?.click()}
+                                aria-label="Open color picker"
+                            >
+                                <span className="picker-current-color" style={{ backgroundColor: colorPickerValue }} />
+                                <span className="picker-icon">🎨</span>
+                            </button>
+                            <button
+                                type="button"
+                                className="add-color-btn"
+                                onClick={() => addColor(colorPickerValue)}
+                                aria-label="Add selected color"
+                            >
+                                +
+                            </button>
+                        </div>
+
+                        <div className="selected-colors-list">
+                            {selectedColors.length === 0 ? (
+                                <span className="selected-colors-empty">No colors selected yet</span>
+                            ) : (
+                                selectedColors.map((color) => (
+                                    <div className="selected-color-chip" key={color}>
+                                        <span className="selected-color-swatch" style={{ backgroundColor: color }} />
+                                        <span className="selected-color-value">{color.toUpperCase()}</span>
+                                        <button
+                                            type="button"
+                                            className="selected-color-remove"
+                                            onClick={() => removeColor(color)}
+                                            aria-label={`Remove ${color}`}
+                                        >
+                                            x
+                                        </button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className="form-group">
-                    <label>Description</label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter description"
-                    />
-                </div>
+
                 <div
                     className="dropzone"
                     onDragOver={onDragOver}
