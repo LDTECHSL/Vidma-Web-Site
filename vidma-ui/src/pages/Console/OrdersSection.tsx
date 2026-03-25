@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import "../../common/admin.css";
 import BreadCrumb from "../../layouts/BreadCrumb";
-import { getOrders } from "../../services/home-api";
+import { deleteOrderCommand, getOrders } from "../../services/home-api";
+import { showError, showSuccess } from "../../components/Toast";
 
 export default function OrdersSection() {
   const [orders, setOrders] = useState<any[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const token = sessionStorage.getItem("vidmaAuthToken") || "";
 
   const handleGetOrders = async () => {
@@ -35,6 +38,42 @@ export default function OrdersSection() {
     return normalized ? normalized : "N/A";
   };
 
+  const openDeleteDialog = (order: any) => {
+    setDeleteTarget(order);
+  };
+
+  const closeDeleteDialog = () => {
+    if (isDeleting) return;
+    setDeleteTarget(null);
+  };
+
+  const handleDeleteOrder = async () => {
+    if (!deleteTarget?.customerId) {
+      showError("Invalid order selected.");
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      await deleteOrderCommand(deleteTarget.customerId, token);
+
+      setOrders((prev) => prev.filter((order) => order.customerId !== deleteTarget.customerId));
+      if (selectedOrder?.customerId === deleteTarget.customerId) {
+        setSelectedOrder(null);
+      }
+      setDeleteTarget(null);
+      showSuccess("Order deleted successfully.");
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.title ||
+        "Failed to delete order.";
+      showError(errorMessage);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="orders-section">
       <BreadCrumb title="Orders" />
@@ -47,12 +86,13 @@ export default function OrdersSection() {
               <th>Customer Name</th>
               <th>Ordered Items</th>
               <th>Ordered Time</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td colSpan={4} className="orders-empty">
+                <td colSpan={5} className="orders-empty">
                   No orders found.
                 </td>
               </tr>
@@ -67,6 +107,18 @@ export default function OrdersSection() {
                   <td>{displayValue(order.customerName)}</td>
                   <td>{order.orderItems?.length || 0}</td>
                   <td>{formatOrderDateTime(order.orderedTime)}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="orders-delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDeleteDialog(order);
+                      }}
+                    >
+                      Complete Order
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
@@ -166,6 +218,25 @@ export default function OrdersSection() {
             <div className="orders-modal-footer">
               <button className="orders-close-btn" onClick={() => setSelectedOrder(null)}>
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteTarget && (
+        <div className="orders-confirm-overlay" onClick={closeDeleteDialog}>
+          <div className="orders-confirm-dialog" onClick={(e) => e.stopPropagation()}>
+            <h3>Warning</h3>
+            <p>
+              Are you sure? Once you complete this record, it will be permanently deleted.
+            </p>
+            <div className="orders-confirm-actions">
+              <button type="button" className="orders-cancel-btn" onClick={closeDeleteDialog} disabled={isDeleting}>
+                No
+              </button>
+              <button type="button" className="orders-confirm-delete-btn" onClick={handleDeleteOrder} disabled={isDeleting}>
+                {isDeleting ? "Deleting..." : "Yes, Delete"}
               </button>
             </div>
           </div>

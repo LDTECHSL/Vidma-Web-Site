@@ -868,6 +868,22 @@ th {
   font-size: 0.9rem;
 }
 
+.orders-delete-btn {
+  border: none;
+  border-radius: 8px;
+  height: 32px;
+  padding: 0 12px;
+  background: #fff0f0;
+  color: #bf2a2a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.orders-delete-btn:hover {
+  background: #ffe0e0;
+}
+
 .orders-table-row {
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -1049,6 +1065,73 @@ th {
 
 .orders-close-btn:hover {
   filter: brightness(1.05);
+}
+
+.orders-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  background: rgba(12, 21, 34, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.orders-confirm-dialog {
+  width: min(460px, 100%);
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #ead4d4;
+  box-shadow: 0 20px 46px rgba(32, 13, 13, 0.22);
+  padding: 18px;
+}
+
+.orders-confirm-dialog h3 {
+  margin: 0;
+  color: #b23636;
+  font-size: 1.05rem;
+}
+
+.orders-confirm-dialog p {
+  margin: 10px 0 0;
+  color: #4b586d;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.orders-confirm-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.orders-cancel-btn,
+.orders-confirm-delete-btn {
+  border: none;
+  border-radius: 9px;
+  height: 36px;
+  padding: 0 14px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.orders-cancel-btn {
+  background: #edf2f8;
+  color: #435673;
+}
+
+.orders-confirm-delete-btn {
+  background: linear-gradient(135deg, #c84040, #a92f2f);
+  color: #ffffff;
+}
+
+.orders-cancel-btn:disabled,
+.orders-confirm-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @keyframes ordersFadeUp {
