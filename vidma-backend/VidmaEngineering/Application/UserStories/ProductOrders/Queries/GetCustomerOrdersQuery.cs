@@ -20,6 +20,7 @@ public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQu
     public async Task<List<CustomerOrders>> Handle(GetCustomerOrdersQuery request, CancellationToken cancellationToken)
     {
         var customers = await _context.Customer
+            .OrderByDescending(c => c.OrderedTime)
             .Select(c => new CustomerOrders
             {
                 CustomerId = c.Id,

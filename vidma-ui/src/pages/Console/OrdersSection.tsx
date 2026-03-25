@@ -62,12 +62,12 @@ export default function OrdersSection() {
         setSelectedOrder(null);
       }
       setDeleteTarget(null);
-      showSuccess("Order deleted successfully.");
+      showSuccess("Order Completed successfully.");
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message ||
         error?.response?.data?.title ||
-        "Failed to delete order.";
+        "Failed to complete order.";
       showError(errorMessage);
     } finally {
       setIsDeleting(false);
