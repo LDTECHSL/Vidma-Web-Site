@@ -26,22 +26,15 @@ public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCust
             return Result.Failure("Invalid request payload.");
 
         var cd = request.CustomerDetails;
+        var requestedItems = cd.OrderItems?.Where(oi => oi.Quantity > 0).ToList() ?? new List<OrderItems>();
 
         if (string.IsNullOrWhiteSpace(cd.FirstName) && string.IsNullOrWhiteSpace(cd.LastName))
             return Result.Failure("Customer name is required.");
 
-        if (!cd.OrderItems.Any())
+        if (!requestedItems.Any())
             return Result.Failure("At least one order item must be provided.");
 
-        if (cd.OrderItems.Any(oi => oi.Quantity <= 0))
-            return Result.Failure("All order items must have a quantity greater than zero.");
-
-        var groupedItems = cd.OrderItems
-            .GroupBy(oi => oi.ProductId)
-            .Select(g => new { ProductId = g.Key, Quantity = g.Sum(x => x.Quantity) })
-            .ToList();
-
-        var productIds = groupedItems.Select(g => g.ProductId).Distinct().ToList();
+        var productIds = requestedItems.Select(g => g.ProductId).Distinct().ToList();
         var existingProductIds = await _context.Product
             .Where(p => productIds.Contains(p.Id))
             .Select(p => p.Id)
@@ -61,11 +54,14 @@ public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCust
            
         };
 
-        var items = groupedItems.Select(gi => new OrderItem
+        var items = requestedItems.Select(oi => new OrderItem
         {
-            ProductId = gi.ProductId,
-            Quantity = gi.Quantity,
-            Color = cd.OrderItems.Where(oi => oi.ProductId == gi.ProductId && oi.Quantity == gi.Quantity).Select(oi => oi.Color).FirstOrDefault()
+            ProductId = oi.ProductId,
+            Quantity = oi.Quantity,
+            Color = oi.Color ?? string.Empty,
+            Material = oi.Material,
+            Thickness = oi.Thickness,
+            Length = oi.Length,
         }).ToList();
 
         customer.OrderItems = items;
@@ -105,4 +101,8 @@ public class OrderItems
     public string? Color { get; set; }
 
     public int Quantity { get; set; }
+    
+    public string? Material { get; set; }
+    public string? Thickness { get; set; }
+    public string? Length { get; set; }
 }

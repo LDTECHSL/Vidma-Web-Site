@@ -30,14 +30,15 @@ public class SearchProductsQueryHandler : IRequestHandler<SearchProductsQuery, L
         var lowerQuery = request.Query.Trim().ToLowerInvariant();
 
         var products = await _context.Product
-            .Where(p => p.ProductName.ToLower().Contains(lowerQuery)
-                        || (p.Description != null && p.Description.ToLower().Contains(lowerQuery)))
+            .Where(p => p.ProductName.ToLower().Contains(lowerQuery))
             .Select(p => new Products
             {
                 ProductName = p.ProductName,
-                Description = p.Description,
                 ImageUrl = p.ImageUrl,
-                Color = p.Color
+                Color = p.Color,
+                Material = p.Material,
+                Thickness = p.Thickness,
+                Length = p.Length
             })
             .ToListAsync(cancellationToken);
 

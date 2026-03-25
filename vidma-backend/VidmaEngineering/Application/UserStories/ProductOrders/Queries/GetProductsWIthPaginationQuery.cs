@@ -34,9 +34,11 @@ public class GetProductsWIthPaginationQueryHandler : IRequestHandler<GetProducts
             {
                 Id = p.Id,
                 ProductName = p.ProductName,
-                Description = p.Description,
                 ImageUrl = p.ImageUrl,
-                Color = p.Color
+                Color = p.Color,
+                Material = p.Material,
+                Thickness = p.Thickness,
+                Length = p.Length
             })
             .ToListAsync(cancellationToken);
 
@@ -55,12 +57,11 @@ public class Products
 {
     public int Id { get; set; }             
     public required string ProductName { get; set; }
-    
-    public string? Description { get; set; }
-
     public string? ImageUrl { get; set; }
-
     public string? Color { get; set; }
+    public string? Material { get; set; }
+    public string? Thickness { get; set; }
+    public string? Length { get; set; }
 }
 
 public class PaginatedProducts

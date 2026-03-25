@@ -10,14 +10,12 @@ namespace Application.UserStories.ProductOrders.Commands;
 public class UpdateProductCommand : IRequest<Result>
 {
     public int ProductId { get; set; }
-    
     public required string ProductName { get; set; }
-
-    public string? Description { get; set; }
-
     public IFormFile? Image { get; set; }
-
     public string? Color { get; set; }
+    public string? Material { get; set; }
+    public string? Thickness { get; set; }
+    public string? Length { get; set; }
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>
@@ -41,14 +39,12 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         
         
         existProduct.ProductName = request.ProductName;
-        existProduct.Description = request.Description;
         existProduct.Color = request.Color;
+        existProduct.Material = request.Material;
+        existProduct.Thickness = request.Thickness;
+        existProduct.Length = request.Length;
         if (request.Image != null)
         {
-            // if (!string.IsNullOrEmpty(existProduct.ImageUrl))
-            // {
-            //     await _dropBoxService.DeleteImageAsync(existProduct.ImageUrl);
-            // }
             existProduct.ImageUrl = await _dropBoxService.UploadImageAsync(request.Image, "Products");
         }
         

@@ -614,6 +614,19 @@ export const getOrders = async (token: string) => {
   }
 };
 
+export const deleteOrderCommand = async (customerId: number, token: string) => {
+  try {
+    const response = await axios.delete(`${api_url}products/delete-order?customerId=${customerId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDomainInfo = async () => {
   try {
     const response = await axios.get(`${api_url}footer`);

@@ -15,6 +15,12 @@ public class OrderItem
     public int Quantity { get; set; }
 
     public string Color { get; set; }
+    
+    public string? Material { get; set; }
+    
+    public string? Thickness { get; set; }
+    
+    public string? Length { get; set; }
 
     // FK to Customer
     public int CustomerId { get; set; }

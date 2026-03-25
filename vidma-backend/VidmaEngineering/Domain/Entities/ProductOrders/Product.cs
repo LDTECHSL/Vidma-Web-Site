@@ -9,13 +9,15 @@ public class Product
     public int Id { get; set; }
     [MaxLength(500)]                    
     public required string ProductName { get; set; }
-    
-    [MaxLength(1000)]
-    public string? Description { get; set; }
-
     public string? ImageUrl { get; set; }
 
     public string? Color { get; set; }
+    
+    public string? Material { get; set; }
+    
+    public string? Thickness { get; set; }
+    
+    public string? Length { get; set; }
     
     public ICollection<OrderItem>? OrderItems { get; set; }
     

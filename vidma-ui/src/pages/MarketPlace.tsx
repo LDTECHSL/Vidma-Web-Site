@@ -10,6 +10,9 @@ export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [quantity, setQuantity] = useState(0);
+  const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
+  const [selectedThickness, setSelectedThickness] = useState<string | null>(null);
+  const [lengthQuantities, setLengthQuantities] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState<any[]>([]);
@@ -24,6 +27,27 @@ export default function MarketPlace() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+
+  const parseCsvValues = (value?: string | null) =>
+    (value || "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => !!item);
+
+  const parseLengthNumber = (value?: string | null) => {
+    const parsed = Number((value || "").trim());
+    return Number.isFinite(parsed) ? parsed : null;
+  };
+
+  const formatLengthTotal = (length?: string | null, quantity?: number) => {
+    const qty = quantity || 0;
+    const lengthNumber = parseLengthNumber(length);
+    if (lengthNumber === null) {
+      return "-";
+    }
+    const total = lengthNumber * qty;
+    return Number.isInteger(total) ? `${total}` : total.toFixed(2);
+  };
 
   // Sticky search bar
   useEffect(() => {
@@ -45,13 +69,38 @@ export default function MarketPlace() {
   }, []);
 
   const openModal = (item: any) => {
+    const lengths = parseCsvValues(item.length);
+    const initialLengthQuantities = lengths.reduce((acc, len) => {
+      acc[len] = 0;
+      return acc;
+    }, {} as Record<string, number>);
+
     setSelectedItem(item);
     setQuantity(0);
+    setSelectedColor(null);
+    setSelectedMaterial(null);
+    setSelectedThickness(null);
+    setLengthQuantities(initialLengthQuantities);
   };
-  const closeModal = () => setSelectedItem(null);
+
+  const closeModal = () => {
+    setSelectedItem(null);
+    setSelectedColor(null);
+    setSelectedMaterial(null);
+    setSelectedThickness(null);
+    setLengthQuantities({});
+    setQuantity(0);
+  };
 
   const increaseQty = () => setQuantity(q => q + 1);
   const decreaseQty = () => setQuantity(q => (q > 0 ? q - 1 : 0));
+
+  const updateLengthQty = (length: string, delta: number) => {
+    setLengthQuantities((prev) => ({
+      ...prev,
+      [length]: Math.max(0, (prev[length] || 0) + delta),
+    }));
+  };
 
   const handleGetProducts = async () => {
     try {
@@ -89,39 +138,79 @@ export default function MarketPlace() {
   }, [currentPage]);
 
   const handleAddToCart = () => {
+    const hasColorOptions = parseCsvValues(selectedItem?.color).length > 0;
+    const materialValues = parseCsvValues(selectedItem?.material);
+    const thicknessValues = parseCsvValues(selectedItem?.thickness);
+    const lengthValues = parseCsvValues(selectedItem?.length);
+    const hasLengthOptions = lengthValues.length > 0;
 
-    if (quantity === 0) {
-      showError("Please select a quantity greater than 0.");
+    if (materialValues.length > 0 && !selectedMaterial) {
+      showError("Please select a material.");
       return;
     }
 
-    if (!selectedColor) {
+    if (hasColorOptions && !selectedColor) {
       showError("Please select a color.");
       return;
     }
 
-    const newCartItem = {
-      id: selectedItem.id || new Date().getTime(),
-      productName: selectedItem.productName,
-      description: selectedItem.description,
-      imageUrl: selectedItem.imageUrl,
-      color: selectedColor,
-      quantity,
-    };
-
-    const existingIndex = cart.findIndex(
-      (item) =>
-        item.productName === newCartItem.productName &&
-        item.color === newCartItem.color
-    );
-
-    let updatedCart;
-    if (existingIndex >= 0) {
-      updatedCart = [...cart];
-      updatedCart[existingIndex].quantity += quantity;
-    } else {
-      updatedCart = [...cart, newCartItem];
+    if (thicknessValues.length > 0 && !selectedThickness) {
+      showError("Please select a thickness.");
+      return;
     }
+
+    if (hasLengthOptions) {
+      const totalSelectedQty = lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0);
+      if (totalSelectedQty === 0) {
+        showError("Please add quantity for at least one length.");
+        return;
+      }
+    } else if (quantity === 0) {
+      showError("Please select a quantity greater than 0.");
+      return;
+    }
+
+    const itemsToAdd = hasLengthOptions
+      ? lengthValues
+          .filter((len) => (lengthQuantities[len] || 0) > 0)
+          .map((len) => ({
+            cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-${len}`,
+            id: selectedItem.id,
+            productId: selectedItem.id,
+            productName: selectedItem.productName,
+            description: selectedItem.description,
+            imageUrl: selectedItem.imageUrl,
+            material: selectedMaterial || "",
+            color: selectedColor || "",
+            thickness: selectedThickness || "",
+            length: len,
+            quantity: lengthQuantities[len],
+          }))
+      : [
+          {
+            cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-none`,
+            id: selectedItem.id,
+            productId: selectedItem.id,
+            productName: selectedItem.productName,
+            description: selectedItem.description,
+            imageUrl: selectedItem.imageUrl,
+            material: selectedMaterial || "",
+            color: selectedColor || "",
+            thickness: selectedThickness || "",
+            length: "",
+            quantity,
+          },
+        ];
+
+    const updatedCart = [...cart];
+    itemsToAdd.forEach((newCartItem) => {
+      const existingIndex = updatedCart.findIndex((item) => item.cartItemId === newCartItem.cartItemId);
+      if (existingIndex >= 0) {
+        updatedCart[existingIndex].quantity += newCartItem.quantity;
+      } else {
+        updatedCart.push(newCartItem);
+      }
+    });
 
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -129,18 +218,8 @@ export default function MarketPlace() {
     closeModal();
   };
 
-  const handleRemoveFromCart = (id: number) => {
-    const updated = cart.filter(item => item.id !== id);
-    setCart(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
-  };
-
-  const handleQuantityChange = (id: number, delta: number) => {
-    const updated = cart.map(item =>
-      item.id === id
-        ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-        : item
-    );
+  const handleRemoveFromCart = (cartItemId: string) => {
+    const updated = cart.filter(item => item.cartItemId !== cartItemId);
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
   };
@@ -148,6 +227,11 @@ export default function MarketPlace() {
   const handleMakeOrder = () => {
     setShowForm(true);
     setShowCart(false);
+  };
+
+  const handleClearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
   };
 
   const handleSubmitOrder = async () => {
@@ -172,19 +256,33 @@ export default function MarketPlace() {
       return;
     }
 
+    const uniqueColors = [...new Set(cart.map((item) => (item.color || "").trim()).filter(Boolean))];
+
+    const orderItems = cart
+      .map((item) => ({
+        productId: Number(item.productId || item.id),
+        color: String(item.color || "").trim(),
+        quantity: Number(item.quantity) || 0,
+        material: item.material || null,
+        thickness: item.thickness || null,
+        length: item.length || null,
+      }))
+      .filter((item) => Number.isFinite(item.productId) && item.quantity > 0);
+
+    if (orderItems.length === 0) {
+      showError("Your cart has invalid items. Please re-add products and try again.");
+      return;
+    }
+
     const body = {
       customerDetails: {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        address,
-        color: "",
-        orderItems: cart.map(item => ({
-          productId: item.id,
-          quantity: item.quantity,
-          color: item.color,
-        })),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        phoneNumber: phoneNumber.trim(),
+        address: address.trim(),
+        color: uniqueColors.join(","),
+        orderItems,
       },
     };
 
@@ -200,8 +298,15 @@ export default function MarketPlace() {
       setEmail("");
       setPhoneNumber("");
       setAddress("");
-    } catch (error) {
-      showError("❌ Failed to submit order. Please try again.");
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        (Array.isArray(error?.response?.data?.errors) && error.response.data.errors.length > 0
+          ? error.response.data.errors.join(", ")
+          : null) ||
+        error?.response?.data?.title ||
+        "Failed to submit order. Please try again.";
+      showError(errorMessage);
     }
   };
 
@@ -297,54 +402,116 @@ export default function MarketPlace() {
         {/* PRODUCT MODAL */}
         {selectedItem && (
           <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <button className="modal-close" onClick={() => {
-                closeModal(); setSelectedColor(null);
-              }}>✕</button>
-              <img
-                src={selectedItem.imageUrl.replace("dl=0", "raw=1")}
-                alt={selectedItem.productName}
-                className="modal-image"
-              />
-              <h2 style={{ color: "#15688b" }}>{selectedItem.productName}</h2>
-              <p style={{ color: "grey" }}>{selectedItem.description}</p>
+            <div className="modal-content product-modal" onClick={e => e.stopPropagation()}>
+              {(() => {
+                const colorValues = parseCsvValues(selectedItem.color);
+                const materialValues = parseCsvValues(selectedItem.material);
+                const thicknessValues = parseCsvValues(selectedItem.thickness);
+                const lengthValues = parseCsvValues(selectedItem.length);
 
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", margin: "10px 0" }}>
-                {selectedItem.color?.split(",").map((clr: string, index: number) => {
-                  const colorValue = clr.trim();
-                  return (
-                    <div
-                      key={index}
-                      title={colorValue}
-                      onClick={() => setSelectedColor(colorValue)}
-                      style={{
-                        backgroundColor: colorValue,
-                        width: selectedColor === colorValue ? "30px" : "25px",
-                        height: selectedColor === colorValue ? "30px" : "25px",
-                        borderRadius: "4px",
-                        border: selectedColor === colorValue ? "3px solid #15688b" : "1px solid #ccc",
-                        cursor: "pointer",
-                        transition: "0.2s",
-                      }}
-                    ></div>
-                  );
-                })}
+                return (
+                  <>
+              <div className="product-modal-header">
+                <h2 className="product-modal-title">{selectedItem.productName}</h2>
+                <button className="modal-close" onClick={closeModal}>✕</button>
               </div>
+              {materialValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Material</h4>
+                  <div className="option-chip-list">
+                    {materialValues.map((material) => (
+                      <button
+                        key={material}
+                        type="button"
+                        className={`option-chip option-chip-btn ${selectedMaterial === material ? "active" : ""}`}
+                        onClick={() => setSelectedMaterial(material)}
+                      >
+                        {material}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-              <div className="quantity-control">
-                <button onClick={decreaseQty}><FaMinus /></button>
-                <span>{quantity}</span>
-                <button onClick={increaseQty}><FaPlus /></button>
-              </div>
+              {colorValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Colour</h4>
+                  <div className="color-dot-list">
+                    {colorValues.map((colorValue, index) => (
+                      <button
+                        key={`${colorValue}-${index}`}
+                        type="button"
+                        className={`color-dot-btn ${selectedColor === colorValue ? "active" : ""}`}
+                        style={{ backgroundColor: colorValue }}
+                        onClick={() => setSelectedColor(colorValue)}
+                        title={colorValue}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {thicknessValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Thickness (mm)</h4>
+                  <div className="option-chip-list">
+                    {thicknessValues.map((thickness) => (
+                      <button
+                        key={thickness}
+                        type="button"
+                        className={`option-chip option-chip-btn ${selectedThickness === thickness ? "active" : ""}`}
+                        onClick={() => setSelectedThickness(thickness)}
+                      >
+                        {thickness}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {lengthValues.length > 0 && (
+                <div className="product-option-section">
+                  <h4>Length (ft)</h4>
+                  <div className="length-qty-list">
+                    {lengthValues.map((length) => (
+                      <div key={length} className="length-qty-row">
+                        <span className="option-chip">{length}</span>
+                        <div className="quantity-control small length-qty-control">
+                          <button type="button" onClick={() => updateLengthQty(length, -1)}><FaMinus /></button>
+                          <span>{lengthQuantities[length] || 0}</span>
+                          <button type="button" onClick={() => updateLengthQty(length, 1)}><FaPlus /></button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {lengthValues.length === 0 && (
+                <div className="quantity-control">
+                  <button onClick={decreaseQty}><FaMinus /></button>
+                  <span>{quantity}</span>
+                  <button onClick={increaseQty}><FaPlus /></button>
+                </div>
+              )}
 
               <button
-                className={`add-to-cart-btn ${quantity > 0 ? "enabled" : "disabled"}`}
-                disabled={quantity === 0}
+                className={`add-to-cart-btn ${(lengthValues.length > 0
+                  ? lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0) > 0
+                  : quantity > 0)
+                  ? "enabled"
+                  : "disabled"}`}
+                disabled={lengthValues.length > 0
+                  ? lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0) === 0
+                  : quantity === 0}
                 onClick={handleAddToCart}
               >
                 <FaShoppingCart />
                 <span>Add to Cart</span>
               </button>
+                  </>
+                );
+              })()}
             </div>
           </div>
         )}
@@ -402,38 +569,111 @@ export default function MarketPlace() {
         {/* 🛒 CART MODAL */}
         {showCart && (
           <div className="modal-overlay" onClick={() => setShowCart(false)}>
-            <div className="cart-modal" onClick={e => e.stopPropagation()}>
-              <h2>My Cart</h2>
-              <button className="modal-close" onClick={() => setShowCart(false)}>✕</button>
+            <div className="cart-modal modern-cart-modal" onClick={e => e.stopPropagation()}>
+              <div className="cart-modal-header">
+                <h2 className="cart-title">
+                  <FaShoppingCart />
+                  <span>My Cart</span>
+                </h2>
+                <button className="modal-close" onClick={() => setShowCart(false)}>✕</button>
+              </div>
 
-              {cart.length === 0 ? (
-                <p style={{ textAlign: "center", color: "#888" }}>Your cart is empty.</p>
-              ) : (
-                <div className="cart-items">
-                  {cart.map(item => (
-                    <div className="cart-item" key={item.id}>
-                      <img src={item.imageUrl.replace("dl=0", "raw=1")} alt={item.productName} className="cart-item-img" />
-                      <div className="cart-item-info">
-                        <h4 style={{ color: "#15688b" }}>{item.productName}</h4>
-                        <p style={{ color: "#666" }}>Color: {item.color}</p>
-                        <div className="quantity-control small">
-                          <button onClick={() => handleQuantityChange(item.id, -1)}><FaMinus /></button>
-                          <span>{item.quantity}</span>
-                          <button onClick={() => handleQuantityChange(item.id, 1)}><FaPlus /></button>
+              <div className="cart-modal-body">
+                {cart.length === 0 ? (
+                  <p style={{ textAlign: "center", color: "#888" }}>Your cart is empty.</p>
+                ) : (
+                  <div className="modern-cart-groups">
+                    {Object.values(
+                      cart.reduce((acc, item) => {
+                        const groupKey = `${item.productId || item.id}-${item.productName}-${item.material || ""}-${item.color || ""}-${item.thickness || ""}`;
+
+                        if (!acc[groupKey]) {
+                          acc[groupKey] = {
+                            groupKey,
+                            productName: item.productName,
+                            imageUrl: item.imageUrl,
+                            material: item.material || "",
+                            color: item.color || "",
+                            thickness: item.thickness || "",
+                            rows: [],
+                          };
+                        }
+
+                        acc[groupKey].rows.push({
+                          cartItemId: item.cartItemId || item.id,
+                          length: item.length || "",
+                          quantity: item.quantity,
+                        });
+
+                        return acc;
+                      }, {} as Record<string, any>)
+                    ).map((group: any) => (
+                      <div className="modern-cart-group" key={group.groupKey}>
+                        <div className="modern-cart-summary">
+                          <img
+                            src={group.imageUrl.replace("dl=0", "raw=1")}
+                            alt={group.productName}
+                            className="cart-item-img"
+                          />
+                          <div className="cart-item-info">
+                            <h4 className="cart-product-title">{group.productName}</h4>
+                            {group.material && <p className="cart-meta-line">Material: <span className="cart-meta-badge">{group.material}</span></p>}
+                            {group.color && (
+                              <div className="cart-color-row">
+                                Color:
+                                <span
+                                  className="cart-color-swatch"
+                                  style={{ backgroundColor: group.color }}
+                                  title={group.color}
+                                  aria-label={`Selected color ${group.color}`}
+                                />
+                              </div>
+                            )}
+                            {group.thickness && <p className="cart-meta-line">Thickness: {group.thickness} mm</p>}
+                          </div>
+                        </div>
+
+                        <div className="cart-length-table">
+                          <div className="cart-length-row cart-length-header">
+                            <span>Length</span>
+                            <span>Quantity</span>
+                            <span>Total Length</span>
+                            <span></span>
+                          </div>
+
+                          {group.rows.map((row: any) => (
+                            <div className="cart-length-row" key={row.cartItemId}>
+                              <span>{row.length ? `${row.length} ft` : "-"}</span>
+                              <span>{row.quantity}</span>
+                              <span>{formatLengthTotal(row.length, row.quantity)} {row.length ? "ft" : ""}</span>
+                              <button
+                                className="cart-row-delete"
+                                type="button"
+                                onClick={() => handleRemoveFromCart(row.cartItemId)}
+                                aria-label="Remove row"
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                      <button className="remove-btn" onClick={() => handleRemoveFromCart(item.id)}>
-                        <FaTrash />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {cart.length > 0 && (
-                <button className="make-order-btn" onClick={handleMakeOrder}>
-                  Make Order
-                </button>
+                <div className="cart-footer-actions">
+                  <button className="cart-clear-btn" onClick={handleClearCart}>
+                    <FaTrash />
+                    <span>Remove</span>
+                  </button>
+                  <button className="make-order-btn" onClick={handleMakeOrder}>
+                    <FaShoppingCart />
+                    <span>Make Order</span>
+                  </button>
+                </div>
               )}
             </div>
           </div>

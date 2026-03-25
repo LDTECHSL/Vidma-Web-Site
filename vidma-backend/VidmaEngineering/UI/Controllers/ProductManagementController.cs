@@ -63,6 +63,11 @@ public class ProductManagementController(IMediator mediator) : ControllerBase
     [HttpPost("place-order")]
     public async Task<ActionResult<Result>> PlaceOrder([FromBody] PlaceCustomerOrderCommand command)
     => Ok(await mediator.Send(command));
+
+    [Authorize]
+    [HttpDelete("delete-order")]
+    public async Task<ActionResult<Result>> DeleteOrder([FromQuery] int customerId)
+    => Ok(await mediator.Send(new DeleteOrderCommand { CustomerId = customerId }));
     
     
 
