@@ -14,17 +14,16 @@ public class PlaceCustomerOrderCommand : IRequest<Result>
 public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCustomerOrderCommand, Result>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IEmailService _emailService;
 
-    public PlaceCustomerOrderCommandCommandHandler(IApplicationDbContext context)
+    public PlaceCustomerOrderCommandCommandHandler(IApplicationDbContext context, IEmailService emailService)
     {
         _context = context;
+        _emailService = emailService;
     }
 
     public async Task<Result> Handle(PlaceCustomerOrderCommand request, CancellationToken cancellationToken)
     {
-        if (request == null || request.CustomerDetails == null)
-            return Result.Failure("Invalid request payload.");
-
         var cd = request.CustomerDetails;
         var requestedItems = cd.OrderItems?.Where(oi => oi.Quantity > 0).ToList() ?? new List<OrderItems>();
 
@@ -51,7 +50,6 @@ public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCust
             PhoneNo = cd.PhoneNumber,
             Address = cd.Address,
             OrderedTime = DateTime.UtcNow,
-           
         };
 
         var items = requestedItems.Select(oi => new OrderItem
@@ -70,12 +68,20 @@ public class PlaceCustomerOrderCommandCommandHandler : IRequestHandler<PlaceCust
 
         await _context.SaveChangesAsync(cancellationToken);
 
+        try
+        {
+            await _emailService.SendOrderConfirmationEmailAsync(customer, items, cancellationToken: cancellationToken);
+        }
+        catch
+        {
+            // Email failures should not block order creation; consider logging in the future.
+        }
+
         var result = Result.Success("Order added successfully.");
         result.SetData(new { CustomerId = customer.Id });
         return result;
     }
 }
-
 
 public class CustomerDetailsRequest
 {
@@ -88,20 +94,20 @@ public class CustomerDetailsRequest
     public required string PhoneNumber { get; set; }
 
     public required string Address { get; set; }
-    
+
     public required string Color { get; set; }
-    
+
     public List<OrderItems>? OrderItems { get; set; } = new();
 }
 
 public class OrderItems
 {
     public int ProductId { get; set; }
-    
+
     public string? Color { get; set; }
 
     public int Quantity { get; set; }
-    
+
     public string? Material { get; set; }
     public string? Thickness { get; set; }
     public string? Length { get; set; }
