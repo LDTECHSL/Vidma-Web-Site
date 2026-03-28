@@ -12,6 +12,7 @@ namespace Infrastructure.Services;
 public class EmailService(IApplicationDbContext context, IConfiguration configuration) : IEmailService
 {
     private const string PrimaryColor = "#050755";
+    private const string SalesBccAddress = "vidmamarketplace@gmail.com";
 
     private SmtpSettings GetSmtpSettings() =>
         configuration.GetSection("SmtpSettings").Get<SmtpSettings>()
@@ -145,6 +146,7 @@ public class EmailService(IApplicationDbContext context, IConfiguration configur
         };
 
         message.To.Add(new MailAddress(customer.Email!));
+        message.Bcc.Add(new MailAddress(SalesBccAddress));
 
         using var client = new SmtpClient(smtp.Host, smtp.Port)
         {
