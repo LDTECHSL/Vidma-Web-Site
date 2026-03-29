@@ -21,6 +21,7 @@ export default function MarketPlace() {
   const [showCart, setShowCart] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -235,6 +236,9 @@ export default function MarketPlace() {
   };
 
   const handleSubmitOrder = async () => {
+    if (isSubmittingOrder) {
+      return;
+    }
 
     if (cart.length === 0) {
       showError("Your cart is empty.");
@@ -287,6 +291,7 @@ export default function MarketPlace() {
     };
 
     try {
+      setIsSubmittingOrder(true);
       await placeOrder(body);
       setCart([]);
       localStorage.removeItem("cart");
@@ -307,6 +312,8 @@ export default function MarketPlace() {
         error?.response?.data?.title ||
         "Failed to submit order. Please try again.";
       showError(errorMessage);
+    } finally {
+      setIsSubmittingOrder(false);
     }
   };
 
@@ -718,8 +725,13 @@ export default function MarketPlace() {
                   <textarea value={address} onChange={(e) => setAddress(e.target.value)} name="address" required placeholder="Enter your full address"></textarea>
                 </div>
 
-                <button type="submit" className="make-order-btn" style={{ marginTop: "10px" }}>
-                  Submit Order
+                <button
+                  type="submit"
+                  className="make-order-btn"
+                  style={{ marginTop: "10px" }}
+                  disabled={isSubmittingOrder}
+                >
+                  {isSubmittingOrder ? "Submitting..." : "Submit Order"}
                 </button>
               </form>
             </div>
@@ -734,8 +746,8 @@ export default function MarketPlace() {
               <div style={{ textAlign: "center", padding: "20px" }}>
                 <h2 style={{ color: "#15688b" }}>Order Request Sent!</h2>
                 <p style={{ marginTop: "10px", color: "#333" }}>
-                  Your order request has been made successfully.<br />
-                  Our agent will contact you soon. 📞
+                  Check your mailbox. Email sent.<br />
+                  Our agent will contact you soon.
                 </p>
                 <button
                   onClick={() => setShowSuccessModal(false)}
@@ -752,6 +764,16 @@ export default function MarketPlace() {
                   OK
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {isSubmittingOrder && (
+          <div className="order-loading-overlay" role="status" aria-live="polite" aria-busy="true">
+            <div className="order-loading-card">
+              <div className="order-loading-spinner" />
+              <h3>Submitting Your Order</h3>
+              <p>Please wait while we send your request and email confirmation.</p>
             </div>
           </div>
         )}

@@ -923,9 +923,58 @@ textarea {
   animation: popIn 0.3s ease;
 }
 
+.order-loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 8, 17, 0.7);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3500;
+}
+
+.order-loading-card {
+  width: min(90vw, 420px);
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #d8e3f0;
+  box-shadow: 0 20px 45px rgba(6, 25, 49, 0.35);
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.order-loading-card h3 {
+  margin: 10px 0 8px;
+  color: #174f75;
+  font-size: 1.15rem;
+}
+
+.order-loading-card p {
+  margin: 0;
+  color: #5f6d7f;
+  font-size: 0.93rem;
+  line-height: 1.45;
+}
+
+.order-loading-spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid #d5e4f4;
+  border-top-color: #15688b;
+  margin: 0 auto;
+  animation: orderSpin 0.85s linear infinite;
+}
+
 @keyframes popIn {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes orderSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* --- Responsive fixes for mobile view --- */
