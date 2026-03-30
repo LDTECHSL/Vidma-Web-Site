@@ -436,9 +436,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Length")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Material")
                         .HasColumnType("longtext");
 

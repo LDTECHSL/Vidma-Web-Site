@@ -265,7 +265,6 @@ export default function MarketPlaceSection() {
             formData.append("Color", colors);
             formData.append("Material", materials);
             formData.append("Thickness", thicknesses);
-            formData.append("Length", lengths);
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
