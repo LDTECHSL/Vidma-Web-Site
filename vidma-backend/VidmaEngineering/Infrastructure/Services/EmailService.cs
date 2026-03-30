@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -13,6 +14,24 @@ public class EmailService(IApplicationDbContext context, IConfiguration configur
 {
     private const string PrimaryColor = "#050755";
     private const string SalesBccAddress = "vidmamarketplace@gmail.com";
+
+    private static readonly (string Name, Color Color)[] CommonColors =
+    {
+        ("Red", Color.Red),
+        ("Blue", Color.Blue),
+        ("Green", Color.Green),
+        ("Yellow", Color.Yellow),
+        ("Orange", Color.Orange),
+        ("Purple", Color.Purple),
+        ("Pink", Color.DeepPink),
+        ("Brown", Color.SaddleBrown),
+        ("Gray", Color.Gray),
+        ("Black", Color.Black),
+        ("White", Color.White),
+        ("Navy", Color.Navy),
+        ("Teal", Color.Teal),
+        ("Maroon", Color.Maroon)
+    };
 
     private SmtpSettings GetSmtpSettings() =>
         configuration.GetSection("SmtpSettings").Get<SmtpSettings>()
@@ -112,11 +131,11 @@ public class EmailService(IApplicationDbContext context, IConfiguration configur
         {
             var product = productLookup.TryGetValue(item.ProductId, out var p) ? p : null;
             var productName = product?.ProductName ?? $"Product #{item.ProductId}";
-            var color = !string.IsNullOrWhiteSpace(item.Color) ? item.Color : product?.Color;
+            var color = GetColorDisplay(!string.IsNullOrWhiteSpace(item.Color) ? item.Color : product?.Color);
             sb.AppendLine("            <tr>");
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(productName) + "</td>");
             sb.AppendLine("              <td>" + item.Quantity + "</td>");
-            sb.AppendLine("              <td>" + WebUtility.HtmlEncode(color ?? "-") + "</td>");
+            sb.AppendLine("              <td>" + WebUtility.HtmlEncode(color) + "</td>");
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(item.Material ?? product?.Material ?? "-") + "</td>");
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(item.Thickness ?? product?.Thickness ?? "-") + "</td>");
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(item.Length ?? (product?.IsLengthRequired == true ? "Required" : "-")) + "</td>");
@@ -155,5 +174,46 @@ public class EmailService(IApplicationDbContext context, IConfiguration configur
         };
 
         await client.SendMailAsync(message, cancellationToken);
+    }
+
+    private static string GetColorDisplay(string? rawColor)
+    {
+        if (string.IsNullOrWhiteSpace(rawColor)) return "-";
+
+        var trimmed = rawColor.Trim();
+        if (trimmed.StartsWith("#") && trimmed.Length >= 4)
+        {
+            try
+            {
+                var parsed = ColorTranslator.FromHtml(trimmed);
+                if (parsed.IsKnownColor) return parsed.Name;
+
+                var exactKnown = Enum.GetValues<KnownColor>()
+                    .Select(Color.FromKnownColor)
+                    .FirstOrDefault(c => c.ToArgb() == parsed.ToArgb());
+                if (exactKnown.IsKnownColor) return exactKnown.Name;
+
+                var nearest = CommonColors
+                    .Select(c => new { c.Name, Distance = ColorDistance(parsed, c.Color) })
+                    .OrderBy(x => x.Distance)
+                    .FirstOrDefault();
+
+                if (nearest != null) return nearest.Name;
+            }
+            catch
+            {
+                // ignore parse errors and fall back to the raw value
+            }
+        }
+
+        return trimmed;
+    }
+
+    private static int ColorDistance(Color a, Color b)
+    {
+        var dr = a.R - b.R;
+        var dg = a.G - b.G;
+        var db = a.B - b.B;
+        return dr * dr + dg * dg + db * db;
     }
 }
