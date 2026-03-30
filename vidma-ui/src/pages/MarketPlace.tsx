@@ -123,6 +123,17 @@ export default function MarketPlace() {
     );
   };
 
+  const updateSingleQuantity = (delta: number) => {
+    setLengthRows((prev) => {
+      if (prev.length === 0) {
+        return [{ ...createLengthRow(), quantity: Math.max(0, delta) }];
+      }
+
+      const firstRow = prev[0];
+      return [{ ...firstRow, quantity: Math.max(0, firstRow.quantity + delta) }];
+    });
+  };
+
   const handleGetProducts = async () => {
     try {
       setLoading(true);
@@ -162,6 +173,7 @@ export default function MarketPlace() {
     const hasColorOptions = parseCsvValues(selectedItem?.color).length > 0;
     const materialValues = parseCsvValues(selectedItem?.material);
     const thicknessValues = parseCsvValues(selectedItem?.thickness);
+    const isLengthRequired = Boolean(selectedItem?.isLengthRequired);
 
     if (materialValues.length > 0 && !selectedMaterial) {
       showError("Please select a material.");
@@ -178,24 +190,19 @@ export default function MarketPlace() {
       return;
     }
 
-    const hasIncompleteLengthRow = lengthRows.some(
-      (row) => row.length.trim() && row.quantity === 0
-    );
-
-    if (hasIncompleteLengthRow) {
-      showError("If a length is entered, quantity must be greater than 0.");
-      return;
-    }
-
     const validLengthRows = lengthRows
       .map((row) => ({
         length: row.length.trim(),
         quantity: row.quantity,
       }))
-      .filter((row) => row.quantity > 0);
+      .filter((row) => row.quantity > 0 && (!isLengthRequired || !!row.length));
 
     if (validLengthRows.length === 0) {
-      showError("Please add quantity for at least one row.");
+      showError(
+        isLengthRequired
+          ? "Please add at least one length with quantity."
+          : "Please add quantity for at least one row."
+      );
       return;
     }
 
@@ -424,7 +431,10 @@ export default function MarketPlace() {
                 const colorValues = parseCsvValues(selectedItem.color);
                 const materialValues = parseCsvValues(selectedItem.material);
                 const thicknessValues = parseCsvValues(selectedItem.thickness);
-                const hasReadyLengthRows = lengthRows.some((row) => row.quantity > 0);
+                const isLengthRequired = Boolean(selectedItem.isLengthRequired);
+                const hasReadyLengthRows = lengthRows.some(
+                  (row) => row.quantity > 0 && (!isLengthRequired || row.length.trim().length > 0)
+                );
 
                 return (
                   <>
@@ -444,7 +454,7 @@ export default function MarketPlace() {
                         onClick={() => setSelectedMaterial(material)}
                       >
                         {material}
-                      </button>
+                      </button> 
                     ))}
                   </div>
                 </div>
@@ -487,39 +497,49 @@ export default function MarketPlace() {
               )}
 
               <div className="product-option-section">
-                <h4>Length (ft) & Quantity</h4>
-                <div className="length-qty-list">
-                  {lengthRows.map((row) => (
-                    <div key={row.rowId} className="length-qty-row length-qty-row-editable">
-                      <input
-                        type="text"
-                        inputMode="decimal"
-                        className="length-value-input"
-                        value={row.length}
-                        onChange={(e) => updateLengthRowValue(row.rowId, e.target.value)}
-                        placeholder="Length (ft)"
-                        aria-label="Length in feet"
-                      />
-                      <div className="quantity-control small length-qty-control">
-                        <button type="button" onClick={() => updateLengthRowQty(row.rowId, -1)}><FaMinus /></button>
-                        <span>{row.quantity}</span>
-                        <button type="button" onClick={() => updateLengthRowQty(row.rowId, 1)}><FaPlus /></button>
-                      </div>
-                      <button
-                        type="button"
-                        className="length-row-remove"
-                        onClick={() => removeLengthRow(row.rowId)}
-                        aria-label="Remove length row"
-                      >
-                        <FaTrash />
-                      </button>
+                <h4>{isLengthRequired ? "Length (ft) & Quantity" : "Quantity"}</h4>
+                {isLengthRequired ? (
+                  <>
+                    <div className="length-qty-list">
+                      {lengthRows.map((row) => (
+                        <div key={row.rowId} className="length-qty-row length-qty-row-editable">
+                          <input
+                            type="text"
+                            inputMode="decimal"
+                            className="length-value-input"
+                            value={row.length}
+                            onChange={(e) => updateLengthRowValue(row.rowId, e.target.value)}
+                            placeholder="Length (ft)"
+                            aria-label="Length in feet"
+                          />
+                          <div className="quantity-control small length-qty-control">
+                            <button type="button" onClick={() => updateLengthRowQty(row.rowId, -1)}><FaMinus /></button>
+                            <span>{row.quantity}</span>
+                            <button type="button" onClick={() => updateLengthRowQty(row.rowId, 1)}><FaPlus /></button>
+                          </div>
+                          <button
+                            type="button"
+                            className="length-row-remove"
+                            onClick={() => removeLengthRow(row.rowId)}
+                            aria-label="Remove length row"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <button type="button" className="length-row-add-btn" onClick={addLengthRow}>
-                  <FaPlus />
-                  <span>Add Length Row</span>
-                </button>
+                    <button type="button" className="length-row-add-btn" onClick={addLengthRow}>
+                      <FaPlus />
+                      <span>Add Length Row</span>
+                    </button>
+                  </>
+                ) : (
+                  <div className="quantity-control small length-qty-control">
+                    <button type="button" onClick={() => updateSingleQuantity(-1)}><FaMinus /></button>
+                    <span>{lengthRows[0]?.quantity || 0}</span>
+                    <button type="button" onClick={() => updateSingleQuantity(1)}><FaPlus /></button>
+                  </div>
+                )}
               </div>
 
               <button

@@ -481,9 +481,17 @@
   width: 100%;
   border: 1px solid #cfd5df;
   border-radius: 10px;
+  background: #ffffff;
+  color: #1f2937;
+  -webkit-text-fill-color: #1f2937;
+  caret-color: #1f2937;
   padding: 9px 12px;
   font-size: 0.95rem;
   outline: none;
+}
+
+.length-value-input::placeholder {
+  color: #7b8798;
 }
 
 .length-value-input:focus {
