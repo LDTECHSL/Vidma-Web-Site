@@ -17,8 +17,6 @@ public class Product
     
     public string? Thickness { get; set; }
     
-    public string? Length { get; set; }
-    
     public ICollection<OrderItem>? OrderItems { get; set; }
     
 }

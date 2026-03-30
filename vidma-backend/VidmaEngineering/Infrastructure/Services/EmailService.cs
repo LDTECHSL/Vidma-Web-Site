@@ -46,8 +46,7 @@ public class EmailService(IApplicationDbContext context, IConfiguration configur
                 p.ProductName,
                 p.Color,
                 p.Material,
-                p.Thickness,
-                p.Length
+                p.Thickness
             })
             .ToDictionaryAsync(p => p.Id, cancellationToken);
 
@@ -119,7 +118,6 @@ public class EmailService(IApplicationDbContext context, IConfiguration configur
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(color ?? "-") + "</td>");
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(item.Material ?? product?.Material ?? "-") + "</td>");
             sb.AppendLine("              <td>" + WebUtility.HtmlEncode(item.Thickness ?? product?.Thickness ?? "-") + "</td>");
-            sb.AppendLine("              <td>" + WebUtility.HtmlEncode(item.Length ?? product?.Length ?? "-") + "</td>");
             sb.AppendLine("            </tr>");
         }
 

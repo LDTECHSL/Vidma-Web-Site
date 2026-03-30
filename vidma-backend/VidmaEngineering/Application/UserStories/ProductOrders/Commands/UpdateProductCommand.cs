@@ -15,7 +15,6 @@ public class UpdateProductCommand : IRequest<Result>
     public string? Color { get; set; }
     public string? Material { get; set; }
     public string? Thickness { get; set; }
-    public string? Length { get; set; }
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>
@@ -42,7 +41,6 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         existProduct.Color = request.Color;
         existProduct.Material = request.Material;
         existProduct.Thickness = request.Thickness;
-        existProduct.Length = request.Length;
         if (request.Image != null)
         {
             existProduct.ImageUrl = await _dropBoxService.UploadImageAsync(request.Image, "Products");

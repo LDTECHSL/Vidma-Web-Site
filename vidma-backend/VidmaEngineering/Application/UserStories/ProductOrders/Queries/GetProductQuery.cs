@@ -27,7 +27,6 @@ public class GetProductQueryHandler : IRequestHandler<GetProductQuery, List<Prod
                 Color = p.Color,
                 Material = p.Material,
                 Thickness = p.Thickness,
-                Length = p.Length
             })
             .ToListAsync(cancellationToken);
 

@@ -37,8 +37,7 @@ public class SearchProductsQueryHandler : IRequestHandler<SearchProductsQuery, L
                 ImageUrl = p.ImageUrl,
                 Color = p.Color,
                 Material = p.Material,
-                Thickness = p.Thickness,
-                Length = p.Length
+                Thickness = p.Thickness
             })
             .ToListAsync(cancellationToken);
 
