@@ -12,6 +12,7 @@ public class AddProductCommand : IRequest<Result>
     public string? Color { get; set; }
     public string? Material { get; set; }
     public string? Thickness { get; set; }
+    public bool IsLengthRequired { get; set; }
 }
 
 public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Result>
@@ -36,6 +37,7 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Resul
             Color = request.Color,
             Material = request.Material,
             Thickness = request.Thickness,
+            IsLengthRequired = request.IsLengthRequired
         };
 
         _context.Product.Add(product);

@@ -30,6 +30,7 @@ export default function MarketPlaceSection() {
     const [colorPickerValue, setColorPickerValue] = useState(DEFAULT_MARKETPLACE_COLORS[0]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [isMaterialDropdownOpen, setIsMaterialDropdownOpen] = useState(false);
+    const [isLengthRequired, setIsLengthRequired] = useState(false);
     const [thicknessInput, setThicknessInput] = useState("");
     const [selectedThicknesses, setSelectedThicknesses] = useState<string[]>([]);
     const [thicknessError, setThicknessError] = useState("");
@@ -200,6 +201,7 @@ export default function MarketPlaceSection() {
             formData.append("Color", colors);
             formData.append("Material", materials);
             formData.append("Thickness", thicknesses);
+            formData.append("IsLengthRequired", isLengthRequired ? "true" : "false");
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -224,6 +226,7 @@ export default function MarketPlaceSection() {
             formData.append("Color", colors);
             formData.append("Material", materials);
             formData.append("Thickness", thicknesses);
+            formData.append("IsLengthRequired", isLengthRequired ? "true" : "false");
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -309,6 +312,7 @@ export default function MarketPlaceSection() {
             .map((thickness: string) => thickness.trim())
             .filter((thickness: string) => !!thickness);
         setSelectedThicknesses(productThicknesses);
+        setIsLengthRequired(Boolean(product.isLengthRequired));
         setThicknessInput("");
         setThicknessError("");
         setImg(product.imageUrl);
@@ -488,6 +492,22 @@ export default function MarketPlaceSection() {
                             ))
                         )}
                     </div>
+                </div>
+
+                <div className="form-group">
+                    <label>Is Length Required</label>
+                    <button
+                        type="button"
+                        role="switch"
+                        aria-checked={isLengthRequired}
+                        className={`length-required-toggle ${isLengthRequired ? "active" : ""}`}
+                        onClick={() => setIsLengthRequired((prev) => !prev)}
+                    >
+                        <span className="length-required-toggle-track">
+                            <span className="length-required-toggle-thumb" />
+                        </span>
+                        <span className="length-required-toggle-text">{isLengthRequired ? "Required" : "Optional"}</span>
+                    </button>
                 </div>
 
                 <div

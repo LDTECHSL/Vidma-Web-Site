@@ -15,6 +15,7 @@ public class UpdateProductCommand : IRequest<Result>
     public string? Color { get; set; }
     public string? Material { get; set; }
     public string? Thickness { get; set; }
+    public bool IsLengthRequired { get; set; }
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>

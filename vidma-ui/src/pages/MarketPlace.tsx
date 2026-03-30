@@ -9,10 +9,9 @@ import { showError, showSuccess } from "../components/Toast";
 export default function MarketPlace() {
   const [isSticky, setIsSticky] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
-  const [quantity, setQuantity] = useState(0);
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [selectedThickness, setSelectedThickness] = useState<string | null>(null);
-  const [lengthQuantities, setLengthQuantities] = useState<Record<string, number>>({});
+  const [lengthRows, setLengthRows] = useState<Array<{ rowId: string; length: string; quantity: number }>>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState<any[]>([]);
@@ -69,19 +68,18 @@ export default function MarketPlace() {
     if (savedCart) setCart(JSON.parse(savedCart));
   }, []);
 
-  const openModal = (item: any) => {
-    const lengths = parseCsvValues(item.length);
-    const initialLengthQuantities = lengths.reduce((acc, len) => {
-      acc[len] = 0;
-      return acc;
-    }, {} as Record<string, number>);
+  const createLengthRow = () => ({
+    rowId: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    length: "",
+    quantity: 0,
+  });
 
+  const openModal = (item: any) => {
     setSelectedItem(item);
-    setQuantity(0);
     setSelectedColor(null);
     setSelectedMaterial(null);
     setSelectedThickness(null);
-    setLengthQuantities(initialLengthQuantities);
+    setLengthRows([createLengthRow()]);
   };
 
   const closeModal = () => {
@@ -89,18 +87,40 @@ export default function MarketPlace() {
     setSelectedColor(null);
     setSelectedMaterial(null);
     setSelectedThickness(null);
-    setLengthQuantities({});
-    setQuantity(0);
+    setLengthRows([]);
   };
 
-  const increaseQty = () => setQuantity(q => q + 1);
-  const decreaseQty = () => setQuantity(q => (q > 0 ? q - 1 : 0));
+  const addLengthRow = () => {
+    setLengthRows((prev) => [...prev, createLengthRow()]);
+  };
 
-  const updateLengthQty = (length: string, delta: number) => {
-    setLengthQuantities((prev) => ({
-      ...prev,
-      [length]: Math.max(0, (prev[length] || 0) + delta),
-    }));
+  const removeLengthRow = (rowId: string) => {
+    setLengthRows((prev) => {
+      if (prev.length <= 1) {
+        return [{ ...prev[0], length: "", quantity: 0 }];
+      }
+      return prev.filter((row) => row.rowId !== rowId);
+    });
+  };
+
+  const updateLengthRowValue = (rowId: string, value: string) => {
+    if (!/^\d*\.?\d*$/.test(value)) {
+      return;
+    }
+
+    setLengthRows((prev) =>
+      prev.map((row) => (row.rowId === rowId ? { ...row, length: value } : row))
+    );
+  };
+
+  const updateLengthRowQty = (rowId: string, delta: number) => {
+    setLengthRows((prev) =>
+      prev.map((row) =>
+        row.rowId === rowId
+          ? { ...row, quantity: Math.max(0, row.quantity + delta) }
+          : row
+      )
+    );
   };
 
   const handleGetProducts = async () => {
@@ -142,8 +162,6 @@ export default function MarketPlace() {
     const hasColorOptions = parseCsvValues(selectedItem?.color).length > 0;
     const materialValues = parseCsvValues(selectedItem?.material);
     const thicknessValues = parseCsvValues(selectedItem?.thickness);
-    const lengthValues = parseCsvValues(selectedItem?.length);
-    const hasLengthOptions = lengthValues.length > 0;
 
     if (materialValues.length > 0 && !selectedMaterial) {
       showError("Please select a material.");
@@ -160,48 +178,40 @@ export default function MarketPlace() {
       return;
     }
 
-    if (hasLengthOptions) {
-      const totalSelectedQty = lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0);
-      if (totalSelectedQty === 0) {
-        showError("Please add quantity for at least one length.");
-        return;
-      }
-    } else if (quantity === 0) {
-      showError("Please select a quantity greater than 0.");
+    const hasIncompleteLengthRow = lengthRows.some(
+      (row) => row.length.trim() && row.quantity === 0
+    );
+
+    if (hasIncompleteLengthRow) {
+      showError("If a length is entered, quantity must be greater than 0.");
       return;
     }
 
-    const itemsToAdd = hasLengthOptions
-      ? lengthValues
-          .filter((len) => (lengthQuantities[len] || 0) > 0)
-          .map((len) => ({
-            cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-${len}`,
-            id: selectedItem.id,
-            productId: selectedItem.id,
-            productName: selectedItem.productName,
-            description: selectedItem.description,
-            imageUrl: selectedItem.imageUrl,
-            material: selectedMaterial || "",
-            color: selectedColor || "",
-            thickness: selectedThickness || "",
-            length: len,
-            quantity: lengthQuantities[len],
-          }))
-      : [
-          {
-            cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-none`,
-            id: selectedItem.id,
-            productId: selectedItem.id,
-            productName: selectedItem.productName,
-            description: selectedItem.description,
-            imageUrl: selectedItem.imageUrl,
-            material: selectedMaterial || "",
-            color: selectedColor || "",
-            thickness: selectedThickness || "",
-            length: "",
-            quantity,
-          },
-        ];
+    const validLengthRows = lengthRows
+      .map((row) => ({
+        length: row.length.trim(),
+        quantity: row.quantity,
+      }))
+      .filter((row) => row.quantity > 0);
+
+    if (validLengthRows.length === 0) {
+      showError("Please add quantity for at least one row.");
+      return;
+    }
+
+    const itemsToAdd = validLengthRows.map((row) => ({
+      cartItemId: `${selectedItem.id}-${selectedMaterial || "none"}-${selectedColor || "none"}-${selectedThickness || "none"}-${row.length}`,
+      id: selectedItem.id,
+      productId: selectedItem.id,
+      productName: selectedItem.productName,
+      description: selectedItem.description,
+      imageUrl: selectedItem.imageUrl,
+      material: selectedMaterial || "",
+      color: selectedColor || "",
+      thickness: selectedThickness || "",
+      length: row.length,
+      quantity: row.quantity,
+    }));
 
     const updatedCart = [...cart];
     itemsToAdd.forEach((newCartItem) => {
@@ -414,7 +424,7 @@ export default function MarketPlace() {
                 const colorValues = parseCsvValues(selectedItem.color);
                 const materialValues = parseCsvValues(selectedItem.material);
                 const thicknessValues = parseCsvValues(selectedItem.thickness);
-                const lengthValues = parseCsvValues(selectedItem.length);
+                const hasReadyLengthRows = lengthRows.some((row) => row.quantity > 0);
 
                 return (
                   <>
@@ -476,41 +486,47 @@ export default function MarketPlace() {
                 </div>
               )}
 
-              {lengthValues.length > 0 && (
-                <div className="product-option-section">
-                  <h4>Length (ft)</h4>
-                  <div className="length-qty-list">
-                    {lengthValues.map((length) => (
-                      <div key={length} className="length-qty-row">
-                        <span className="option-chip">{length}</span>
-                        <div className="quantity-control small length-qty-control">
-                          <button type="button" onClick={() => updateLengthQty(length, -1)}><FaMinus /></button>
-                          <span>{lengthQuantities[length] || 0}</span>
-                          <button type="button" onClick={() => updateLengthQty(length, 1)}><FaPlus /></button>
-                        </div>
+              <div className="product-option-section">
+                <h4>Length (ft) & Quantity</h4>
+                <div className="length-qty-list">
+                  {lengthRows.map((row) => (
+                    <div key={row.rowId} className="length-qty-row length-qty-row-editable">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        className="length-value-input"
+                        value={row.length}
+                        onChange={(e) => updateLengthRowValue(row.rowId, e.target.value)}
+                        placeholder="Length (ft)"
+                        aria-label="Length in feet"
+                      />
+                      <div className="quantity-control small length-qty-control">
+                        <button type="button" onClick={() => updateLengthRowQty(row.rowId, -1)}><FaMinus /></button>
+                        <span>{row.quantity}</span>
+                        <button type="button" onClick={() => updateLengthRowQty(row.rowId, 1)}><FaPlus /></button>
                       </div>
-                    ))}
-                  </div>
+                      <button
+                        type="button"
+                        className="length-row-remove"
+                        onClick={() => removeLengthRow(row.rowId)}
+                        aria-label="Remove length row"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              )}
-
-              {lengthValues.length === 0 && (
-                <div className="quantity-control">
-                  <button onClick={decreaseQty}><FaMinus /></button>
-                  <span>{quantity}</span>
-                  <button onClick={increaseQty}><FaPlus /></button>
-                </div>
-              )}
+                <button type="button" className="length-row-add-btn" onClick={addLengthRow}>
+                  <FaPlus />
+                  <span>Add Length Row</span>
+                </button>
+              </div>
 
               <button
-                className={`add-to-cart-btn ${(lengthValues.length > 0
-                  ? lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0) > 0
-                  : quantity > 0)
+                className={`add-to-cart-btn ${hasReadyLengthRows
                   ? "enabled"
                   : "disabled"}`}
-                disabled={lengthValues.length > 0
-                  ? lengthValues.reduce((sum, len) => sum + (lengthQuantities[len] || 0), 0) === 0
-                  : quantity === 0}
+                disabled={!hasReadyLengthRows}
                 onClick={handleAddToCart}
               >
                 <FaShoppingCart />
