@@ -33,9 +33,6 @@ export default function MarketPlaceSection() {
     const [thicknessInput, setThicknessInput] = useState("");
     const [selectedThicknesses, setSelectedThicknesses] = useState<string[]>([]);
     const [thicknessError, setThicknessError] = useState("");
-    const [lengthInput, setLengthInput] = useState("");
-    const [selectedLengths, setSelectedLengths] = useState<string[]>([]);
-    const [lengthError, setLengthError] = useState("");
     const [imageS1, setImageS1] = useState<File | null>(null);
     const [imageS1Error, setImageS1Error] = useState<string | null>(null);
     const [products, setProducts] = useState<any[]>([]);
@@ -179,48 +176,11 @@ export default function MarketPlaceSection() {
         }
     };
 
-    const addLength = (value: string) => {
-        const normalized = value.trim();
-        const decimalPattern = /^\d*\.?\d+$/;
-
-        if (!normalized) {
-            return;
-        }
-
-        if (!decimalPattern.test(normalized)) {
-            setLengthError("Only numbers with decimals are allowed.");
-            return;
-        }
-
-        setSelectedLengths((prev) => {
-            if (prev.includes(normalized)) {
-                return prev;
-            }
-            return [...prev, normalized];
-        });
-        setLengthInput("");
-        setLengthError("");
-    };
-
-    const removeLength = (value: string) => {
-        setSelectedLengths((prev) => prev.filter((item) => item !== value));
-    };
-
-    const handleLengthInputChange = (value: string) => {
-        if (/^\d*\.?\d*$/.test(value)) {
-            setLengthInput(value);
-            if (lengthError) {
-                setLengthError("");
-            }
-        }
-    };
-
     const handleSubmit = async () => {
         const trimmedName = name.trim();
         const colors = selectedColors.join(",");
         const materials = selectedMaterials.join(",");
         const thicknesses = selectedThicknesses.join(",");
-        const lengths = selectedLengths.join(",");
 
         if (!trimmedName) {
             showError("Product name is required.");
@@ -240,7 +200,6 @@ export default function MarketPlaceSection() {
             formData.append("Color", colors);
             formData.append("Material", materials);
             formData.append("Thickness", thicknesses);
-            formData.append("Length", lengths);
             if (imageS1) {
                 formData.append("Image", imageS1);
             }
@@ -350,15 +309,8 @@ export default function MarketPlaceSection() {
             .map((thickness: string) => thickness.trim())
             .filter((thickness: string) => !!thickness);
         setSelectedThicknesses(productThicknesses);
-        const productLengths = (product.length || "")
-            .split(",")
-            .map((length: string) => length.trim())
-            .filter((length: string) => !!length);
-        setSelectedLengths(productLengths);
         setThicknessInput("");
         setThicknessError("");
-        setLengthInput("");
-        setLengthError("");
         setImg(product.imageUrl);
         setId(product.id);
     }
@@ -529,46 +481,6 @@ export default function MarketPlaceSection() {
                                         className="selected-thickness-remove"
                                         onClick={() => removeThickness(thickness)}
                                         aria-label={`Remove ${thickness}`}
-                                    >
-                                        x
-                                    </button>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label>Length (ft)</label>
-                    <input
-                        type="text"
-                        inputMode="decimal"
-                        value={lengthInput}
-                        onChange={(e) => handleLengthInputChange(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                e.preventDefault();
-                                addLength(lengthInput);
-                            }
-                        }}
-                        placeholder="Type length and press Enter"
-                        className="decimal-input-no-spinner"
-                        aria-label="Length value"
-                    />
-                    {lengthError && <div className="length-error-text">{lengthError}</div>}
-
-                    <div className="selected-lengths-list">
-                        {selectedLengths.length === 0 ? (
-                            <span className="selected-lengths-empty">No length values added yet</span>
-                        ) : (
-                            selectedLengths.map((length) => (
-                                <div className="selected-length-chip" key={length}>
-                                    <span className="selected-length-value">{length}</span>
-                                    <button
-                                        type="button"
-                                        className="selected-length-remove"
-                                        onClick={() => removeLength(length)}
-                                        aria-label={`Remove ${length}`}
                                     >
                                         x
                                     </button>
